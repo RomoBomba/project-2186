@@ -67,8 +67,8 @@
     grid-template-columns: 184px 1fr;
     grid-template-rows: 48px 238px 62px;
     gap: 8px 24px;
-    border-top: var(--rule-primary);
-    color: var(--ivory);
+    border-top: 2px solid var(--display-rule-primary);
+    color: var(--display-text-primary);
     font-size: var(--type-body);
     line-height: var(--leading-body);
     font-variant-numeric: tabular-nums;
@@ -93,10 +93,10 @@
     line-height: var(--leading-label);
     font-weight: 600;
     letter-spacing: 1px;
-    color: var(--sage);
+    color: var(--display-text-secondary);
   }
   .channel-index {
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
     font-weight: 400;
     letter-spacing: 0;
   }
@@ -113,7 +113,7 @@
     bottom: 0;
     left: 0;
     width: 448px;
-    border-bottom: var(--rule-secondary);
+    border-bottom: 1px solid var(--display-rule-secondary);
   }
   h1 {
     font-size: var(--type-title);
@@ -121,11 +121,11 @@
     letter-spacing: 1px;
   }
   h1 span {
-    color: var(--sage);
+    color: var(--display-text-secondary);
   }
   .terminal-label {
     margin-top: 4px;
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
     letter-spacing: 0.65px;
   }
   .display-designation {
@@ -133,7 +133,7 @@
     align-content: start;
     gap: 5px;
     text-align: right;
-    color: var(--warm-grey);
+    color: var(--display-state-dormant);
   }
   .resolution {
     letter-spacing: 0;
@@ -148,24 +148,24 @@
     position: relative;
     display: grid;
     place-items: center;
-    border: var(--rule-secondary);
-    background: var(--background-void);
+    border: 1px solid var(--display-rule-secondary);
+    background: var(--display-background);
   }
   .empty-register {
     width: 16px;
     height: 32px;
-    border-top: var(--rule-marker);
-    border-bottom: var(--rule-marker);
+    border-top: 1px solid var(--display-text-muted);
+    border-bottom: 1px solid var(--display-text-muted);
   }
   .absent-image {
     position: absolute;
     bottom: 10px;
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
     letter-spacing: 0.2px;
   }
   .channel-footnote {
     align-self: end;
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
   }
 
   .communication-channel {
@@ -188,40 +188,40 @@
     top: 6px;
     width: 3px;
     height: 3px;
-    background: var(--amber);
+    background: var(--display-accent);
   }
   .waiting {
     margin-top: 7px;
-    color: var(--sage);
+    color: var(--display-text-secondary);
   }
   .system-channel {
     display: flex;
     gap: 18px;
     align-items: center;
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
   }
   .data-marker {
     display: block;
     flex: 0 0 16px;
     width: 16px;
-    border-top: var(--rule-marker);
+    border-top: 1px solid var(--display-text-muted);
   }
 
   .command-channel {
     grid-column: 2;
     padding-top: 10px;
-    border-top: var(--rule-secondary);
+    border-top: 1px solid var(--display-rule-secondary);
   }
   .command-position {
     display: flex;
     align-items: center;
     gap: 14px;
     margin-top: 9px;
-    color: var(--warm-grey);
+    color: var(--display-state-dormant);
   }
   .prompt {
     width: 20px;
-    color: var(--ivory);
+    color: var(--display-text-primary);
     font-size: var(--type-body);
     line-height: var(--leading-body);
   }

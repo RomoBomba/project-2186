@@ -229,3 +229,82 @@ parity. Timing tests enforce the requested duration envelope rather than each
 animation millisecond. A development-only `boot-motion=reduce` URL query supports
 manual review and is ignored by production playback. Page reload is the replay
 mechanism; no persistence or settings are added.
+
+## Phase 3A configuration ownership
+
+`src/ui/setup/model.ts` defines the UI-local sequence `language → standard → layout → audio →
+complete` and the serializable `SystemConfiguration` record:
+
+```ts
+{
+  language: Locale;
+  layout: 'A' | 'B' | 'C';
+  audioEnabled: boolean;
+}
+```
+
+`createSetup` returns a fresh session; `updateSetup` makes immutable, stage-guarded
+confirmations and backward navigation. Confirmed values survive navigation inside
+this session. No browser storage, persistence adapter, character state or domain
+engine is involved. This record can later cross StorageProvider's persistence
+boundary when authorized; Phase 3A does not implement that adapter.
+
+`SetupExperience.svelte` owns this model, transient keyboard focus and the two
+chosen stage-transition timers. Timers are cancelled on teardown; pending stage
+replacement is completed immediately if reduced motion becomes enabled. State
+progress does not depend on CSS animation events. `LayoutSchematic.svelte` is purely
+presentational CSS geometry. `src/locales/setup.ts` owns all authored setup copy and
+language autonyms, with locale-parity tests. No language conditionals in components.
+
+BootExperience now accepts a child snippet with reduced-motion and interaction-ready
+values instead of hard-coding ReferenceComposition. App composes SetupExperience as
+that child. During the existing boot reveal setup is visible but inert; focus and
+input activate only at boot ready. Escape during boot still cancels boot and now
+lands on the first setup stage. The established boot timeline, transition primitive,
+logical display, scaling, palette and Phase 1 composition remain unchanged.
+
+Setup reuses DisplayTransition only at selected boundaries, with no new animation
+system or workflow framework. Completion keeps the typed configuration in its live
+model and renders a localized placeholder for Phase 3B. No selected character or
+terminal content is created. Tests cover order, language changes, all layout values,
+audio revision, completion, guarded actions, back navigation and resource parity.
+
+## Display-standard contract
+
+`src/ui/display/standards.ts` defines exactly `civic`, `phosphor`, `amber`.
+`standards.css` is the single authored colour source, providing the same ten
+properties for each:
+
+```css
+--display-background
+--display-surface
+--display-text-primary
+--display-text-secondary
+--display-text-muted
+--display-rule-primary
+--display-rule-secondary
+--display-accent
+--display-state-positive
+--display-state-dormant
+```
+
+Components consume these semantic properties, never raw palette names or
+standard-specific colour conditions. Rule widths and lengths remain authored
+geometry; colour roles resolve at the consuming element so nested previews cannot
+accidentally inherit another standard's resolved border colour.
+
+SystemConfiguration now includes `displayStandard`. Confirming its UI stage sends
+the typed value to App, which applies `data-display-standard` to the document root.
+This includes body negative space, logical display, boot, setup and terminal chrome.
+The root attribute is removed on App teardown. No persistence, generic provider,
+theme framework, dependency or background service is introduced. The reviewed boot
+still runs before setup, so a fresh reload boots in default CIVIC; all boot colour
+consumers nevertheless use the same semantic contract.
+
+`StandardPreview.svelte` establishes that same attribute locally for each specimen.
+Nested standard declarations define all ten roles and cannot leak into siblings.
+Authored media must use independent asset colours; this interface contract never
+filters or recolours pixels in images or portraits. Tests verify the exact authored
+standard set, complete token parity and at least 4.5:1 contrast for primary,
+secondary and muted text against each surface. Setup tests cover standard selection,
+retention, stage order and fresh-session defaults.

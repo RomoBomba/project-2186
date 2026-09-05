@@ -1,0 +1,40 @@
+/* Exactly three authored interface standards. Media assets are not filtered. */
+:root,
+[data-display-standard='civic'] {
+  --display-background: #07131b;
+  --display-surface: #0b1f2a;
+  --display-text-primary: #d8d6b8;
+  --display-text-secondary: #92b6a7;
+  --display-text-muted: #5a9992;
+  --display-rule-primary: #92b6a7;
+  --display-rule-secondary: #1b5260;
+  --display-accent: #d3a14a;
+  --display-state-positive: #92b6a7;
+  --display-state-dormant: #a79e88;
+}
+
+[data-display-standard='phosphor'] {
+  --display-background: #050b09;
+  --display-surface: #08120e;
+  --display-text-primary: #bfd8bc;
+  --display-text-secondary: #8fac88;
+  --display-text-muted: #6b896a;
+  --display-rule-primary: #668462;
+  --display-rule-secondary: #243d2a;
+  --display-accent: #b0c9a5;
+  --display-state-positive: #a6c29e;
+  --display-state-dormant: #7e9474;
+}
+
+[data-display-standard='amber'] {
+  --display-background: #0e0904;
+  --display-surface: #160f07;
+  --display-text-primary: #e4be7a;
+  --display-text-secondary: #b79458;
+  --display-text-muted: #9c793f;
+  --display-rule-primary: #967139;
+  --display-rule-secondary: #483118;
+  --display-accent: #eaca92;
+  --display-state-positive: #efd9ab;
+  --display-state-dormant: #ac8950;
+}

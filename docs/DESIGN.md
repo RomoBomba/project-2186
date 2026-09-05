@@ -29,8 +29,10 @@ These are composed layouts. No arbitrary draggable or resizable windows.
 
 ## Provisional design tokens
 
-These values are CSS custom properties in `src/ui/tokens.css` as of Phase 1.
-The palette remains provisional and may evolve after visual reference/prototype review.
+These are the original CIVIC palette values. Interface colors now use the semantic
+contract in `src/ui/display/standards.css`; typography remains in `src/ui/tokens.css`.
+CIVIC retains the approved colors while the two monochrome standards have their own
+authored luminance hierarchies.
 
 | Token           | Value     |
 | --------------- | --------- |
@@ -247,3 +249,89 @@ The identity block and Phase 1 typography are unchanged. Escape is a true bypass
 it cancels the sequence timer and enters the shell immediately from every boot
 step, including expansion/collapse. The localized hint is removed with the boot
 screen; no later boot update can resume playback after bypass.
+
+## Phase 3A first-run configuration
+
+The current path is boot → linguistic interface → display standard → display geometry → audio channel
+→ intelligence-configuration-required placeholder. Boot bypass now enters setup;
+it does not bypass configuration. Reload starts a fresh session. No character
+selection or terminal entry is implemented in Phase 3A.
+
+Each stage is a separate authored 640 × 400 state. A small PROJECT 2186 header,
+numbered stage title, concise instruction and open choice region continue the
+approved palette, typography and rule language. English and Russian have equivalent
+resources; language names remain autonyms (`РУССКИЙ`, `ENGLISH`). Confirming language
+changes all subsequent setup copy, including guidance and completion. It is not a
+form containing all parameters, and no settings/save/next interface is introduced.
+
+Choices are semantic buttons presented as numbered text. Arrow keys in either axis
+move focus with wrapping; Enter or a click confirms. Native Space activation also
+works. Only the current choice is in the option group's Tab sequence, and a separate
+back control remains reachable. A small amber `>` plus keyboard-focus underline
+identifies focus without relying on colour alone. No radio controls, pills, rounded
+cards or hover-dependent interaction. Focus moves to the retained/default choice
+on entering a stage; the completion heading receives focus. Controls are inert
+until the display has fully expanded, preventing accidental repeated confirmation.
+
+Escape returns from layout to language, audio to layout, and completion to audio,
+retaining confirmed values. A matching `ESC / RETURN` / `ESC / ВОЗВРАТ` control makes
+revision available to the mouse. Escape has no action at the first language stage.
+
+The default display standard is CIVIC. The default active language is the existing English locale. Russian appears first
+in the language list; focus starts on the current language. Layout defaults to A;
+audio defaults to muted. These are in-session defaults, subject to author review.
+
+Layout A/B/C options use 128 × 80 CSS schematics: a screen rule, an empty visual
+rectangle, a signal marker and a command rule. B moves the visual rectangle to the
+right; C integrates a smaller visual region. They are abstract compositions, not
+rendered terminal previews or alternative terminal implementations. Choosing a
+layout records its identifier only; the approved Layout A source is untouched.
+
+Audio choices record enabled/muted only. Sparse copy states that this is signal
+configuration and sound is not yet available. There is no sound generation or
+AudioEngine implementation. The final screen explicitly requires intelligence
+configuration and labels its selection channel as not yet available. It deliberately
+stops there, with revision available, instead of opening the terminal.
+
+Transitions are reserved for language confirmation (entering display configuration)
+and final audio confirmation (leaving configuration): the approved 220 ms collapse
+and 360 ms expansion, through the existing DisplayTransition primitive. Layout →
+audio and all back navigation use direct state replacement within the same surface.
+Arrow movement never animates the screen. Reduced motion changes stages immediately;
+enabling it during a transition completes that transition promptly. The existing
+development `?boot-motion=reduce` preview also applies to setup.
+
+## Authored display standards
+
+There are exactly three machine display standards, not user-customizable themes:
+
+- **01 / CIVIC** is canonical: the approved navy/blue-green ground, teal/sage
+  information, ivory primary text and sparse independent amber accent are preserved.
+- **02 / PHOSPHOR** has almost-black green grounds, milky pale-green primary text,
+  muted medium-green information, darker green metadata and subdued green rules.
+  Its accent and positive/dormant states remain within the green spectrum; ivory
+  and amber are absent. Luminance, not multicolour categories, establishes hierarchy.
+- **03 / AMBER** has brown-black grounds, pale amber primary text, ochre information,
+  burnt-amber metadata and dark brown rules. Accent remains warm amber; warm cream
+  is reserved in the positive-state token for rare important acknowledgements.
+
+Near-monochrome standards flatten the chromatic separation of the surface and use
+brightness within a single phosphor spectrum. They are deliberately darker and
+less chromatically varied than CIVIC, without changing the approved typography,
+layout geometry or transition rhythm. No neon, glow, scanlines, noise, filters or
+other effects are added.
+
+A new stage after language presents three small schematic terminal specimens,
+including Latin/Cyrillic text, metadata, rules and a dormant command marker. Each
+specimen establishes its own standard using the same actual semantic tokens as the
+full interface. These are live CSS schematics, not screenshots, colour swatches or
+cards. Labels remain under the currently active standard. Focus previews an option
+without changing the machine; Enter or a click confirms and immediately applies
+that standard to the full surround and interface before the geometry stage.
+Returning to this stage preserves the active standard and all three independent
+preview palettes. The setting remains in-session, defaulting to CIVIC on reload.
+
+Standard changes affect chrome, boot/system text, setup, command notation and
+rules. Future portraits, digitized images and authored media own their own colour
+treatment: no global filter, tint, blend or image-processing operation is applied.
+The completion boundary remains Phase 3A; character selection is still deferred.

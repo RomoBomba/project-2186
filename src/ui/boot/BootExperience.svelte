@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, type Snippet } from 'svelte';
   import { defaultLocale } from '../../core/language/locale';
   import DisplayTransition from '../display/DisplayTransition.svelte';
-  import ReferenceComposition from '../display/ReferenceComposition.svelte';
   import BootScreen from './BootScreen.svelte';
   import { firstBootStep, startBoot, type BootStep } from './sequence';
 
+  let { children }: { children: Snippet<[boolean, boolean]> } = $props();
   let step = $state<BootStep>(firstBootStep);
   let reducedMotion = $state(false);
   let skip = () => {};
@@ -61,7 +61,7 @@
     {reducedMotion}
   >
     {#if step.state === 'ready' || step.state === 'reveal'}
-      <ReferenceComposition />
+      {@render children(reducedMotion, step.state === 'ready')}
     {:else}
       <BootScreen {step} locale={defaultLocale} />
     {/if}

@@ -40,7 +40,7 @@
     width: 100%;
     height: 100%;
     padding: 48px 40px;
-    color: var(--sage);
+    color: var(--display-text-secondary);
     font-size: var(--type-label);
     line-height: var(--leading-label);
     font-variant-numeric: tabular-nums;
@@ -54,7 +54,7 @@
     font-size: var(--type-caption);
     line-height: var(--leading-caption);
     letter-spacing: 0.5px;
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
   }
   .designation span {
     margin-left: 12px;
@@ -75,22 +75,22 @@
     visibility: visible;
   }
   .standby {
-    color: var(--warm-grey);
+    color: var(--display-state-dormant);
   }
   .identity {
     margin-top: 34px;
     padding-left: 16px;
-    border-left: 2px solid var(--amber);
+    border-left: 2px solid var(--display-accent);
     visibility: hidden;
   }
   h1 {
     font-size: var(--type-title);
     line-height: var(--leading-title);
     letter-spacing: 1px;
-    color: var(--ivory);
+    color: var(--display-text-primary);
   }
   h1 span {
-    color: var(--sage);
+    color: var(--display-text-secondary);
   }
   .identity p {
     margin-top: 6px;
@@ -104,6 +104,6 @@
     bottom: 24px;
     font-size: var(--type-caption);
     line-height: var(--leading-caption);
-    color: var(--sea-glass);
+    color: var(--display-text-muted);
   }
 </style>

@@ -1,19 +1,6 @@
 :root {
   color-scheme: dark;
 
-  --background-void: #07131b;
-  --background-deep: #0b1f2a;
-  --blue-slate: #123443;
-  --petrol: #1b5260;
-  --muted-teal: #2d7278;
-  --sea-glass: #5a9992;
-  --sage: #92b6a7;
-  --ivory: #d8d6b8;
-  --warm-grey: #a79e88;
-  --amber: #d3a14a;
-  --rust: #b96b3d;
-  --muted-green: #496e58;
-
   --font-system:
     'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, 'DejaVu Sans Mono',
     monospace;
@@ -27,8 +14,4 @@
   --leading-body: 19px;
   --leading-title: 20px;
   --leading-state: 16px;
-
-  --rule-primary: 2px solid var(--sage);
-  --rule-secondary: 1px solid var(--petrol);
-  --rule-marker: 1px solid var(--sea-glass);
 }

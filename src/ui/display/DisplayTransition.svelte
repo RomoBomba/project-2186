@@ -34,12 +34,12 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background: var(--background-void);
+    background: var(--display-background);
   }
   .surface {
     width: 100%;
     height: 100%;
-    background: var(--background-deep);
+    background: var(--display-surface);
   }
   [data-phase='off'] .surface,
   [data-phase='power'] .surface {
@@ -52,7 +52,7 @@
     left: 0;
     width: 100%;
     height: 1px;
-    background: var(--sea-glass);
+    background: var(--display-text-muted);
   }
   [data-phase='power'] .activation-line {
     display: block;

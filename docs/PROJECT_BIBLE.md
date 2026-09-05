@@ -99,11 +99,11 @@ permission to speak on behalf of the system; it does not become the system.
 | 11    | Offline events and minimal dreams/reflections                         |
 | 12    | Polish, tests and production build                                    |
 
-Phases 0 and 1 are complete. Phase 2 authorizes only boot and reusable display
-transitions into the approved shell. No setup, selector, actual terminal behaviour,
-cognition, matching, persistence, IndexedDB adapter, audio, offline simulation,
-dreams, LLM calls, Tauri or agent tools are authorized. Phase 3 requires a separate
-instruction. Later options include remote
+Phases 0–2 are complete. Phase 3A authorizes only first-run language, geometry and
+audio-preference configuration, held in session, ending at an intelligence-selection-
+required placeholder. Character selection belongs to Phase 3B and requires separate
+authorization. No terminal behaviour, character runtime, persistence, cognition,
+audio generation or later systems are authorized in Phase 3A. Later options include remote
 or local LLMs, Tool extensions, Tauri, SQLite and controlled agent capabilities.
 No large local models, LangChain, agent frameworks, vector databases,
 authentication or cloud user state in the web MVP.

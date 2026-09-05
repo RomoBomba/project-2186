@@ -48,7 +48,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(var(--display-scale));
-    background: var(--background-deep);
+    background: var(--display-surface);
     transform-origin: center;
   }
 </style>
