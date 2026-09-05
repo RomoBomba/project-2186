@@ -1,0 +1,232 @@
+<script lang="ts">
+  import { defaultLocale } from '../../core/language/locale';
+  import { systemMessages } from '../../locales/system';
+
+  const labels = systemMessages[defaultLocale];
+  // Deliberately bilingual typography specimen; no language-selection behaviour.
+  const specimen = systemMessages.ru;
+</script>
+
+<main class="composition" lang={defaultLocale} aria-labelledby="project-title">
+  <header class="system-header">
+    <div>
+      <h1 id="project-title">PROJECT <span>2186</span></h1>
+      <p class="caption terminal-label">{labels.terminal}</p>
+    </div>
+    <div class="display-designation caption">
+      <span>{labels.display} / A</span>
+      <span class="resolution">640 × 400</span>
+    </div>
+  </header>
+
+  <section class="visual-channel" aria-labelledby="visual-label">
+    <h2 id="visual-label" class="label">
+      <span class="channel-index">01 /</span>{labels.visualChannel}
+    </h2>
+    <div class="visual-field">
+      <div class="empty-register" aria-hidden="true"></div>
+      <p class="caption absent-image">{labels.noImage}</p>
+    </div>
+    <p class="caption channel-footnote" lang="ru">{specimen.visualChannel}</p>
+  </section>
+
+  <section class="communication-channel" aria-labelledby="communication-label">
+    <h2 id="communication-label" class="label">
+      <span class="channel-index">02 /</span>{labels.communicationChannel}
+    </h2>
+    <div class="communication-field" lang="ru">
+      <p class="ready">
+        <span class="status-mark" aria-hidden="true"></span>{specimen.ready}
+      </p>
+      <p class="waiting">{specimen.waiting}</p>
+    </div>
+    <div class="system-channel">
+      <span class="data-marker" aria-hidden="true"></span>
+      <p class="caption">{labels.systemChannel}</p>
+    </div>
+  </section>
+
+  <section class="command-channel" aria-labelledby="command-label">
+    <h2 id="command-label" class="label">
+      <span class="channel-index">03 /</span>{labels.commandChannel}
+    </h2>
+    <div class="command-position">
+      <span class="prompt" aria-hidden="true">&gt;</span>
+      <span class="data-marker" aria-hidden="true"></span>
+      <p class="caption" lang="ru">{specimen.inactive}</p>
+    </div>
+  </section>
+</main>
+
+<style>
+  .composition {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 184px 1fr;
+    grid-template-rows: 48px 238px 62px;
+    gap: 8px 24px;
+    border-top: var(--rule-primary);
+    color: var(--ivory);
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  p {
+    margin: 0;
+    font-weight: 400;
+  }
+  .caption {
+    font-size: var(--type-caption);
+    line-height: var(--leading-caption);
+    letter-spacing: 0.3px;
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--type-label);
+    line-height: var(--leading-label);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--sage);
+  }
+  .channel-index {
+    color: var(--sea-glass);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .system-header {
+    position: relative;
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+  }
+  .system-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 448px;
+    border-bottom: var(--rule-secondary);
+  }
+  h1 {
+    font-size: var(--type-title);
+    line-height: var(--leading-title);
+    letter-spacing: 1px;
+  }
+  h1 span {
+    color: var(--sage);
+  }
+  .terminal-label {
+    margin-top: 4px;
+    color: var(--sea-glass);
+    letter-spacing: 0.65px;
+  }
+  .display-designation {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    text-align: right;
+    color: var(--warm-grey);
+  }
+  .resolution {
+    letter-spacing: 0;
+  }
+
+  .visual-channel {
+    padding-top: 12px;
+    display: grid;
+    grid-template-rows: 24px 184px 18px;
+  }
+  .visual-field {
+    position: relative;
+    display: grid;
+    place-items: center;
+    border: var(--rule-secondary);
+    background: var(--background-void);
+  }
+  .empty-register {
+    width: 16px;
+    height: 32px;
+    border-top: var(--rule-marker);
+    border-bottom: var(--rule-marker);
+  }
+  .absent-image {
+    position: absolute;
+    bottom: 10px;
+    color: var(--sea-glass);
+    letter-spacing: 0.2px;
+  }
+  .channel-footnote {
+    align-self: end;
+    color: var(--sea-glass);
+  }
+
+  .communication-channel {
+    display: grid;
+    grid-template-rows: 24px 1fr 18px;
+  }
+  .communication-field {
+    padding: 14px 0 0 34px;
+  }
+  .ready {
+    position: relative;
+    font-size: var(--type-state);
+    line-height: var(--leading-state);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .status-mark {
+    position: absolute;
+    left: -14px;
+    top: 6px;
+    width: 3px;
+    height: 3px;
+    background: var(--amber);
+  }
+  .waiting {
+    margin-top: 7px;
+    color: var(--sage);
+  }
+  .system-channel {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    color: var(--sea-glass);
+  }
+  .data-marker {
+    display: block;
+    flex: 0 0 16px;
+    width: 16px;
+    border-top: var(--rule-marker);
+  }
+
+  .command-channel {
+    grid-column: 2;
+    padding-top: 10px;
+    border-top: var(--rule-secondary);
+  }
+  .command-position {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 9px;
+    color: var(--warm-grey);
+  }
+  .prompt {
+    width: 20px;
+    color: var(--ivory);
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+  }
+  .command-position p {
+    margin-left: auto;
+    letter-spacing: 0.7px;
+  }
+</style>

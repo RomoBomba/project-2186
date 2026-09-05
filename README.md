@@ -4,14 +4,13 @@ Experimental software art: an encounter with a persistent artificial mind inside
 an alternative-history personal computer from 2186. Presence, restraint, memory,
 character and atmosphere matter more than feature count or raw model capability.
 
-## Phase 0 status
+## Phase 1 status
 
-This repository contains a minimal Svelte + TypeScript + Vite foundation and the
-initial product documentation derived from the supplied Master Specification and
-Character Bible v0.1. The unstyled page only verifies application mounting. It is
-not the visual shell. No cognition, storage, audio, portraits or other later-phase
-systems are implemented. The only small shared contract is Russian/English locale
-support, with a localized development status message and a Vitest resource test.
+The Svelte + TypeScript + Vite foundation now renders a static 640 × 400 Layout A
+visual-shell prototype. It demonstrates a left visual channel, restrained geometry,
+provisional palette tokens, local monospace typography and English/Russian sample
+copy. The complete composition scales uniformly to the viewport. No boot, actual
+terminal input, conversation, storage, portraits or audio is implemented.
 
 ## Development
 
@@ -65,5 +64,5 @@ Review visual references before fixing palette, typography, scaling behaviour or
 portrait production. Review the proposed concept-card validation rules and
 translation fallback policy before Phase 6. English is only the development-shell
 default; first-run language choice belongs to Phase 3. Character trait descriptions
-remain qualitative until behaviour modelling is authorized. Phase 1 requires a
+remain qualitative until behaviour modelling is authorized. Review the Phase 1 visual prototype before proceeding; Phase 2 requires a
 separate instruction.

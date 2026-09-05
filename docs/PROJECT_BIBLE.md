@@ -99,9 +99,10 @@ permission to speak on behalf of the system; it does not become the system.
 | 11    | Offline events and minimal dreams/reflections                         |
 | 12    | Polish, tests and production build                                    |
 
-Only Phase 0 is authorized now. No visual application, boot, selector, terminal,
-cognition, matching, persistence, IndexedDB adapter, audio, offline simulation,
-dreams, LLM calls, Tauri or agent tools in this phase. Later options include remote
+Phase 0 is complete. Phase 1 authorizes only the static visual-shell prototype.
+No boot, selector, actual terminal behaviour, cognition, matching, persistence,
+IndexedDB adapter, audio, offline simulation, dreams, LLM calls, Tauri or agent
+tools are authorized in Phase 1. Phase 2 requires a separate instruction. Later options include remote
 or local LLMs, Tool extensions, Tauri, SQLite and controlled agent capabilities.
 No large local models, LangChain, agent frameworks, vector databases,
 authentication or cloud user state in the web MVP.

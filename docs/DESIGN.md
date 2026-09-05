@@ -15,9 +15,9 @@ and audio choices should feel authored by one fictional technological culture.
 
 ## Logical display and composition
 
-The authored logical display target is **640 × 400**. Modern viewport scaling,
-font selection and small-screen behaviour require Phase 1 visual review. Do not
-implement scaling or screen geometry in Phase 0.
+The authored logical display is **640 × 400**. Phase 1 implements Layout A as a
+static reference composition. Viewport changes scale the entire surface without
+rearranging its internal geometry. Layouts B and C remain future authored compositions.
 
 | Layout | Composition                                         |
 | ------ | --------------------------------------------------- |
@@ -29,8 +29,8 @@ These are composed layouts. No arbitrary draggable or resizable windows.
 
 ## Provisional design tokens
 
-These values are documentation tokens only in Phase 0. The palette is provisional
-and expected to evolve after visual reference/prototype review.
+These values are CSS custom properties in `src/ui/tokens.css` as of Phase 1.
+The palette remains provisional and may evolve after visual reference/prototype review.
 
 | Token           | Value     |
 | --------------- | --------- |
@@ -99,3 +99,87 @@ cyberpunk, neon magenta, pervasive Matrix green and dystopian corporate clichés
 References guide analysis, not direct copying; see [reference workflow](references/README.md).
 
 Phase 0 implements no final UI, CRT, portraits, animations, transitions or audio.
+
+## Phase 1 reference composition
+
+The screen has a thin sage top rule, a compact system header, a 184-logical-pixel
+visual column on the left, a 24-pixel gutter and an open communication field on
+the right. The dormant command region continues below the right channel, leaving
+the lower-left area open. A 16-pixel inset establishes the geometry.
+There are no cards, rounded corners, shadows or decorative website content.
+
+The visual channel is empty, with two short registration markers and an image-not-
+assigned label. It is not a portrait, animation or a live visual state. The right
+field holds a sparse Russian typography specimen. English system labels and Russian
+sample text intentionally coexist for Phase 1 review; all copy is in locale resources,
+and Russian regions carry `lang="ru"`. These are noncanonical composition placeholders,
+not actual initialization, communication or readiness behaviour. The command region
+is semantic static text, not an input, disabled widget or interactive prompt.
+
+Void surrounds the deep-blue display. Ivory is primary text; sage, sea-glass and
+warm-grey provide secondary hierarchy. Petrol delineates regions, and a single
+small amber square marks the readiness specimen. The other palette tokens are
+available but unused. No glow, scanlines, blur, noise, CRT effects or motion are
+applied. Reduced-motion users therefore receive the same static composition.
+
+### Typography
+
+One replaceable `--font-system` stack uses local/system fonts: SFMono-Regular,
+Consolas, Liberation Mono, Menlo, DejaVu Sans Mono, then generic monospace. These
+fallbacks support Cyrillic on common platforms without font downloads or CDN
+requests. Actual glyph metrics and rasterization remain OS-dependent; a final
+bitmap/font choice still requires author review.
+
+| Role                | Logical size / line height |
+| ------------------- | -------------------------- |
+| Micro metadata      | 9 / 12 px                  |
+| Channel label       | 10 / 16 px                 |
+| Body specimen       | 12 / 19 px                 |
+| Primary state       | 12 / 16 px                 |
+| Project designation | 16 / 20 px                 |
+
+Micro metadata is regular weight with 0.3–0.65px tracking. Channel labels use
+600 weight and 1px tracking; the primary state uses 600 weight and 0.5px tracking
+without increasing its size above the body. Body text stays regular weight with
+normal tracking and generous line height for Russian and English. Numeric
+labels use tabular figures. No artificial sharpening, aggressive font smoothing,
+blur or distortion is applied. Text uses contrasting palette pairs; dimmer petrol
+rules are decorative, not a means of communicating essential information.
+
+### Scaling and review limits
+
+The display stays centred within a viewport surround padded by
+`clamp(8px, 2vmin, 24px)`. Available width and height determine one uniform scale.
+Use a whole-number scale when rounding down retains at least 95% of the full fit;
+otherwise use the exact fractional fit. Below 1×, shrink uniformly. This avoids
+large wasted areas from strict integer-only scaling. Aspect-ratio differences
+produce surrounding negative space, never a mobile rearrangement.
+
+One logical pixel can cover fractional device pixels during fractional scaling
+or at noninteger browser zoom/device ratios. Crisp physical-pixel alignment is
+therefore best at integer scales, not guaranteed at every viewport. No device-
+pixel-ratio-specific font sizing is used. Very narrow windows retain the full
+composition at the cost of small text; final accessibility/zoom accommodations
+and the preferred minimum viewing size need author review. The scale policy and
+component ownership are detailed in [architecture](ARCHITECTURE.md).
+
+Review this first composition's density, blank visual field, proportions, type
+sizes and palette before Phase 2. No final terminal behaviour is implied.
+
+### Focused Phase 1 refinement
+
+The visual frame sits 12 logical pixels below the signal channel's heading line,
+like an embedded display region. Its image area is 184 × 184 logical pixels;
+the width and 24-pixel gutter are unchanged. The signal field is open and unboxed,
+with the state text near its upper-left channel alignment, 14 pixels below the
+heading row. Numbered labels share `01 / VISUAL`, `02 / SIGNAL`, `03 / COMMAND`
+notation; terminology remains provisional. The repeated readiness row and
+website-like footer are removed.
+
+The three rule forms are explicit tokens: a 2px sage primary surface rule, 1px
+petrol secondary rules for the visual frame and partial header/command separators,
+and 16px sea-glass data markers. Rules do not surround every region. The dormant
+command channel has a static `>` and short marker suggesting a future input
+position, but no input element, focus target, blinking cursor or behaviour.
+The `DISPLAY / A` and `640 × 400` designation stays in place. Palette, shell,
+scaling, font stack and phase boundaries are unchanged; no effects were added.

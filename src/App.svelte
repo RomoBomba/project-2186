@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { defaultLocale } from './core/language/locale';
-  import { systemMessages } from './locales/system';
-
-  const messages = systemMessages[defaultLocale];
+  import DisplayShell from './ui/display/DisplayShell.svelte';
+  import ReferenceComposition from './ui/display/ReferenceComposition.svelte';
+  import './ui/global.css';
 </script>
 
-<main>
-  <h1>PROJECT 2186</h1>
-  <p>{messages.foundationStatus}</p>
-</main>
+<DisplayShell>
+  <ReferenceComposition />
+</DisplayShell>

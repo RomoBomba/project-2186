@@ -2,10 +2,10 @@
 
 ## Status and dependency direction
 
-This is a Phase 0 design contract, derived from the PROJECT 2186 Master
-Specification and Character Bible v0.1. Boundaries below are planned, not runtime
-implementations. Only application mounting and a small locale resource contract
-exist today. Do not implement later phases merely because a design appears here.
+This design contract derives from the PROJECT 2186 Master Specification and
+Character Bible v0.1. Phase 1 adds a static visual shell to the Phase 0 foundation.
+The domain/provider boundaries below remain planned, not runtime implementations.
+Do not implement later phases merely because a design appears here.
 
 Use Svelte for presentation and plain TypeScript for domain/conversation logic.
 UI invokes domain operations; domain code must not import Svelte, DOM APIs,
@@ -170,3 +170,30 @@ serialization. Run typecheck, lint, formatting check, tests and production build
 
 No large local models, LangChain, agent frameworks, vector databases, authentication,
 cloud user state, Tauri or tool implementations in this foundation or the web MVP.
+
+## Phase 1 display ownership
+
+`src/ui/display/DisplayShell.svelte` owns viewport measurement, centering and the
+fixed logical surface. CSS owns the viewport surround (`100dvh`, with `100vh`
+fallback), padding and transforms. A single ResizeObserver measures the available
+content area and passes its width/height to `displayScale` in `scale.ts`. The
+observer disconnects on unmount. No polling, global resize handler or graphics
+framework is needed. The transformed child cannot change the observed parent size.
+
+`logicalDisplay` is the single 640 × 400 size definition. The scale helper computes
+`fit = min(availableWidth / 640, availableHeight / 400)`. It uses `floor(fit)` only
+when that integer is at least 1 and retains at least 95% of fit; otherwise it keeps
+the fractional fit. Zero/invalid dimensions produce zero scale until measurable.
+This is presentation mathematics, kept under `ui/`, not character/domain logic.
+Unit tests cover fitting, small/portrait/wide bounds, nearby integer preference,
+fractional downscaling and unavailable dimensions, not arbitrary composition pixels.
+
+The shell renders a Svelte child snippet. `ReferenceComposition.svelte` owns only
+Layout A's fixed CSS grid and semantic static regions. It knows nothing about the
+physical viewport. Future authored screens can occupy the same surface; no layout
+switching framework or final terminal component exists yet. Palette/type tokens
+live in `src/ui/tokens.css`, with a minimal reset in `src/ui/global.css`.
+
+UI copy stays in `src/locales/system.ts`. Phase 1 deliberately displays English
+system labels and a Russian specimen to evaluate both scripts; no locale selection,
+translation fallback, character dialogue or domain state is introduced.
