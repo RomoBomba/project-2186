@@ -183,3 +183,67 @@ command channel has a static `>` and short marker suggesting a future input
 position, but no input element, focus target, blinking cursor or behaviour.
 The `DISPLAY / A` and `640 × 400` designation stays in place. Palette, shell,
 scaling, font stack and phase boundaries are unchanged; no effects were added.
+
+## Phase 2 boot and display transitions
+
+Boot runs on each page load and silently leads into the approved Phase 1 shell.
+Reload to replay; Escape skips immediately to the shell. The small `ESC / BYPASS`
+hint belongs only to the boot screen, with no permanent replay/debug button.
+
+### Authored rhythm
+
+| State / event                                       | Normal hold, including transition |
+| --------------------------------------------------- | --------------------------------- |
+| Dormant / void                                      | 180 ms                            |
+| Power / short central line establishes horizontally | 160 ms                            |
+| Display / vertical expansion                        | 420 ms                            |
+| Initialization / display acknowledgement            | 380 ms                            |
+| Initialization / archive standby                    | 420 ms                            |
+| Initialization / language acknowledgement           | 520 ms                            |
+| Identity / PROJECT 2186                             | 1,000 ms                          |
+| Collapse / contract to central line                 | 220 ms                            |
+| Reveal / expand the existing shell                  | 360 ms                            |
+| Ready / static Phase 1 shell                        | No further timer                  |
+
+The authored total is **3.66 seconds**, subject to browser scheduling. Three sparse
+whole-line acknowledgements appear without typing or scrolling. Identity follows a
+short pause and uses the existing type/palette tokens. Copy is fictional display
+acknowledgement, not diagnostics for implemented archive, memory or intelligence
+systems, and establishes no detailed hardware lore. Russian and English are
+separate resources; the current application locale determines the boot language.
+
+### Display language
+
+A short, one-logical-pixel sea-glass line widens across the logical display. The
+deep background and its content then expand vertically from the central line.
+For the handoff, the boot surface contracts vertically, content changes while
+collapsed, and the unchanged Phase 1 composition expands in the same coordinate
+space. Content is clipped, never stretched. This is display geometry rather than
+webpage navigation or a page fade.
+
+The same small primitive provides off, power, expand, hold and collapse phases for
+future authored screens. No animation framework, audio, glow, curvature, RGB
+separation, brightness flash, noise or glitch is added. The line is muted and the
+large-area surface remains dark. Boot does not introduce later-phase behaviour.
+
+### Reduced motion and review
+
+With `prefers-reduced-motion: reduce`, no line animation or expansion/collapse runs.
+The semantic steps retain their order, with three 60 ms acknowledgements and a
+140 ms identity hold: approximately **320 ms** total, then the static shell.
+Zero-duration geometry steps do not introduce bright flashes. Enabling reduced
+motion during playback cancels the current hold and accelerates the remaining
+steps in order. Skipping works in either mode.
+
+In the development server only, `?boot-motion=reduce` forces the same motion-free
+path for visual review without changing OS settings. It cannot override a user's
+reduced-motion preference with more motion, and it is ignored in production.
+Reload without the query to review normal playback. Timing, copy and the intensity
+of the muted activation line remain artistic review points before Phase 3.
+
+Phase 2 final readability adjustment: acknowledgement rows alone use 11px text
+(previously 10px, a 10% increase), retaining their 16px line height and positions.
+The identity block and Phase 1 typography are unchanged. Escape is a true bypass:
+it cancels the sequence timer and enters the shell immediately from every boot
+step, including expansion/collapse. The localized hint is removed with the boot
+screen; no later boot update can resume playback after bypass.

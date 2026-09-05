@@ -197,3 +197,35 @@ live in `src/ui/tokens.css`, with a minimal reset in `src/ui/global.css`.
 UI copy stays in `src/locales/system.ts`. Phase 1 deliberately displays English
 system labels and a Russian specimen to evaluate both scripts; no locale selection,
 translation fallback, character dialogue or domain state is introduced.
+
+## Phase 2 boot ownership
+
+Boot is presentation state only, under `src/ui/boot/`. `sequence.ts` defines the
+ordered states, acknowledgement count and normal/reduced holds. `startBoot`
+provides one cancellable scheduler and semantic step callbacks; it supports skip,
+unmount cleanup and acceleration when reduced motion becomes enabled. Completion
+never depends on CSS animation events, so disabled animations cannot strand boot.
+Future AudioEngine integration can observe these semantic steps; no audio or
+generic event bus exists now.
+
+`BootExperience.svelte` owns playback lifetime, Escape handling and the media-query
+listener. It maps semantic states onto the display primitive and swaps from
+`BootScreen.svelte` to the existing `ReferenceComposition.svelte` while collapsed.
+`BootScreen` only presents progress using `src/locales/boot.ts`; it contains no
+scheduler, domain logic or real initialization work. Locale resources are typed
+and tested for Russian/English parity.
+
+`src/ui/display/DisplayTransition.svelte` is a small child-snippet wrapper with
+`phase`, `duration` and `reducedMotion` props. CSS clips the surface for vertical
+expansion/collapse and transforms only the activation line. Both its reduced-motion
+prop and a CSS media query disable motion. It knows no boot state, viewport scaling,
+character data or routing. It marks inaccessible/off/collapsing content inert.
+The Phase 1 display shell, scale policy, tokens and reference composition are
+unchanged. App mounts BootExperience inside the existing logical surface.
+
+Tests cover state order, acknowledgement progression, terminal completion,
+reduced playback, preference-change acceleration, cancellation, skipping and locale
+parity. Timing tests enforce the requested duration envelope rather than each
+animation millisecond. A development-only `boot-motion=reduce` URL query supports
+manual review and is ignored by production playback. Page reload is the replay
+mechanism; no persistence or settings are added.

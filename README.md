@@ -4,13 +4,14 @@ Experimental software art: an encounter with a persistent artificial mind inside
 an alternative-history personal computer from 2186. Presence, restraint, memory,
 character and atmosphere matter more than feature count or raw model capability.
 
-## Phase 1 status
+## Phase 2 status
 
-The Svelte + TypeScript + Vite foundation now renders a static 640 × 400 Layout A
-visual-shell prototype. It demonstrates a left visual channel, restrained geometry,
+The application runs a short, silent boot before revealing the approved static
+640 × 400 Layout A visual-shell prototype. Reload to replay, or press Escape to
+skip. Reduced motion reaches the shell quickly without geometric animation. It demonstrates a left visual channel, restrained geometry,
 provisional palette tokens, local monospace typography and English/Russian sample
-copy. The complete composition scales uniformly to the viewport. No boot, actual
-terminal input, conversation, storage, portraits or audio is implemented.
+copy. The complete composition scales uniformly to the viewport. No actual terminal input, conversation, storage, portraits or audio is implemented.
+For development-only reduced-motion review, open `/?boot-motion=reduce`.
 
 ## Development
 
@@ -64,5 +65,4 @@ Review visual references before fixing palette, typography, scaling behaviour or
 portrait production. Review the proposed concept-card validation rules and
 translation fallback policy before Phase 6. English is only the development-shell
 default; first-run language choice belongs to Phase 3. Character trait descriptions
-remain qualitative until behaviour modelling is authorized. Review the Phase 1 visual prototype before proceeding; Phase 2 requires a
-separate instruction.
+remain qualitative until behaviour modelling is authorized. Review the Phase 2 boot before proceeding; Phase 3 requires a separate instruction.
