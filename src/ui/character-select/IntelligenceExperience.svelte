@@ -38,7 +38,7 @@
         root
           ?.querySelector<HTMLElement>(`[data-character="${current.focused}"]`)
           ?.focus({ preventScroll: true });
-      else
+      else if (current.stage === 'confirmation')
         root?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true });
     });
   });
@@ -122,6 +122,8 @@
       <ReferenceComposition
         locale={configuration.language}
         character={model.selected}
+        {reducedMotion}
+        active={active && phase === 'hold'}
       />
     {:else}
       <main

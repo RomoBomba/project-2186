@@ -4,14 +4,19 @@
   import { systemMessages } from '../../locales/system';
 
   import type { CharacterId } from '../../core/character/id';
-  import { intelligenceMessages } from '../../locales/intelligence';
+  import TerminalCommunication from '../terminal/TerminalCommunication.svelte';
   let {
     locale = defaultLocale,
     character,
-  }: { locale?: Locale; character?: CharacterId } = $props();
+    active,
+    reducedMotion,
+  }: {
+    locale?: Locale;
+    character: CharacterId;
+    active: boolean;
+    reducedMotion: boolean;
+  } = $props();
   const labels = $derived(systemMessages[locale]);
-  // Deliberately bilingual typography specimen; no language-selection behaviour.
-  const specimen = systemMessages.ru;
 </script>
 
 <main class="composition" lang={locale} aria-labelledby="project-title">
@@ -36,39 +41,10 @@
         <p class="caption absent-image">{labels.noImage}</p>
       </NeutralPortrait>
     </div>
-    <p class="caption channel-footnote" lang="ru">{specimen.visualChannel}</p>
+    <p class="caption channel-footnote">{character.toUpperCase()}</p>
   </section>
 
-  <section class="communication-channel" aria-labelledby="communication-label">
-    <h2 id="communication-label" class="label">
-      <span class="channel-index">02 /</span>{labels.communicationChannel}
-    </h2>
-    <div class="communication-field" lang="ru">
-      <p class="ready">
-        <span class="status-mark" aria-hidden="true"></span>{specimen.ready}
-      </p>
-      <p class="waiting">{specimen.waiting}</p>
-    </div>
-    <div class="system-channel">
-      <span class="data-marker" aria-hidden="true"></span>
-      <p class="caption">
-        {character
-          ? `${intelligenceMessages[locale].instance} / ${character.toUpperCase()}`
-          : labels.systemChannel}
-      </p>
-    </div>
-  </section>
-
-  <section class="command-channel" aria-labelledby="command-label">
-    <h2 id="command-label" class="label">
-      <span class="channel-index">03 /</span>{labels.commandChannel}
-    </h2>
-    <div class="command-position">
-      <span class="prompt" aria-hidden="true">&gt;</span>
-      <span class="data-marker" aria-hidden="true"></span>
-      <p class="caption" lang="ru">{specimen.inactive}</p>
-    </div>
-  </section>
+  <TerminalCommunication {character} {locale} {active} {reducedMotion} />
 </main>
 
 <style>
@@ -183,67 +159,5 @@
   .channel-footnote {
     align-self: end;
     color: var(--display-text-muted);
-  }
-
-  .communication-channel {
-    display: grid;
-    grid-template-rows: 24px 1fr 18px;
-  }
-  .communication-field {
-    padding: 14px 0 0 34px;
-  }
-  .ready {
-    position: relative;
-    font-size: var(--type-state);
-    line-height: var(--leading-state);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-  .status-mark {
-    position: absolute;
-    left: -14px;
-    top: 6px;
-    width: 3px;
-    height: 3px;
-    background: var(--display-accent);
-  }
-  .waiting {
-    margin-top: 7px;
-    color: var(--display-text-secondary);
-  }
-  .system-channel {
-    display: flex;
-    gap: 18px;
-    align-items: center;
-    color: var(--display-text-muted);
-  }
-  .data-marker {
-    display: block;
-    flex: 0 0 16px;
-    width: 16px;
-    border-top: 1px solid var(--display-text-muted);
-  }
-
-  .command-channel {
-    grid-column: 2;
-    padding-top: 10px;
-    border-top: 1px solid var(--display-rule-secondary);
-  }
-  .command-position {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 9px;
-    color: var(--display-state-dormant);
-  }
-  .prompt {
-    width: 20px;
-    color: var(--display-text-primary);
-    font-size: var(--type-body);
-    line-height: var(--leading-body);
-  }
-  .command-position p {
-    margin-left: auto;
-    letter-spacing: 0.7px;
   }
 </style>

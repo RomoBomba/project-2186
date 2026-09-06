@@ -330,3 +330,43 @@ The final ReferenceComposition receives CharacterId and Locale as props, display
 minimal instance metadata. Layout B/C remain configuration values; the actual shell
 is still approved Layout A. Selection copy is UI localization in
 `locales/intelligence.ts`, separate from future authored character dialogue.
+
+## Phase 4 terminal interaction
+
+ReferenceComposition preserves Layout A geometry and hosts TerminalCommunication's
+SIGNAL and COMMAND regions. Selection passes CharacterId, Locale, reduced-motion and
+interaction readiness; focus enters the real command field after expansion finishes.
+B/C remain stored configuration choices and still route to Layout A. Active B/C
+compositions are future work.
+
+`ui/terminal/session.ts` owns a session-only transcript and the communication UI
+states (ready/forming/transmitting). It accepts trimmed commands up to 512 UTF-16 code units,
+appends ordered user/intelligence records, and blocks submissions during playback.
+The selected identity is configuration, not CharacterState. No storage, memory
+extraction or persistence is introduced; reload/unmount discards the session.
+
+`fixtures/phase4-responses.ts` is an explicitly temporary communication-review fixture
+boundary. It cycles three authored responses for each CharacterId and Locale. It
+never receives or analyzes user text: no keywords, perception, cognition or simulated
+intelligence. This is **not BasicIntelligenceProvider**. Future ConversationEngine /
+IntelligenceProvider integration will replace this boundary when authorized.
+
+`ui/terminal/SemanticTransmission.ts` separates complete text from presentation as
+`TransmissionChunk { text, pauseAfter }`. Deterministic punctuation and clause and word-count
+heuristics preserve text losslessly and never split words. Its cancellable
+scheduler emits ordered chunks and a single completion, supports shortening an active
+transmission for reduced motion, and cancels timers on session disposal. It is a
+presentation primitive, not ResponsePlan, and imports no domain engine or framework.
+Optional UI-only `TransmissionHints` supply `formingDelay` and zero-based
+`pauseAfter` overrides to the scheduler. Existing chunk `pauseAfter` values remain
+the default; invalid hints fall back to authored timing. Reduced motion bypasses
+normal delays and overrides. No ResponsePlan or provider is implemented. Future
+ResponsePlan / IntelligenceProvider may supply semantic structure or pause hints;
+raw LLM token streaming must never become the default terminal presentation.
+
+TerminalCommunication owns the input draft, scroll-follow preference and completed-
+response accessibility announcement. Component teardown cancels the session; no stale
+callbacks or queued commands survive. The read-only-during-transmission policy retains
+keyboard focus. One polite announcement per completed response avoids rapid live-region
+updates. Tests cover fixture/locale parity, submission guards, ordering, segmentation,
+punctuation, completion, cancellation and reduced-motion scheduling.

@@ -371,3 +371,55 @@ CIVIC, PHOSPHOR and AMBER keep the same authored composition; no character overr
 its display standard. Future portraits/media will retain independently authored
 colours rather than inheriting a global tint. Review the canvas crop, concise copy
 and confirmation dwell before producing final artwork.
+
+## Phase 4 communication surface
+
+The approved Layout A grid, 640 × 400 scaling and 144 × 180 still portraits remain.
+The right SIGNAL channel now contains a shared terminal record: `ВЫ / 001` or
+`YOU / 001`, followed by `ALETHEIA / 002` (or the selected intelligence). Both speakers
+use the same left alignment, micro metadata and 12-pixel body text with 17-pixel
+leading. No chat bubbles, message cards, timestamps or repeated avatars. Names and
+record numbers identify speaker changes without relying on colour.
+
+The transcript scrolls internally, with its scrollbar concealed. It remains a named,
+keyboard-focusable region: Tab/Shift+Tab reach it and native arrows/Page Up/Page Down
+scroll it. A thin focus rule identifies keyboard focus. New chunks follow the bottom
+only while the reader remains near it; scrolling into older records suspends following.
+A new command deliberately returns to the latest exchange. The browser page does not
+scroll. Existing records survive viewport resizing without responsive rearrangement.
+
+COMMAND uses a real single-line text field, a static prompt and an authored focus
+rule. Enter submits; IME composition and held Enter do not accidentally submit.
+Leading/trailing whitespace is trimmed; interior whitespace and user language are
+preserved. Empty commands and commands beyond 512 UTF-16 code units are rejected;
+the native field enforces the same limit. Sparse localized guidance identifies Enter
+and the length limit. No rounded input, send card, history or slash commands.
+
+Presentation follows `КАНАЛ ГОТОВ / CHANNEL READY` →
+`ФОРМИРОВАНИЕ / FORMING` → `ПЕРЕДАЧА / TRANSMITTING` → ready. A short rule changes semantic accent during transmission;
+there is no spinner, blinking status, animated dots or thinking claim. The command
+field stays focusable but read-only until transmission completes; no queue or second
+submission is accepted. Escape does not clear the transcript.
+
+User records appear immediately. Complete fixture responses exist before display;
+SemanticTransmission keeps short clauses whole and reveals larger phrases, typically
+4–10 words. Brief introductory commas stay attached to the following phrase; sentence
+boundaries remain authoritative even for short sentences. Clauses longer than ten
+words split into balanced groups, avoiding one-word remainders. No word is divided.
+
+Normal playback starts with a 450 ms forming hold. Phrase pauses vary deterministically
+with word count: usually 152–200 ms for ordinary phrases, 216–270 ms for internal
+punctuation, and 316–460 ms for sentence boundaries. The final chunk completes without
+an extra trailing pause. Typical short fixtures therefore take roughly 0.8–1.3 seconds,
+including forming. There is no randomness or character/token streaming. Reduced motion
+keeps the 12 ms initial/chunk intervals and ignores slower presentation hints.
+
+Future ResponsePlan / IntelligenceProvider integration may supply semantic structure
+or optional pause hints, but raw LLM token streaming must never be the terminal's
+default presentation model. Complete content remains separate from its visible rhythm.
+
+The visible transcript is not a rapidly updating live region. A separate polite
+announcement exposes a completed response once, rather than announcing each chunk.
+All chrome uses CIVIC/PHOSPHOR/AMBER semantic tokens; portraits keep authored colours.
+Phase 4 is silent. Fixture copy, transmission rhythm and transcript density need
+artistic review; the fixtures are temporary and do not claim real understanding.
