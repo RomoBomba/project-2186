@@ -1,0 +1,21 @@
+# TEST FIXTURE ONLY — not production knowledge.
+id: 'art.aura'
+domain: 'art'
+title:
+  ru: 'Аура'
+aliases:
+  ru: ['присутствие произведения']
+summary:
+  ru: 'Тестовая карточка; не канон PROJECT 2186.'
+claims:
+  ru: []
+tensions:
+  ru: []
+questions:
+  ru: ['Как проверить эту тестовую связь?']
+related: ['identity.memory']
+character_affinity:
+  aletheia: 0.8
+  aura: 0.9
+  themis: 0.5
+sources: [{ 'note': 'Synthetic test fixture only; no research claim.' }]

@@ -1,91 +1,219 @@
-# Author-curated knowledge
+# Авторские карточки знаний
 
-Use small YAML concept cards written in the author's own words. Initial domains:
-`philosophy`, `art`, `science`, `identity`, `world`. Store cards as
-`<domain>/<id>.yaml`; the empty domain directories are preserved with `.gitkeep`.
-No parser, graph, matcher, ingestion system or knowledge engine exists in Phase 0.
+Знания PROJECT 2186 — небольшие карточки идей, отобранные автором. Они не являются
+ответами персонажа, базой книг или системой нейросетевого поиска. Phase 6 только
+проверяет карточки, находит совпадения по названиям/алиасам и раскрывает связи.
+В рабочем корпусе пока **нет карточек**. Шесть демонстрационных карточек находятся
+только в `src/infrastructure/knowledge/__fixtures__/` и не являются каноном.
 
-## Proposed schema (author review required)
+## Где создавать карточки
 
-The following is a structural example, not a researched production card. Strings
-in angle brackets are authoring placeholders and must not ship as content.
+```text
+content/knowledge/
+  philosophy/   # философия
+  art/          # искусство
+  science/      # наука
+  identity/     # идентичность
+  world/        # мир PROJECT 2186
+```
+
+Одна карточка — один UTF-8 файл `.yaml` или `.yml`. Например,
+`identity/memory.yaml`. Допустимы вложенные папки внутри домена. Поле `domain`
+должно совпадать с первой папкой. Имя файла удобно повторяет идею, но идентичность
+задаёт поле `id`, а не имя файла. Символические ссылки не поддерживаются.
+
+## Полный пример формата
+
+Это структурный образец, а не подготовленный канонический материал. Замените
+содержимое своими формулировками перед добавлением в рабочий корпус.
 
 ```yaml
-id: memory-continuity
+id: identity.example
 domain: identity
 
 title:
-  ru: '<Краткое название>'
-  en: '<Short title>'
-
+  ru: Пример понятия
+  en: Example concept
 aliases:
-  ru: ['<вариант названия>']
-  en: ['<alternative name>']
-
+  ru: [образец понятия]
+  en: [sample concept]
 summary:
-  ru: '<Краткое авторское изложение своими словами>'
-  en: '<Concise authored summary in your own words>'
-
+  ru: Краткое авторское изложение одной идеи своими словами.
+  en: A concise author-written account of one idea.
 claims:
-  ru: ['<Утверждение для обсуждения>']
-  en: ['<Claim to examine>']
-
+  ru: [Утверждение, которое можно обсуждать.]
+  en: [A claim that can be discussed.]
 tensions:
-  ru: ['<Противоречие или открытая проблема>']
-  en: ['<Tension or unresolved issue>']
-
+  ru: [Ограничение или неразрешённое противоречие.]
+  en: [A limitation or unresolved tension.]
 questions:
-  ru: ['<Содержательный вопрос>']
-  en: ['<Meaningful question>']
+  ru: [Как уточнить границы этого понятия?]
+  en: [How can the boundaries of this concept be clarified?]
 
 related: []
-
 character_affinity:
   aletheia: 0.8
-  aura: 0.9
+  aura: 0.6
   themis: 0.5
-
 sources:
-  - title: '<Research source title>'
-    creator: '<Author or institution>'
-    locator: '<URL, ISBN, archive identifier or other source location>'
-    section: '<Page, chapter or section when applicable>'
-    note: '<What this source informed; distinguish interpretation from quotation>'
+  - author: Автор исследуемой работы
+    work: Название работы
+    chapter: Раздел или страница
+    note: Что именно эта работа помогла сформулировать; это пример метаданных.
 ```
 
-Proposed validation conventions, to confirm before the loader is built:
+## Что означает каждое поле
 
-- `id`: stable, globally unique lowercase kebab-case string. Cross-domain links use IDs.
-- `domain`: one of the five directory names; it must match the containing directory.
-- `title` and `summary`: localized strings under `ru` and `en`.
-- `aliases`, `claims`, `tensions`, `questions`: localized arrays of strings.
-  Aliases aid future matching; claims are discussion material, not automatic certainty.
-- `related`: array of existing card IDs forming a lightweight concept graph;
-  validate broken references. Example association: memory → continuity → identity → change.
-- `character_affinity`: three numbers, proposed range 0–1, independently weighted
-  rather than probabilities that must sum to one. Values are not user-visible.
-- `sources`: array of provenance records, with title and locator, plus optional
-  creator, section and note. This is research provenance, not runtime reply text.
-  For original fictional world content, identify the PROJECT 2186 author/source;
-  preserve the world's deliberate uncertainty.
+| Поле                 | Как заполнять                                                                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                 | Уникальный стабильный идентификатор: `домен.lowercase-slug`. Например, `identity.memory`. После точки — латинские буквы, цифры и одиночные дефисы; начало — буква. |
+| `domain`             | Только `philosophy`, `art`, `science`, `identity`, `world`; должен совпадать с префиксом id и папкой.                                                              |
+| `title`              | Краткое непустое название на языке карточки. Используется в поиске.                                                                                                |
+| `aliases`            | Массив вариантов названия и формулировок, которые пользователь действительно может написать. Можно `[]`.                                                           |
+| `summary`            | Непустое краткое авторское изложение идеи. Не участвует в поисковом корпусе.                                                                                       |
+| `claims`             | Массив утверждений для будущего рассмотрения; не автоматически признанные истины.                                                                                  |
+| `tensions`           | Массив ограничений, конфликтов и открытых проблем.                                                                                                                 |
+| `questions`          | Массив вопросов как материала для будущего планирования ответа. Совпадение **не запускает** вывод вопроса в терминал.                                              |
+| `related`            | Массив id уже существующих карточек. Можно `[]`.                                                                                                                   |
+| `character_affinity` | Три обязательных числа 0–1: естественная заинтересованность Aletheia, Aura и Themis. Их сумма не обязана равняться единице.                                        |
+| `sources`            | Необязательный массив источников; можно опустить или написать `[]`. В записи допустимы `author`, `work`, `chapter`, `note`: непустые строки, хотя бы одно поле.    |
 
-Use empty arrays where a list has no entries. During drafting, incomplete English
-content can be marked with empty strings/arrays; publish-time checks and a central
-fallback policy must distinguish drafts from usable content. UI translations are
-separate and complete. Review whether incomplete cards are excluded or fall back
-as a whole before Phase 6; never spread ad hoc language checks through components.
+`claims`, `tensions`, `questions` могут быть пустыми массивами. Не заменяйте массив
+одной строкой. Неизвестные поля, пустые элементы массивов и числовые значения
+вместо текста считаются ошибками. Числовой номер главы заключайте в кавычки.
 
-## Editorial principles
+Источники — след исследования, а не рейтинг достоверности для движка. Они не
+участвуют в matching и не показываются в обычном интерфейсе. В `note` можно указать
+ссылку или пояснить собственную интерпретацию. Источник не обязателен для каждой идеи.
 
-Prefer concise summaries, interesting tensions and precise questions to large
-extracts. Do not ingest full books as the core knowledge strategy. Runtime
-behaviour relies on authored summaries, not copied long passages from books.
-Keep sources for traceable research and review. Factual uncertainty and the
-unreliability of fictional archives should be expressed rather than filled with
-invented certainty. Translation should preserve meaning, not force identical word
-order or aliases between Russian and English.
+## Русский и английский
 
-Knowledge resources are separate from UI/system localization and authored
-character dialogue. Affinities guide attention; they do not replace character
-policy or restrict a card to one character. No YAML dependency is needed until
-content loading and validation are actually implemented.
+Для каждого доступного языка заполните **все шесть** полей: `title`, `aliases`,
+`summary`, `claims`, `tensions`, `questions`. Название и summary должны быть
+непустыми; массивы могут быть пустыми. Хотя бы один язык обязателен.
+
+Для русского черновика просто уберите все ключи `en`. Допускается и полностью
+пустой английский вариант: `title.en: ''`, `summary.en: ''`, остальные четыре
+поля `en: []`. Он считается отсутствующим. Частично заполненный вариант
+отклоняется: незавершённый перевод не должен случайно попасть в приложение.
+
+`resolveConcept(card, locale, allowFallback)` выбирает **весь** запрошенный вариант.
+Если его нет, по умолчанию возвращается весь другой язык с `fallbackUsed: true`,
+`requestedLocale` и фактическим `locale`. При `allowFallback: false` результат
+отсутствует. Ни отдельные предложения, ни массивы между языками не смешиваются.
+Автоматического перевода нет. Это правило знаний; строгая полнота UI-локализации
+остаётся отдельной проверкой.
+
+## Алиасы и понятный поиск
+
+Используйте устойчивые фразы и полезные словоформы. Например, если важно находить
+«памяти», добавьте этот вариант явно. Движок не решает русское склонение и не
+понимает синонимы, которых нет в карточке. Не добавляйте общие слова вроде «это»
+или «вопрос» ради увеличения числа совпадений.
+
+Для поиска выполняются NFKC-нормализация Unicode, нижний регистр, `ё → е` и
+разделение пунктуации/пробелов. Исходный отображаемый текст сохраняется.
+Внутренние апострофы и дефисы сохраняются: `don't`, `long-term` — цельные токены;
+типографские апострофы и неразрывный дефис нормализуются. Тире разделяет слова.
+
+Повторяющиеся после нормализации алиасы в одном языке карточки — ошибка:
+`объём`, `ОБЪЕМ!` считаются повтором. Совпадение алиаса с title допускается.
+Одинаковые алиасы разных карточек допустимы и могут дать несколько кандидатов.
+
+Текущая калибровка, одинаковая для RU/EN:
+
+| Совпадение                                                                                            | Балл                               |
+| ----------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| Вся фраза алиаса подряд, в том числе внутри длинного сообщения                                        | 100                                |
+| Всё название подряд                                                                                   | 90                                 |
+| Пересечение минимум двух значимых уникальных токенов и минимум 2/3 значимых токенов фразы             | `60 + round(10 × доля совпадения)` |
+| Один совпавший токен алиаса длиной минимум 6 символов, встречающийся в терминах только одной карточки | 40                                 |
+
+Значимый токен содержит минимум 4 Unicode-кодовых точки. Фраза без таких токенов
+не даёт кандидата даже при точном совпадении. Порог возвращаемого кандидата по умолчанию — **65**. Одиночное
+частичное совпадение с title недостаточно. Балл карточки — лучший сигнал, а не
+сумма повторов. Поэтому многократное повторение слова не повышает результат.
+Слабый балл 40 сохраняется для диагностики, но не направляет будущую когницию
+по умолчанию. В программном API его можно явно запросить:
+`matcher.match(text, locale, { minScore: 40 })`. Конечный minScore ограничивается
+0–100; нечисловой/бесконечный порог заменяется стандартным 65. Даже порог 0
+не возвращает карточки без совпадения. Команда knowledge:check использует
+обычный порог 65.
+
+**Явный однословный алиас — авторский сильный триггер:** он по-прежнему получает
+100 при точном совпадении (с сохранением существующего ограничения коротких токенов).
+Если «память» должна надёжно активировать карточку, добавьте именно «память»
+отдельным алиасом. Одного её присутствия внутри «личная память» теперь недостаточно.
+Используйте однословные алиасы только для надёжных терминов; не добавляйте общие
+слова. Когда отдельное слово неоднозначно, предпочтите многословный алиас.
+
+При равных баллах карточки упорядочиваются по id; это не зависит от системной locale.
+По умолчанию возвращается до 5 кандидатов, жёсткий максимум — 20.
+
+Каждый результат содержит id, балл, исходный термин, источник `alias`/`title`,
+вид совпадения, совпавшие токены и сведения о языке/fallback. Для слабого одиночного совпадения токен должен встречаться только в одной
+карточке среди title/aliases выбранных языковых вариантов корпуса; общий токен
+нескольких карточек сам по себе кандидата не создаёт. Слабое совпадение
+всё же может быть ложным: это объяснимая поверхностная эвристика, не понимание смысла.
+При активном fallback проверяются термины реально выбранного языка; английский
+ввод сам по себе не переводится для русской карточки.
+
+## Связи и заинтересованность персонажей
+
+`related` означает только авторскую концептуальную связь. Это не причинность,
+иерархия, равенство или согласие. Связь направлена: для обратного перехода укажите
+обратную ссылку явно. Циклы разрешены. Неизвестные id и повтор ссылки внутри одного
+списка отклоняются. Переименовывая id, обновите все ссылки.
+
+Обход графа идёт в ширину, без повторов и без включения исходных карточек в результат.
+Начальные id и соседи сортируются по id. По умолчанию: глубина 1, до 6 новых карточек.
+Жёсткие пределы: глубина 3, до 20 результатов. Нулевой предел возвращает пустой набор.
+Граф ничего не решает о том, какой смысл следует выбрать для разговора.
+
+Affinity означает «насколько естественно этот персонаж обращает внимание на идею».
+Это не согласие, знание, моральная оценка или отношение к пользователю.
+`affinityFor(card, characterId)` возвращает значение отдельно. Оно не меняет
+балл или порядок ConceptMatcher и пока не влияет на Character Core.
+
+## Проверка и просмотр
+
+Из корня проекта:
+
+```sh
+npm run knowledge:check
+npm run knowledge:check -- --locale ru --text "личная память"
+npm run knowledge:check -- --id identity.memory
+npm run knowledge:check -- --locale en --text "personal memory"
+```
+
+Команда показывает количество рабочих карточек, совпадения, связи и ограниченное
+расширение. Пока корпус пуст, количество равно нулю; запрос неизвестного id — ошибка.
+Для просмотра **только неканонических тестовых данных**:
+
+```sh
+npm run knowledge:check -- --fixtures --locale ru --text "объем памяти"
+npm run knowledge:check -- --fixtures --locale en --text "personal memory" --id identity.memory
+```
+
+Структурная ошибка прерывает проверку с ненулевым кодом; сообщение указывает файл
+и поле либо id проблемной связи. Используйте один YAML-документ на файл. Дубли ключей,
+неизвестные YAML-теги и ссылки YAML `*anchor` не поддерживаются: явные карточки проще
+редактировать и проверять. Это не ограничение концептуальных циклов через `related`.
+
+Проверка запускается перед `npm run dev` и в `npm run build`, который входит в
+`npm run check`. После редактирования YAML при уже работающем dev-сервере запустите
+`knowledge:check` снова: автоматического наблюдателя содержимого сейчас нет.
+
+YAML разбирается только в Node, не в браузере. Существующий терминал продолжает
+отвечать Phase 4 фикстурами. До подключения будущей когниции ни рабочие карточки,
+ни тестовый корпус не включаются в клиентский bundle. Генерируемых файлов нет.
+
+## Авторская ответственность
+
+Пишите кратко, своими словами или осмысленным пересказом. **Не вставляйте длинные
+отрывки книг и целые страницы.** Храните идею, её ограничения и вопросы, а не копию
+источника. Происхождение идеи отмечайте в `sources`.
+
+Не превращайте неясную историю мира PROJECT 2186 в окончательное объяснение катастрофы.
+Не маскируйте художественную гипотезу под установленный факт. Авторские утверждения,
+вопросы и противоречия — материал будущей Phase 7, не готовые реплики персонажей.

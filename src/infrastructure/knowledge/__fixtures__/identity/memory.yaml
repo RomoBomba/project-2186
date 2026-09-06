@@ -1,0 +1,27 @@
+# TEST FIXTURE ONLY — not production knowledge.
+id: 'identity.memory'
+domain: 'identity'
+title:
+  ru: 'Память и опыт'
+  en: 'Memory and experience'
+aliases:
+  ru: ['личная память', 'памяти', 'объём памяти']
+  en: ['personal memory', 'memories', 'long-term memory']
+summary:
+  ru: 'Тестовая карточка; не канон PROJECT 2186.'
+  en: 'Test card; not PROJECT 2186 canon.'
+claims:
+  ru: []
+  en: []
+tensions:
+  ru: []
+  en: []
+questions:
+  ru: ['Как проверить эту тестовую связь?']
+  en: ['How can this test relation be checked?']
+related: ['identity.continuity', 'world.archives']
+character_affinity:
+  aletheia: 0.8
+  aura: 0.9
+  themis: 0.5
+sources: [{ 'note': 'Synthetic test fixture only; no research claim.' }]

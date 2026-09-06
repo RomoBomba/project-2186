@@ -118,11 +118,9 @@ language conditionals in components. Keep these streams separate:
 Character configuration, dialogue, knowledge and memory records should be
 data-driven where practical. Domain behaviour consumes selected resources through
 language services; locale resolution/fallback belongs there, not in components.
-Russian content may lead English coverage. Proposed later policy: validate missing
-translations during content checks; require complete UI strings, and resolve any
-partial authored content through one explicit fallback policy reviewed by the author.
-Do not silently mix languages throughout a response. No content loader/parser or
-fallback engine is implemented yet.
+Russian content may lead English coverage. Phase 6 implements whole-locale knowledge
+resolution and content checks, described below. UI resources remain complete;
+knowledge fallback never mixes individual fields between languages.
 
 ## Planned source map
 
@@ -479,3 +477,89 @@ JSON-serializable; future StorageProvider can persist them, with versioning/migr
 when authorized. No persistence, knowledge, memory, BasicIntelligenceProvider or LLM
 is included. Review numeric calibration, growth rates and the 15% limit with the author
 before using the disposition to drive future response planning.
+
+## Phase 6 authored knowledge
+
+`core/knowledge/model.ts` owns plain serializable ConceptCard data: explicit
+ConceptId (`domain.lowercase-slug`), one of five KnowledgeDomain values, complete
+locale variants in `content`, related IDs, three character affinities and optional
+source metadata. The author-facing field-oriented YAML is converted to this
+locale-oriented runtime shape. No technical metadata is added to author cards.
+`validation.ts` checks structure, finite affinities in 0–1, normalized alias
+uniqueness, globally unique IDs and referential integrity. Invalid values are
+rejected, not clamped. Cyclic conceptual links are valid.
+
+### Node infrastructure and author workflow
+
+`infrastructure/knowledge/yaml.ts` alone imports the `yaml` parser (a development
+dependency); `repository.ts` reads authored `.yaml`/`.yml` files recursively and
+checks their domain directory. Errors retain a source path or offending concept ID.
+Duplicate YAML keys, unsupported tags and alias references fail clearly. Sources
+accept optional non-empty author/work/chapter/note strings; they never enter matching.
+
+`npm run knowledge:check` runs `check.ts` using Node 24's TypeScript support.
+Explicit `.ts` imports in this new boundary/core and allowImportingTsExtensions
+permit one checked implementation shared by Node and Vitest, without a second
+compiler, runner dependency or generated files. The command accepts --locale,
+--text and --id for count/card/match/association inspection. --fixtures explicitly
+selects a six-card noncanonical test graph instead of the authored repository.
+
+Validation runs before npm run dev and npm run build (and therefore npm run check).
+An already-running dev server does not watch YAML: authors rerun knowledge:check
+or restart dev after editing. Parsing is development/build-time only. No YAML
+parser, corpus, debug UI or fixture graph is imported into the current browser
+application. The loader returns validated cards ready for graph/matcher composition;
+future Phase 7 application integration can deliver these plain records to cognition
+without moving YAML parsing into core. No static generated corpus is tracked.
+The production authoring directories remain intentionally empty; empty is valid.
+
+### Whole-locale resolution
+
+`resolveConcept` owns all knowledge fallback: requested complete locale first,
+otherwise the other complete locale if allowFallback (default true). Its result
+identifies requestedLocale, actual locale and fallbackUsed. Disabling fallback can
+return undefined. A locale must contain non-empty title/summary and four valid
+arrays (which may be empty). Entirely omitted or wholly blank locale variants are
+unavailable; partially filled variants fail validation. No merging fragments or
+translation occurs. UI locale parity and character dialogue remain separate.
+
+### Explainable matching and bounded association
+
+ConceptMatcher uses only aliases and titles of the resolved locale. NFKC, lowercase,
+ё→е, punctuation/whitespace normalization and Unicode letter/number tokenization
+are matching-only. Apostrophe/hyphen compounds stay intact. There is no stemming,
+Russian declension analysis, NLP, embeddings, neural search or summary-text indexing.
+
+Exact contiguous alias phrase = 100; title phrase = 90. Multi-token overlap requires
+at least two unique significant tokens and at least 2/3 coverage, scoring
+60 + round(10 × coverage). A lone alias token of at least six code points scores 40 only if it occurs
+in title/alias terms of exactly one card in the resolved-locale corpus. Shared
+individual tokens do not create weak candidates.
+Significant tokens have at least four code points; tiny-only phrases never match.
+The default returned-candidate threshold is 65. Score-40 evidence is retained
+internally but only returned with an explicit diagnostic option, e.g. minScore: 40.
+Finite minScore is clamped to 0–100; non-finite values use 65. A zero threshold
+still does not create candidates without evidence. Explicit one-word aliases
+remain strong exact matches (100), subject to the existing tiny-token rule;
+authors must avoid generic triggers and prefer phrases when a word is ambiguous. Each card takes its strongest evidence; repeated
+terms do not accumulate points. Ties use ascending code-unit ConceptId order,
+independent of host collation. Results include score, term, matched tokens,
+alias/title source, evidence kind and locale/fallback. Default limit 5, hard cap 20.
+The matcher returns plausible surface candidates, including possible false positives,
+not interpretations or facts about a user. Affinity never changes raw matching.
+
+ConceptGraph exposes get, related and expand. Links are authored and directed,
+without inferred causation, equivalence, hierarchy or reverse edges. Expansion is
+breadth-first with sorted seeds and sorted neighbours, deduplication and cycle
+protection. Seeds are excluded from results. Default depth 1/result limit 6;
+hard ceilings 3/20, zero disables expansion. Unknown lookup/seed IDs return nothing.
+Graph construction copies validated data; returned cards are detached serializable
+records so consumers cannot corrupt the assembled graph. No graph database exists.
+
+`affinityFor(card, CharacterId)` exposes attention metadata separately from search.
+Knowledge does not update Phase 5 profiles, state, relationship or user style.
+Claims/tensions/questions remain data: they are never printed automatically.
+Phase 4 fixture selection, wording, UI and SemanticTransmission remain unchanged.
+Phase 7 may consume match evidence, small related sets and affinity when explicitly
+authorized; no ResponsePlan, BasicIntelligenceProvider, dialogue-act classification,
+reasoning, memory or response generation is introduced here.
