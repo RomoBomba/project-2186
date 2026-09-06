@@ -232,12 +232,13 @@ mechanism; no persistence or settings are added.
 
 ## Phase 3A configuration ownership
 
-`src/ui/setup/model.ts` defines the UI-local sequence `language → standard → layout → audio →
+`src/ui/setup/model.ts` defines the UI-local sequence `language → layout → standard → audio →
 complete` and the serializable `SystemConfiguration` record:
 
 ```ts
 {
   language: Locale;
+  displayStandard: DisplayStandard;
   layout: 'A' | 'B' | 'C';
   audioEnabled: boolean;
 }
@@ -265,8 +266,8 @@ logical display, scaling, palette and Phase 1 composition remain unchanged.
 
 Setup reuses DisplayTransition only at selected boundaries, with no new animation
 system or workflow framework. Completion keeps the typed configuration in its live
-model and renders a localized placeholder for Phase 3B. No selected character or
-terminal content is created. Tests cover order, language changes, all layout values,
+model and passes configuration plus interaction readiness to its child snippet.
+Phase 3B attaches intelligence selection at this boundary. Tests cover order, language changes, all layout values,
 audio revision, completion, guarded actions, back navigation and resource parity.
 
 ## Display-standard contract
@@ -308,3 +309,24 @@ filters or recolours pixels in images or portraits. Tests verify the exact autho
 standard set, complete token parity and at least 4.5:1 contrast for primary,
 secondary and muted text against each surface. Setup tests cover standard selection,
 retention, stage order and fresh-session defaults.
+
+## Phase 3B selection ownership
+
+`core/character/id.ts` defines exactly `aletheia`, `aura`, `themis` as CharacterId.
+This is configuration identity only, with no runtime profile or state. App composes
+IntelligenceExperience inside SetupExperience's completion snippet, so the existing
+audio-stage collapse reveals the selection in the same display. Configuration stays
+in the live setup model; nothing is persisted. The setup order is language → layout
+→ display standard → audio, as specified for Phase 3B.
+
+`ui/character-select/model.ts` owns an explicit UI union: selection (focused identity),
+confirmation (selected identity), shell (selected identity). Navigation wraps and
+confirmation locks the identity. The component owns disposable transition timers
+and a 1.2-second confirmation hold. Reduced motion completes pending geometry
+immediately; teardown cancels all scheduled work. Existing DisplayTransition handles
+all geometry. No animation event drives progression.
+
+The final ReferenceComposition receives CharacterId and Locale as props, displaying
+minimal instance metadata. Layout B/C remain configuration values; the actual shell
+is still approved Layout A. Selection copy is UI localization in
+`locales/intelligence.ts`, separate from future authored character dialogue.

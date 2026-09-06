@@ -1,16 +1,22 @@
 <script lang="ts">
-  import { defaultLocale } from '../../core/language/locale';
+  import { defaultLocale, type Locale } from '../../core/language/locale';
   import { systemMessages } from '../../locales/system';
 
-  const labels = systemMessages[defaultLocale];
+  import type { CharacterId } from '../../core/character/id';
+  import { intelligenceMessages } from '../../locales/intelligence';
+  let {
+    locale = defaultLocale,
+    character,
+  }: { locale?: Locale; character?: CharacterId } = $props();
+  const labels = $derived(systemMessages[locale]);
   // Deliberately bilingual typography specimen; no language-selection behaviour.
   const specimen = systemMessages.ru;
 </script>
 
-<main class="composition" lang={defaultLocale} aria-labelledby="project-title">
+<main class="composition" lang={locale} aria-labelledby="project-title">
   <header class="system-header">
     <div>
-      <h1 id="project-title">PROJECT <span>2186</span></h1>
+      <h1 id="project-title" tabindex="-1">PROJECT <span>2186</span></h1>
       <p class="caption terminal-label">{labels.terminal}</p>
     </div>
     <div class="display-designation caption">
@@ -42,7 +48,11 @@
     </div>
     <div class="system-channel">
       <span class="data-marker" aria-hidden="true"></span>
-      <p class="caption">{labels.systemChannel}</p>
+      <p class="caption">
+        {character
+          ? `${intelligenceMessages[locale].instance} / ${character.toUpperCase()}`
+          : labels.systemChannel}
+      </p>
     </div>
   </section>
 
@@ -116,6 +126,7 @@
     border-bottom: 1px solid var(--display-rule-secondary);
   }
   h1 {
+    outline: none;
     font-size: var(--type-title);
     line-height: var(--leading-title);
     letter-spacing: 1px;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, tick } from 'svelte';
+  import { onDestroy, tick, type Snippet } from 'svelte';
   import { languageChoices, setupMessages } from '../../locales/setup';
   import DisplayTransition from '../display/DisplayTransition.svelte';
   import { displayStandards, type DisplayStandard } from '../display/standards';
@@ -11,13 +11,16 @@
     updateSetup,
     type SetupAction,
     type SetupModel,
+    type SystemConfiguration,
   } from './model';
 
   let {
     reducedMotion,
     active,
     onstandardchange,
+    children,
   }: {
+    children: Snippet<[SystemConfiguration, boolean]>;
     reducedMotion: boolean;
     active: boolean;
     onstandardchange: (standard: DisplayStandard) => void;
@@ -25,7 +28,7 @@
   let model = $state(createSetup());
   let cursor = $state(1);
   let phase = $state<'hold' | 'collapse' | 'expand'>('hold');
-  let root: HTMLElement;
+  let root = $state<HTMLElement>();
   let timer: ReturnType<typeof setTimeout> | undefined;
   let pending: SetupModel | undefined;
   let disposed = false;
@@ -38,12 +41,12 @@
         prompt: copy.languagePrompt,
       },
       standard: {
-        number: '02',
+        number: '03',
         title: copy.standardTitle,
         prompt: copy.standardPrompt,
       },
       layout: {
-        number: '03',
+        number: '02',
         title: copy.layoutTitle,
         prompt: copy.layoutPrompt,
       },
@@ -76,15 +79,14 @@
   }
 
   $effect(() => {
-    if (active && phase === 'hold') {
+    if (active && phase === 'hold' && model.stage !== 'complete') {
       const index = selectedIndex();
-      const complete = model.stage === 'complete';
       cursor = index;
       void tick().then(() => {
         if (disposed) return;
-        const target = complete
-          ? root?.querySelector<HTMLElement>('h1')
-          : root?.querySelector<HTMLElement>(`[data-choice="${index}"]`);
+        const target = root?.querySelector<HTMLElement>(
+          `[data-choice="${index}"]`,
+        );
         target?.focus({ preventScroll: true });
       });
     }
@@ -141,7 +143,12 @@
   }
 
   function onKeydown(event: KeyboardEvent) {
-    if (!active || phase !== 'hold' || !root?.contains(document.activeElement))
+    if (
+      model.stage === 'complete' ||
+      !active ||
+      phase !== 'hold' ||
+      !root?.contains(document.activeElement)
+    )
       return;
     if (event.key === 'Escape' && model.stage !== 'language') {
       event.preventDefault();
@@ -154,7 +161,7 @@
       const direction =
         event.key === 'ArrowUp' || event.key === 'ArrowLeft' ? -1 : 1;
       cursor = (cursor + direction + choiceCount) % choiceCount;
-      root.querySelector<HTMLElement>(`[data-choice="${cursor}"]`)?.focus();
+      root?.querySelector<HTMLElement>(`[data-choice="${cursor}"]`)?.focus();
     } else if (event.key === 'Enter' && event.repeat) event.preventDefault();
   }
 </script>
@@ -166,126 +173,123 @@
   duration={phase === 'collapse' ? 220 : 360}
   {reducedMotion}
 >
-  <main
-    class="setup"
-    bind:this={root}
-    lang={model.configuration.language}
-    data-setup-stage={model.stage}
-    inert={!active || phase !== 'hold'}
-    aria-busy={phase !== 'hold'}
-  >
-    <header>
-      <span>PROJECT 2186</span><span class="metadata">{copy.system}</span><span
-        class="resolution">640 × 400</span
-      >
-    </header>
-    <div class="stage-title">
-      <span class="ordinal">{stageCopy.number} /</span>
-      <h1 tabindex="-1">{stageCopy.title}</h1>
-    </div>
-    <p class="instruction">{stageCopy.prompt}</p>
+  {#if model.stage === 'complete'}
+    {@render children(model.configuration, active && phase === 'hold')}
+  {:else}
+    <main
+      class="setup"
+      bind:this={root}
+      lang={model.configuration.language}
+      data-setup-stage={model.stage}
+      inert={!active || phase !== 'hold'}
+      aria-busy={phase !== 'hold'}
+    >
+      <header>
+        <span>PROJECT 2186</span><span class="metadata">{copy.system}</span
+        ><span class="resolution">640 × 400</span>
+      </header>
+      <div class="stage-title">
+        <span class="ordinal">{stageCopy.number} /</span>
+        <h1 tabindex="-1">{stageCopy.title}</h1>
+      </div>
+      <p class="instruction">{stageCopy.prompt}</p>
 
-    {#if model.stage === 'language'}
-      <div class="choices text-choices">
-        {#each languageChoices as choice, index (choice.value)}
-          <button
-            type="button"
-            data-choice={index}
-            tabindex={cursor === index ? 0 : -1}
-            onfocus={() => {
-              cursor = index;
-            }}
-            onclick={() => confirm(index)}
-            lang={choice.value}
-          >
-            <span class="pointer" aria-hidden="true">&gt;</span><span
-              class="choice-number"
-              aria-hidden="true">0{index + 1}</span
-            >{choice.label}
-          </button>
-        {/each}
-      </div>
-    {:else if model.stage === 'standard'}
-      <div class="choices layout-choices">
-        {#each displayStandards as standard, index (standard)}
-          <button
-            type="button"
-            data-choice={index}
-            tabindex={cursor === index ? 0 : -1}
-            onfocus={() => {
-              cursor = index;
-            }}
-            onclick={() => confirm(index)}
-          >
-            <span class="layout-name"
-              ><span class="pointer" aria-hidden="true">&gt;</span><span
-                class="choice-number">0{index + 1} /</span
-              ><span class="standard-name">{standard}</span></span
+      {#if model.stage === 'language'}
+        <div class="choices text-choices">
+          {#each languageChoices as choice, index (choice.value)}
+            <button
+              type="button"
+              data-choice={index}
+              tabindex={cursor === index ? 0 : -1}
+              onfocus={() => {
+                cursor = index;
+              }}
+              onclick={() => confirm(index)}
+              lang={choice.value}
             >
-            <StandardPreview {standard} />
-          </button>
-        {/each}
-      </div>
-    {:else if model.stage === 'layout'}
-      <div class="choices layout-choices">
-        {#each layouts as layout, index (layout)}
-          <button
-            type="button"
-            data-choice={index}
-            tabindex={cursor === index ? 0 : -1}
-            onfocus={() => {
-              cursor = index;
-            }}
-            onclick={() => confirm(index)}
-          >
-            <span class="layout-name"
-              ><span class="pointer" aria-hidden="true">&gt;</span
-              >{layout}</span
+              <span class="pointer" aria-hidden="true">&gt;</span><span
+                class="choice-number"
+                aria-hidden="true">0{index + 1}</span
+              >{choice.label}
+            </button>
+          {/each}
+        </div>
+      {:else if model.stage === 'standard'}
+        <div class="choices layout-choices">
+          {#each displayStandards as standard, index (standard)}
+            <button
+              type="button"
+              data-choice={index}
+              tabindex={cursor === index ? 0 : -1}
+              onfocus={() => {
+                cursor = index;
+              }}
+              onclick={() => confirm(index)}
             >
-            <LayoutSchematic {layout} />
-            <span class="layout-description"
-              >{[copy.layoutA, copy.layoutB, copy.layoutC][index]}</span
+              <span class="layout-name"
+                ><span class="pointer" aria-hidden="true">&gt;</span><span
+                  class="choice-number">0{index + 1} /</span
+                ><span class="standard-name">{standard}</span></span
+              >
+              <StandardPreview {standard} />
+            </button>
+          {/each}
+        </div>
+      {:else if model.stage === 'layout'}
+        <div class="choices layout-choices">
+          {#each layouts as layout, index (layout)}
+            <button
+              type="button"
+              data-choice={index}
+              tabindex={cursor === index ? 0 : -1}
+              onfocus={() => {
+                cursor = index;
+              }}
+              onclick={() => confirm(index)}
             >
-          </button>
-        {/each}
-      </div>
-    {:else if model.stage === 'audio'}
-      <div class="choices text-choices">
-        {#each [copy.enabled, copy.muted] as label, index (index)}
-          <button
-            type="button"
-            data-choice={index}
-            tabindex={cursor === index ? 0 : -1}
-            onfocus={() => {
-              cursor = index;
-            }}
-            onclick={() => confirm(index)}
-          >
-            <span class="pointer" aria-hidden="true">&gt;</span><span
-              class="choice-number"
-              aria-hidden="true">0{index + 1}</span
-            >{label}
-          </button>
-        {/each}
-      </div>
-      <p class="audio-note">{copy.audioNote}</p>
-    {:else}
-      <p class="completion-note">
-        <span aria-hidden="true">—</span>{copy.completionNote}
-      </p>
-    {/if}
+              <span class="layout-name"
+                ><span class="pointer" aria-hidden="true">&gt;</span
+                >{layout}</span
+              >
+              <LayoutSchematic {layout} />
+              <span class="layout-description"
+                >{[copy.layoutA, copy.layoutB, copy.layoutC][index]}</span
+              >
+            </button>
+          {/each}
+        </div>
+      {:else if model.stage === 'audio'}
+        <div class="choices text-choices">
+          {#each [copy.enabled, copy.muted] as label, index (index)}
+            <button
+              type="button"
+              data-choice={index}
+              tabindex={cursor === index ? 0 : -1}
+              onfocus={() => {
+                cursor = index;
+              }}
+              onclick={() => confirm(index)}
+            >
+              <span class="pointer" aria-hidden="true">&gt;</span><span
+                class="choice-number"
+                aria-hidden="true">0{index + 1}</span
+              >{label}
+            </button>
+          {/each}
+        </div>
+        <p class="audio-note">{copy.audioNote}</p>
+      {/if}
 
-    <footer>
-      {#if model.stage !== 'complete'}<span>{copy.navigate}</span><span
-          >{copy.confirm}</span
-        >{/if}
-      {#if model.stage !== 'language'}<button
-          class="back"
-          type="button"
-          onclick={() => apply({ type: 'back' })}>{copy.back}</button
-        >{/if}
-    </footer>
-  </main>
+      <footer>
+        <span>{copy.navigate}</span><span>{copy.confirm}</span>
+        {#if model.stage !== 'language'}<button
+            class="back"
+            type="button"
+            onclick={() => apply({ type: 'back' })}>{copy.back}</button
+          >{/if}
+      </footer>
+    </main>
+  {/if}
 </DisplayTransition>
 
 <style>
@@ -423,13 +427,6 @@
   .audio-note {
     margin: 25px 0 0 38px;
     font-size: var(--type-caption);
-    color: var(--display-text-muted);
-  }
-  .completion-note {
-    display: flex;
-    gap: 22px;
-    margin: 54px 0 0 16px;
-    font-size: var(--type-label);
     color: var(--display-text-muted);
   }
   footer {

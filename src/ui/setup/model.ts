@@ -42,9 +42,9 @@ export function updateSetup(
   if (action.type === 'back') {
     const previous: Record<SetupStage, SetupStage> = {
       language: 'language',
-      standard: 'language',
-      layout: 'standard',
-      audio: 'layout',
+      standard: 'layout',
+      layout: 'language',
+      audio: 'standard',
       complete: 'audio',
     };
     return { ...model, stage: previous[model.stage] };
@@ -53,12 +53,12 @@ export function updateSetup(
   switch (action.type) {
     case 'language':
       return {
-        stage: 'standard',
+        stage: 'layout',
         configuration: { ...model.configuration, language: action.value },
       };
     case 'standard':
       return {
-        stage: 'layout',
+        stage: 'audio',
         configuration: {
           ...model.configuration,
           displayStandard: action.value,
@@ -66,7 +66,7 @@ export function updateSetup(
       };
     case 'layout':
       return {
-        stage: 'audio',
+        stage: 'standard',
         configuration: { ...model.configuration, layout: action.value },
       };
     case 'audio':

@@ -252,8 +252,9 @@ screen; no later boot update can resume playback after bypass.
 
 ## Phase 3A first-run configuration
 
-The current path is boot → linguistic interface → display standard → display geometry → audio channel
-→ intelligence-configuration-required placeholder. Boot bypass now enters setup;
+Phase 3A originally ended at an intelligence-configuration-required placeholder.
+Phase 3B extends the path: boot → linguistic interface → display geometry → display standard
+→ audio channel → intelligence selection → confirmation → dormant shell. Boot bypass now enters setup;
 it does not bypass configuration. Reload starts a fresh session. No character
 selection or terminal entry is implemented in Phase 3A.
 
@@ -273,7 +274,7 @@ cards or hover-dependent interaction. Focus moves to the retained/default choice
 on entering a stage; the completion heading receives focus. Controls are inert
 until the display has fully expanded, preventing accidental repeated confirmation.
 
-Escape returns from layout to language, audio to layout, and completion to audio,
+Escape returns from layout to language, standard to layout, and audio to standard,
 retaining confirmed values. A matching `ESC / RETURN` / `ESC / ВОЗВРАТ` control makes
 revision available to the mouse. Escape has no action at the first language stage.
 
@@ -334,4 +335,37 @@ preview palettes. The setting remains in-session, defaulting to CIVIC on reload.
 Standard changes affect chrome, boot/system text, setup, command notation and
 rules. Future portraits, digitized images and authored media own their own colour
 treatment: no global filter, tint, blend or image-processing operation is applied.
-The completion boundary remains Phase 3A; character selection is still deferred.
+Phase 3B now attaches selection to the setup completion boundary.
+
+## Phase 3B intelligence channels
+
+Three simultaneous open channels occupy the 640 × 400 display horizontally:
+ALETHEIA, AURA, THEMIS. Each column is 176 logical pixels wide, separated by 32 pixels,
+with 24-pixel outer margins. Sparse calibration fields, an index, identity rule,
+philosophical origin and two short behavioural lines introduce configurations rather
+than avatar cards. Copy is authored in Russian and English from the Character Bible;
+it is provisional UI text, not dialogue or new lore.
+
+Each portrait placeholder has an exact **144 × 180 logical pixel canvas (4:5)**,
+with its one-pixel outline outside that canvas. This leaves a consistent head/shoulder
+field for future digitized assets. No human silhouette or portrait is simulated.
+Registration corners and a quiet central calibration mark identify an empty image
+channel. Final art and image degradation remain deferred.
+
+ALETHEIA initially has focus. Left/Right wrap at either end; Enter confirms.
+Native buttons also support mouse click and Space, and only the focused channel is
+in the Tab sequence. Focus has a `>` marker, extended brighter identity rule and
+keyboard underline, so it does not depend on colour. Focus changes are immediate;
+there are no hover animations, slides or scaling effects.
+
+Audio completion reuses the existing collapse/expand to reveal selection. Selection
+confirmation uses the same 220/360 ms geometry, holds the accepted identity for
+1.2 seconds, then transitions into the approved dormant shell with instance metadata.
+Reduced motion removes geometry while retaining readable confirmation time. Inputs
+are inert during geometric transitions; no conversation or runtime is activated.
+
+All chrome and calibration fields consume the existing semantic display tokens.
+CIVIC, PHOSPHOR and AMBER keep the same authored composition; no character overrides
+its display standard. Future portraits/media will retain independently authored
+colours rather than inheriting a global tint. Review the canvas crop, concise copy
+and confirmation dwell before producing final artwork.

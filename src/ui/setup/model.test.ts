@@ -3,10 +3,7 @@ import { displayStandards } from '../display/standards';
 import { createSetup, layouts, updateSetup } from './model';
 
 function geometrySetup() {
-  return updateSetup(
-    updateSetup(createSetup(), { type: 'language', value: 'ru' }),
-    { type: 'standard', value: 'civic' },
-  );
+  return updateSetup(createSetup(), { type: 'language', value: 'ru' });
 }
 
 describe('first-run configuration', () => {
@@ -15,16 +12,16 @@ describe('first-run configuration', () => {
     const stages = [model.stage];
     model = updateSetup(model, { type: 'language', value: 'ru' });
     stages.push(model.stage);
-    model = updateSetup(model, { type: 'standard', value: 'phosphor' });
-    stages.push(model.stage);
     model = updateSetup(model, { type: 'layout', value: 'B' });
+    stages.push(model.stage);
+    model = updateSetup(model, { type: 'standard', value: 'phosphor' });
     stages.push(model.stage);
     model = updateSetup(model, { type: 'audio', value: true });
     stages.push(model.stage);
     expect(stages).toEqual([
       'language',
-      'standard',
       'layout',
+      'standard',
       'audio',
       'complete',
     ]);
@@ -41,7 +38,7 @@ describe('first-run configuration', () => {
       const initial = createSetup();
       const next = updateSetup(initial, { type: 'language', value: language });
       expect(next.configuration.language).toBe(language);
-      expect(next.stage).toBe('standard');
+      expect(next.stage).toBe('layout');
       expect(initial.stage).toBe('language');
     },
   );
@@ -52,8 +49,11 @@ describe('first-run configuration', () => {
         type: 'language',
         value: 'en',
       });
-      const next = updateSetup(model, { type: 'standard', value: standard });
-      expect(next.stage).toBe('layout');
+      const next = updateSetup(
+        updateSetup(model, { type: 'layout', value: 'A' }),
+        { type: 'standard', value: standard },
+      );
+      expect(next.stage).toBe('audio');
       expect(
         updateSetup(next, { type: 'back' }).configuration.displayStandard,
       ).toBe(standard);
@@ -66,12 +66,13 @@ describe('first-run configuration', () => {
         type: 'layout',
         value: layout,
       });
-      expect(next.stage).toBe('audio');
+      expect(next.stage).toBe('standard');
       expect(next.configuration.layout).toBe(layout);
     },
   );
   it('allows audio revision without losing the display standard', () => {
     let model = updateSetup(geometrySetup(), { type: 'layout', value: 'C' });
+    model = updateSetup(model, { type: 'standard', value: 'civic' });
     model = updateSetup(model, { type: 'audio', value: true });
     expect(model.configuration.audioEnabled).toBe(true);
     model = updateSetup(model, { type: 'back' });
@@ -89,7 +90,7 @@ describe('first-run configuration', () => {
   });
   it('walks back without clearing values', () => {
     let model = updateSetup(geometrySetup(), { type: 'layout', value: 'B' });
-    for (const expected of ['layout', 'standard', 'language', 'language']) {
+    for (const expected of ['layout', 'language', 'language', 'language']) {
       model = updateSetup(model, { type: 'back' });
       expect(model.stage).toBe(expected);
     }
