@@ -1,5 +1,5 @@
 <script lang="ts">
-  import aletheiaNeutral from '../../assets/portraits/aletheia/neutral.png';
+  import NeutralPortrait from '../portrait/NeutralPortrait.svelte';
   import { onDestroy, tick } from 'svelte';
   import { characterIds, type CharacterId } from '../../core/character/id';
   import { intelligenceMessages } from '../../locales/intelligence';
@@ -152,19 +152,11 @@
                   >0{index + 1} / <span>{copy.channel}</span></span
                 >
                 <span class="portrait" aria-hidden="true">
-                  {#if character === 'aletheia'}
-                    <img
-                      src={aletheiaNeutral}
-                      alt=""
-                      width="144"
-                      height="180"
-                      draggable="false"
-                    />
-                  {:else}
+                  <NeutralPortrait {character} decorative>
                     <span class="calibration"></span><span class="canvas-label"
                       >144 × 180 / {String(index + 1).padStart(2, '0')}</span
                     >
-                  {/if}
+                  </NeutralPortrait>
                 </span>
                 <span class="identity"
                   ><span class="pointer" aria-hidden="true">&gt;</span
@@ -197,13 +189,6 @@
 </DisplayTransition>
 
 <style>
-  img {
-    display: block;
-    width: 144px;
-    height: 180px;
-    image-rendering: pixelated;
-  }
-
   .experience {
     width: 100%;
     height: 100%;
