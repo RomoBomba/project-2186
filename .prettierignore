@@ -5,3 +5,5 @@ package-lock.json
 docs/references/_private/
 
 .npm-cache/
+
+src/generated/

@@ -1,26 +1,26 @@
-import type { CharacterId } from './id';
-import { characterProfiles } from './profile';
+import type { CharacterId } from './id.ts';
+import { characterProfiles } from './profile.ts';
 import {
   initialCharacterState,
   transitionCharacterState,
   type CharacterEvent,
   type CharacterState,
-} from './state';
+} from './state.ts';
 import {
   initialRelationshipState,
   updateRelationship,
   type RelationshipState,
-} from './relationship';
+} from './relationship.ts';
 import {
   initialUserStyleProfile,
   updateUserStyle,
   type SurfaceObservation,
   type UserStyleProfile,
-} from './user-style';
+} from './user-style.ts';
 import {
   deriveBehaviourDisposition,
   type BehaviourDisposition,
-} from './behaviour-policy';
+} from './behaviour-policy.ts';
 export type CharacterRuntime = {
   characterId: CharacterId;
   characterState: CharacterState;

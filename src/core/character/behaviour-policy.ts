@@ -1,8 +1,8 @@
-import { unit } from './numbers';
-import type { CharacterProfile } from './profile';
-import type { CharacterState } from './state';
-import type { RelationshipState } from './relationship';
-import type { UserStyleProfile } from './user-style';
+import { unit } from './numbers.ts';
+import type { CharacterProfile } from './profile.ts';
+import type { CharacterState } from './state.ts';
+import type { RelationshipState } from './relationship.ts';
+import type { UserStyleProfile } from './user-style.ts';
 export type BehaviourDisposition = {
   warmth: number;
   directness: number;

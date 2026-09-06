@@ -99,11 +99,14 @@ permission to speak on behalf of the system; it does not become the system.
 | 11    | Offline events and minimal dreams/reflections                         |
 | 12    | Polish, tests and production build                                    |
 
-Phases 0–4 are approved. Phase 5 introduces session-only character profiles, dynamic
+Phases 0–6 and the initial canonical corpus are approved. Phase 5 introduced session-only character profiles, dynamic
 state, relationship, surface user-style metrics and derived behavioural dispositions.
 Identity remains immutable and independent of UI, fixtures and any future model.
-The communication fixtures continue unchanged; internal numeric values remain hidden.
-Knowledge, memory, cognition, persistence and later systems require separate authorization.
+Phase 7 now uses perception, authored concept attention, ResponsePolicy and ResponsePlan
+to guide BasicIntelligenceProvider. Knowledge remains author-curated; unknown subjects
+receive explicit limitations. Internal numeric values stay hidden. The Phase 4
+fixtures are no longer the normal response path. Persistent memory and later systems
+require separate authorization.
 Later options include remote
 or local LLMs, Tool extensions, Tauri, SQLite and controlled agent capabilities.
 No large local models, LangChain, agent frameworks, vector databases,

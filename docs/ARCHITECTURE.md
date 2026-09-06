@@ -563,3 +563,169 @@ Phase 4 fixture selection, wording, UI and SemanticTransmission remain unchanged
 Phase 7 may consume match evidence, small related sets and affinity when explicitly
 authorized; no ResponsePlan, BasicIntelligenceProvider, dialogue-act classification,
 reasoning, memory or response generation is introduced here.
+
+## Phase 7 built-in intelligence
+
+The normal terminal response source is now ConversationEngine +
+BasicIntelligenceProvider, not the Phase 4 fixture cycle. The fixtures remain only
+for isolated tests. No memory, persistent facts, semantic trust updates, external
+model, network request or tool capability is introduced. Canonical YAML, Phase 5
+calibration, approved presentation and SemanticTransmission timings are unchanged.
+
+### Canonical build delivery
+
+`npm run knowledge:build` uses the existing Node repository loader/validator and
+writes `src/generated/knowledge.ts`. The resource contains only canonical validated
+ConceptCard records, sorted by ID; arrays preserve authored order. It has a generated
+header, no timestamp, and is rewritten only if its content changes. `src/generated/`
+is gitignored and excluded from lint/format (but included in TypeScript checking).
+No fixtures or YAML parser enter this resource. Invalid YAML stops generation/dev/build.
+
+Generation runs automatically before dev, typecheck, test/test:watch and
+intelligence:inspect; build invokes typecheck. Thus a clean checkout needs no
+manual generation. After editing YAML during a live dev session, run knowledge:build
+again; Vite can reload the generated module. No extra watcher or codegen framework.
+`application/intelligence.ts` imports the generated plain data and composes the
+stateless graph/matcher/provider. Core knows nothing about YAML, Node or Vite.
+Node CLI inspection imports that same composition. Existing character modules use
+explicit .ts relative import paths for Node 24 execution; their formulas are unchanged.
+
+### Perception and attention
+
+Perception is a small ordered surface classifier: identity, disagreement,
+uncertainty, explanation, greeting, opinion, personal disclosure, then question or
+other. Evidence is a matched phrase or punctuation/opening marker, not a psychological
+inference. Greeting/identity/explanation/opinion/disclosure patterns use token-boundary
+prefixes; disagreement/uncertainty may occur inside the message. English
+"what does … mean" is an explicit explanation pattern. Russian and English resources
+are separate, using the existing Unicode normalization. First person alone is not
+an identity concept or disclosure. No sentiment, morphology or neural parser exists.
+
+Perception carries raw ConceptMatcher results separately. The approved threshold 65
+is used, with allowFallback:false. Response material and graph associations must
+exist in the requested locale; the provider never inserts another locale's text.
+
+Attention preserves raw matching scores. Within relevance classes, the score is
+.85 × (match score / 100) + .15 × character affinity. Relevance classes are ordered
+first: exact alias (100), exact title (90), overlap. This guard prevents low-affinity
+exact matches from being displaced by weaker matches. Equal attention scores use
+ascending ConceptId. Attention is inspectable separately from matching.
+
+At most one associated concept is selected from graph depth 1/limit 6, restricted
+to the requested locale. Preference = 1 if also matched + affinity − .2 if its
+material appears in recent history; ID breaks ties. Relations remain authored
+associations, never inferred causal claims. A candidate association enters the plan
+only when connect is selected.
+
+### Policy and serializable intent
+
+Response strategies are greet, identify_self, reflect, clarify, connect,
+gentle_challenge, contrast, ask_follow_up and admit_uncertainty. Identity questions
+choose identify_self. Greetings without concepts choose greet. No concept + question
+chooses admit_uncertainty; other unmatched input chooses clarification. No fixture
+fallback or invented facts. A matched greeting can proceed to conceptual discussion.
+
+Otherwise available strategies receive explicit weights from BehaviourDisposition:
+
+- reflect: .8 + .9 warmth + .4 (1 − personalDistance), plus .25 for uncertainty;
+- clarify: .5 + .8 structureBias + .2 directness, plus .5 for uncertainty and
+  3 for an explanation request;
+- gentle_challenge (requires tension): .3 + 1.9 challengeBias + .2 desiredVerbosity
+  - .25 uncertaintyTolerance, plus .35 for opinion/disagreement;
+- contrast (requires tension): .2 + 1.9 structureBias + .4 directness;
+- ask_follow_up (requires question): .2 + 1.9 questionBias, plus .25 for a question;
+- connect (requires association): .2 + 1.2 warmth + .5 questionBias
+  - (1 − personalDistance), plus .8 when the related concept also matched.
+
+Subtract .18 per recent occurrence of a strategy and 1 for immediate repetition.
+Highest weight wins; fixed candidate order breaks equal weights. There is no
+character-ID branch in strategy policy. State/relationship/style effects enter only
+through the approved disposition, with small indirect energy effects on length and
+challenge. Strong constraints (such as identity/unknown handling) precede preferences.
+
+ResponsePlan contains strategy, optional primary/associated IDs, match-strength
+knowledgeConfidence (not truth probability), disposition, desiredLength, selected
+MaterialRefs, optional questionIntent and certainty. A reference is conceptId +
+summary/claim/tension/question + index. It contains no raw transcript, UI timing,
+prompts or persistent memory references.
+
+Clarify prefers summary; reflect prefers a claim; challenge selects claim + tension;
+contrast selects tension; follow-up selects a claim and a question; connect selects
+one claim from each of two related concepts. Only available material is considered.
+Unused material is preferred, then least recently used, with authored index as tie
+breaker. Oversized units are skipped in favour of smaller kinds where possible.
+A plan uses at most two knowledge units. Questions are selected by policy, never
+printed solely because a match has questions.
+
+### Provider and surface realization
+
+IntelligenceProvider.respond(context, plan) is asynchronous and returns complete
+text plus usedMaterialKeys. Context contains immutable CharacterProfile, disposition,
+locale, turnIndex and the selected authored material. There are no model-specific
+tokens, temperatures or prompts in the boundary. The provider cannot update state,
+relationship or history; the caller owns all transitions.
+
+BasicIntelligenceProvider does deterministic realization without re-matching user
+input. `characters/<id>/voice.ts` contains small RU/EN voice resources: greetings,
+identity, uncertainty and clarification. Strategy-announcement prefixes have been
+removed. Definitions/claims/tensions/questions come directly from selected canonical
+material, with no automatic paraphrasing. Greeting,
+identity and unknown variants alternate by completed turn index modulo bank length.
+No random source or wall clock selects content. Voice is separate from numeric profiles.
+
+Verbosity < .35 allows at most 300 characters/2 sentences; < .65 allows 420/3;
+otherwise 480/3. Realization counts the complete composed material against those
+limits. It drops whole units rather than slicing words/sentences. If nothing fits,
+it uses the character's uncertainty language. KnowledgeConfidence/certainty and
+all internal scores remain invisible. A future LLM will receive structured context
+and ResponsePlan; it will not own character, state, relationship, memory or the
+knowledge source of truth.
+
+### Session ownership and asynchronous terminal boundary
+
+A terminal session owns ResponseHistory: completed turn index, last 6 strategies,
+last 8 actually realized material keys. This is anti-repetition metadata, not Phase 8
+memory, user facts or long-term topic tracking. It is discarded on reload/unmount.
+ConversationEngine is stateless across calls; it returns inspection data and a next
+history proposal. The session commits history only when transmission finishes.
+
+Submission still trims/checks input and updates Phase 5 surface style/receipt state.
+FORMING covers the provider await; then complete text enters the unmodified
+SemanticTransmission scheduler (including its 450 ms forming hold or reduced path).
+First visible chunk emits responseStarted, completion emits responseCompleted.
+Submissions remain locked while awaiting/transmitting. Cancellation ignores late
+provider results and cancels playback; neither history nor relationship gets credit.
+Provider rejection restores idle/ready through existing lifecycle operations and
+shows localized transmission-failure copy; it does not pretend a successful exchange
+or silently use a fixture. No timeout/network implementation is added for Basic.
+
+`npm run intelligence:inspect -- --character aletheia --locale ru --text "память?"`
+prints perception, matches, attention, disposition/plan, candidate weights, selected
+material references and final text, never entire cards. It uses canonical generation
+and the exact browser pipeline, starting a fresh session with the normal receipt
+style/state update and synthetic timestamps that do not influence content. Tests can
+supply explicit history to inspect repeat turns. No inspection panel enters the artwork.
+
+### Phase 7 surface refinement
+
+`core/intelligence/surface.ts` composes whole authored units without announcing
+its strategy. Its small shape vocabulary is direct statement, statement + question,
+observation + tension, and two related statements. A unit may already contain more
+than one sentence; available material and the existing verbosity budget determine
+the final sentence count. Connect separates related statements with a line break;
+challenge separates observation and tension when desiredVerbosity >= .35, otherwise
+keeps them together. Direct reflection, distinction and follow-up use ordinary
+sentence spacing. Missing/oversized units are omitted whole, as before.
+
+Juxtaposition is the neutral connection: the realizer deliberately does not insert
+“therefore”, “but” or “and yet” solely because two concepts are related. Such claims
+must already be authored in the selected material. No new factual or causal text,
+paraphrase rules, generic questions or character-ID strategy branches are added.
+The selected authored tension itself expresses Themis's distinction; Aletheia's
+observation/question and Aura's paired thoughts no longer carry template labels.
+
+Question frequency remains controlled by the approved disposition-based policy
+and its existing repetition penalties. Realization does not append a question to
+other strategies or suppress a selected question for a character-specific quota.
+Unknown/greeting/identity resources and all timing remain unchanged. The response
+is still complete before SemanticTransmission begins.

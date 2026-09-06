@@ -1,4 +1,4 @@
-import type { CharacterId } from './id';
+import type { CharacterId } from './id.ts';
 
 export type CharacterProfile = Readonly<{
   id: CharacterId;

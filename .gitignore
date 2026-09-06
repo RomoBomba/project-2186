@@ -10,3 +10,6 @@ coverage/
 docs/references/_private/
 
 .npm-cache/
+
+# Deterministic canonical corpus; regenerated before dev/check/build.
+src/generated/

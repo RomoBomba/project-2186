@@ -1,5 +1,5 @@
-import { approach, bounded, unit } from './numbers';
-import type { CharacterProfile } from './profile';
+import { approach, bounded, unit } from './numbers.ts';
+import type { CharacterProfile } from './profile.ts';
 
 export const characterActivities = [
   'idle',

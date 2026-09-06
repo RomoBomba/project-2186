@@ -1,4 +1,4 @@
-import { approach, unit } from './numbers';
+import { approach, unit } from './numbers.ts';
 export type RelationshipState = {
   familiarity: number;
   trust: number;

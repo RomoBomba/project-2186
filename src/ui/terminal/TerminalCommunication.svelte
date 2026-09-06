@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tick, untrack } from 'svelte';
+  import { conversationEngine } from '../../application/intelligence';
   import type { CharacterId } from '../../core/character/id';
   import type { Locale } from '../../core/language/locale';
   import { systemMessages } from '../../locales/system';
@@ -44,6 +45,7 @@
       (record) => {
         announcement = `${record.speaker.toUpperCase()} / ${record.text}`;
       },
+      conversationEngine,
       untrack(() => reducedMotion),
     );
     controller = current;

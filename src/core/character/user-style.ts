@@ -1,4 +1,4 @@
-import { approach, bounded, unit } from './numbers';
+import { approach, bounded, unit } from './numbers.ts';
 export type UserStyleProfile = {
   verbosity: number;
   formality: number;

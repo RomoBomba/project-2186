@@ -5,7 +5,10 @@ import {
 import { observeSurface } from '../../core/character/user-style';
 import type { CharacterId } from '../../core/character/id';
 import type { Locale } from '../../core/language/locale';
-import { phase4Response } from '../../fixtures/phase4-responses';
+import { characterProfiles } from '../../core/character/profile';
+import type { ConversationEngine } from '../../core/conversation/engine';
+import { initialResponseHistory } from '../../core/conversation/model';
+import { terminalMessages } from '../../locales/terminal';
 import {
   segmentTransmission,
   startSemanticTransmission,
@@ -26,11 +29,12 @@ export function createCommunicationSession(
   locale: Locale,
   publish: (session: CommunicationSession) => void,
   completed: (record: TranscriptRecord) => void,
+  engine: ConversationEngine,
   reducedMotion = false,
 ) {
   let session: CommunicationSession = { state: 'ready', records: [] };
   let characterRuntime = createCharacterRuntime(character, Date.now());
-  let exchange = 0;
+  let responseHistory = initialResponseHistory();
   let disposed = false;
   let reduced = reducedMotion;
   let playback: ReturnType<typeof startSemanticTransmission> | undefined;
@@ -38,6 +42,9 @@ export function createCommunicationSession(
     // Detached data snapshot for tests/inspection; never rendered by the artwork.
     inspectCharacter() {
       return structuredClone(characterRuntime);
+    },
+    inspectResponseHistory() {
+      return structuredClone(responseHistory);
     },
     submit(raw: string): boolean {
       if (disposed || session.state !== 'ready') return false;
@@ -49,7 +56,7 @@ export function createCommunicationSession(
         at: Date.now(),
         observation,
       });
-      const fullResponse = phase4Response(character, locale, exchange++);
+
       const user: TranscriptRecord = {
         id: session.records.length + 1,
         speaker: 'user',
@@ -65,33 +72,66 @@ export function createCommunicationSession(
         records: [...session.records, user, response],
       };
       publish(session);
-      playback = startSemanticTransmission(
-        segmentTransmission(fullResponse),
-        (chunk) => {
-          if (session.state === 'forming')
-            characterRuntime = transitionCharacterRuntime(characterRuntime, {
-              type: 'responseStarted',
-              at: Date.now(),
-            });
-          response = { ...response, text: response.text + chunk };
+      void engine
+        .respond(
+          text,
+          characterProfiles[character],
+          characterRuntime.disposition,
+          locale,
+          responseHistory,
+        )
+        .then((result) => {
+          if (disposed) return;
+          playback = startSemanticTransmission(
+            segmentTransmission(result.response.text),
+            (chunk) => {
+              if (session.state === 'forming')
+                characterRuntime = transitionCharacterRuntime(
+                  characterRuntime,
+                  {
+                    type: 'responseStarted',
+                    at: Date.now(),
+                  },
+                );
+              response = { ...response, text: response.text + chunk };
+              session = {
+                ...session,
+                state: 'transmitting',
+                records: [...session.records.slice(0, -1), response],
+              };
+              publish(session);
+            },
+            () => {
+              characterRuntime = transitionCharacterRuntime(characterRuntime, {
+                type: 'responseCompleted',
+                at: Date.now(),
+              });
+              responseHistory = result.nextHistory;
+              session = { ...session, state: 'ready' };
+              publish(session);
+              completed(response);
+            },
+            reduced,
+          );
+        })
+        .catch(() => {
+          if (disposed) return;
+          // Provider failure is not a successful exchange and must not grow relationship.
+          characterRuntime = transitionCharacterRuntime(characterRuntime, {
+            type: 'sessionStarted',
+            at: Date.now(),
+          });
+          response = {
+            ...response,
+            text: terminalMessages[locale].unavailable,
+          };
           session = {
-            ...session,
-            state: 'transmitting',
+            state: 'ready',
             records: [...session.records.slice(0, -1), response],
           };
           publish(session);
-        },
-        () => {
-          characterRuntime = transitionCharacterRuntime(characterRuntime, {
-            type: 'responseCompleted',
-            at: Date.now(),
-          });
-          session = { ...session, state: 'ready' };
-          publish(session);
           completed(response);
-        },
-        reduced,
-      );
+        });
       return true;
     },
     reduceMotion() {

@@ -10,9 +10,11 @@ type TerminalMessages = {
   transmitting: string;
   opening: string;
   waiting: string;
+  unavailable: string;
 };
 export const terminalMessages: Record<Locale, TerminalMessages> = {
   ru: {
+    unavailable: 'Передача ответа прервана. Можно повторить запрос.',
     you: 'ВЫ',
     history: 'Журнал связи',
     command: 'Сообщение',
@@ -24,6 +26,8 @@ export const terminalMessages: Record<Locale, TerminalMessages> = {
     waiting: 'Введите сообщение в командный канал.',
   },
   en: {
+    unavailable:
+      'Response transmission interrupted. You can repeat the request.',
     you: 'YOU',
     history: 'Communication record',
     command: 'Message',

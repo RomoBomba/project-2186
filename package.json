@@ -7,17 +7,19 @@
     "node": ">=24.0.0 <25"
   },
   "scripts": {
-    "dev": "npm run knowledge:check && vite",
-    "typecheck": "svelte-check --tsconfig ./tsconfig.json && tsc --noEmit",
+    "dev": "npm run knowledge:build && vite",
+    "typecheck": "npm run knowledge:build && svelte-check --tsconfig ./tsconfig.json && tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "npm run knowledge:build && vitest run",
+    "test:watch": "npm run knowledge:build && vitest",
     "build": "npm run knowledge:check && npm run typecheck && vite build",
     "preview": "vite preview",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
-    "knowledge:check": "node src/infrastructure/knowledge/check.ts"
+    "knowledge:check": "node src/infrastructure/knowledge/check.ts",
+    "knowledge:build": "node src/infrastructure/knowledge/build-command.ts",
+    "intelligence:inspect": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts"
   },
   "dependencies": {
     "svelte": "^5.57.0"

@@ -9,6 +9,7 @@ export default ts.config(
   {
     ignores: [
       'dist/**',
+      'src/generated/**',
       'coverage/**',
       'node_modules/**',
       '.npm-cache/**',
