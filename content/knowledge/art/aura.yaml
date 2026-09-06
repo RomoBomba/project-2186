@@ -1,0 +1,75 @@
+id: art.aura
+domain: art
+
+title:
+  ru: 'Аура'
+  en: 'Aura'
+
+aliases:
+  ru:
+    - 'аура произведения'
+    - 'аура искусства'
+    - 'уникальное присутствие'
+    - 'присутствие оригинала'
+  en:
+    - 'artistic aura'
+    - 'aura of an artwork'
+    - 'unique presence'
+    - 'presence of the original'
+
+summary:
+  ru: >
+    Аура описывает особое присутствие объекта или произведения, связанное
+    с его уникальностью, историей и конкретным существованием во времени и пространстве.
+    Техническое воспроизведение способно сохранить содержание или внешний вид,
+    но ставит вопрос о том, можно ли воспроизвести само присутствие оригинала.
+  en: >
+    Aura describes a particular presence of an object or artwork associated
+    with its uniqueness, history, and specific existence in time and space.
+    Technical reproduction may preserve content or appearance, while raising
+    the question of whether the presence of the original can itself be reproduced.
+
+claims:
+  ru:
+    - 'Информационно точная копия не обязательно воспринимается так же, как оригинал.'
+    - 'История объекта может становиться частью того, как человек воспринимает его ценность.'
+    - 'Уникальность может зависеть не только от свойств объекта, но и от обстоятельств встречи с ним.'
+  en:
+    - 'An informationally accurate copy is not necessarily experienced in the same way as an original.'
+    - 'The history of an object may become part of how its value is perceived.'
+    - "Uniqueness may depend not only on the object's properties, but also on the circumstances of encountering it."
+
+tensions:
+  ru:
+    - 'Если копия полностью повторяет воспринимаемые свойства оригинала, остаётся вопрос, где именно находится различие между ними.'
+    - 'Массовое воспроизведение делает произведение доступнее, но может изменить характер отношения человека к его уникальности.'
+  en:
+    - 'If a copy reproduces every perceptible property of the original, it remains unclear where the difference between them resides.'
+    - 'Mass reproduction makes a work more accessible while potentially changing the way its uniqueness is experienced.'
+
+questions:
+  ru:
+    - 'Может ли идеальная копия обладать той же аурой, что и оригинал?'
+    - 'Может ли цифровой объект быть уникальным, если его можно воспроизвести без потери информации?'
+    - 'Принадлежит ли аура самому объекту или возникает в отношениях между объектом и наблюдателем?'
+    - 'Может ли воспоминание сохранять присутствие того, чего больше не существует?'
+  en:
+    - 'Can a perfect copy possess the same aura as an original?'
+    - 'Can a digital object be unique if it can be reproduced without loss of information?'
+    - 'Does aura belong to the object itself, or arise in the relation between object and observer?'
+    - 'Can a memory preserve the presence of something that no longer exists?'
+
+related:
+  - identity.memory
+  - philosophy.truth
+  - world.archives
+
+character_affinity:
+  aletheia: 0.75
+  aura: 1.0
+  themis: 0.45
+
+sources:
+  - author: 'Walter Benjamin'
+    work: 'The Work of Art in the Age of Mechanical Reproduction'
+    note: "Background for PROJECT 2186 author's synthesis on aura, presence, originality, and technical reproduction."

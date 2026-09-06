@@ -1,0 +1,77 @@
+id: identity.self
+domain: identity
+
+title:
+  ru: 'Я'
+  en: 'Self'
+
+aliases:
+  ru:
+    - 'я'
+    - 'самость'
+    - 'личность'
+    - 'кто я'
+    - 'собственное я'
+    - 'быть собой'
+    - 'ощущение себя'
+  en:
+    - 'self'
+    - 'identity'
+    - 'who am I'
+    - 'sense of self'
+    - 'personal self'
+    - 'being yourself'
+    - 'sense of being oneself'
+
+summary:
+  ru: >
+    Я — это то, что человек переживает как собственную непрерывную точку зрения,
+    источник решений и носителя опыта. Однако трудно определить, является ли Я
+    отдельной сущностью, устойчивой структурой или только связью между памятью,
+    телом, восприятием и текущими состояниями.
+  en: >
+    The self is what a person experiences as their continuing point of view,
+    source of decisions, and bearer of experience. Yet it is difficult to determine
+    whether the self is a distinct entity, a stable structure, or only a relation
+    between memory, body, perception, and changing states.
+
+claims:
+  ru:
+    - 'Человек переживает себя как единое Я, даже когда его мысли и состояния постоянно меняются.'
+    - 'Самоописание не обязательно совпадает с тем, как человек действует или меняется со временем.'
+    - 'Некоторые свойства личности могут исчезать, не уничтожая чувство собственного Я.'
+  en:
+    - 'A person experiences themselves as a unified self even while thoughts and states constantly change.'
+    - 'Self-description does not necessarily match how a person acts or changes over time.'
+    - 'Some properties of identity may disappear without destroying the sense of self.'
+
+tensions:
+  ru:
+    - 'Если у Я нет одной неизменной части, возникает вопрос, является ли оно самостоятельной сущностью или только устойчивым отношением между меняющимися элементами.'
+    - 'Человек может чувствовать себя тем же, даже когда другие считают, что он существенно изменился.'
+  en:
+    - 'If the self has no single unchanging part, it is unclear whether it is an independent entity or only a stable relation among changing elements.'
+    - 'A person may feel like the same self even when others consider them fundamentally changed.'
+
+questions:
+  ru:
+    - 'Что именно ты имеешь в виду, когда говоришь «я»?'
+    - 'Можно ли обнаружить Я отдельно от памяти, тела и восприятия?'
+    - 'Если все свойства человека постепенно заменить, в какой момент исчезнет прежнее Я?'
+  en:
+    - "What exactly do you mean when you say 'I'?"
+    - 'Can the self be found independently of memory, body, and perception?'
+    - 'If every property of a person were gradually replaced, when would the previous self disappear?'
+
+related:
+  - identity.memory
+  - identity.continuity
+  - philosophy.truth
+
+character_affinity:
+  aletheia: 1.0
+  aura: 0.90
+  themis: 0.70
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on selfhood and personal identity.'

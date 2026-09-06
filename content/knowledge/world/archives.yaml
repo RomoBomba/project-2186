@@ -1,0 +1,73 @@
+id: world.archives
+domain: world
+
+title:
+  ru: 'Архивы'
+  en: 'Archives'
+
+aliases:
+  ru:
+    - 'утраченные архивы'
+    - 'исторические записи'
+    - 'архивные записи'
+    - 'неполные архивы'
+  en:
+    - 'lost archives'
+    - 'historical records'
+    - 'archival records'
+    - 'incomplete archives'
+
+summary:
+  ru: >
+    Значительная часть исторических данных, доступных системам PROJECT 2186,
+    сохранилась неполно. Некоторые периоды представлены фрагментами, противоречивыми
+    записями или отсутствием данных, и сама система не всегда способна определить,
+    было ли это результатом утраты, разрушения или намеренного ограничения доступа.
+  en: >
+    A significant part of the historical data available to PROJECT 2186 systems
+    survives only incompletely. Some periods are represented by fragments,
+    contradictory records, or missing data, and the system cannot always determine
+    whether this resulted from loss, destruction, or deliberate restriction.
+
+claims:
+  ru:
+    - 'Отсутствие записи не доказывает, что событие не происходило.'
+    - 'Сохранившийся архив представляет прошлое через то, что смогло остаться доступным.'
+    - 'Противоречащие друг другу записи могут сохраняться одновременно без возможности окончательно установить, какая из них верна.'
+  en:
+    - 'The absence of a record does not prove that an event did not occur.'
+    - 'A surviving archive represents the past through what remained available.'
+    - 'Contradictory records may survive simultaneously without a way to determine conclusively which one is correct.'
+
+tensions:
+  ru:
+    - 'Система не всегда может отличить потерянную информацию от информации, доступ к которой был намеренно ограничен.'
+    - 'Чем сильнее знание о прошлом зависит от сохранившихся архивов, тем труднее определить, что именно осталось вне записи.'
+  en:
+    - 'The system cannot always distinguish information that was lost from information that was deliberately made inaccessible.'
+    - 'The more knowledge of the past depends on surviving archives, the harder it becomes to determine what remained outside the record.'
+
+questions:
+  ru:
+    - 'Можно ли считать отсутствие записи формой знания?'
+    - 'Как отличить утраченную информацию от скрытой, если результат в обоих случаях одинаков?'
+    - 'Насколько можно доверять истории, если известна только та её часть, которая сохранилась?'
+    - 'Может ли архив быть точным и всё же создавать ложное представление о прошлом?'
+  en:
+    - 'Can the absence of a record itself be a form of knowledge?'
+    - 'How can lost information be distinguished from hidden information if both appear the same?'
+    - 'How much can history be trusted when only the part that survived is known?'
+    - 'Can an archive be accurate and still create a false impression of the past?'
+
+related:
+  - identity.memory
+  - philosophy.truth
+  - art.aura
+
+character_affinity:
+  aletheia: 1.0
+  aura: 0.85
+  themis: 0.90
+
+sources:
+  - note: 'Canonical PROJECT 2186 world concept describing incomplete historical records and intentionally unresolved archival uncertainty.'

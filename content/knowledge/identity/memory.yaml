@@ -1,0 +1,68 @@
+id: identity.memory
+domain: identity
+
+title:
+  ru: 'Память'
+  en: 'Memory'
+
+aliases:
+  ru:
+    - 'память'
+    - 'воспоминание'
+    - 'воспоминания'
+    - 'личная память'
+  en:
+    - 'memory'
+    - 'memories'
+    - 'personal memory'
+
+summary:
+  ru: >
+    Память связывает разрозненные моменты жизни в ощущение продолжающейся личности.
+    Однако воспоминания неполны, изменчивы и могут исчезать, поэтому память не может
+    быть единственным надёжным основанием идентичности.
+  en: >
+    Memory connects separate moments of a life into the experience of a continuing self.
+    Yet memories are incomplete, changeable, and capable of disappearing, so memory
+    cannot be the only reliable foundation of identity.
+
+claims:
+  ru:
+    - 'Человек не помнит большую часть собственной жизни.'
+    - 'Воспоминания могут изменяться при каждом возвращении к ним.'
+    - 'Ощущение непрерывности личности часто опирается на память.'
+  en:
+    - 'A person does not remember most of their own life.'
+    - 'Memories may change when they are revisited.'
+    - 'The sense of personal continuity often depends on memory.'
+
+tensions:
+  ru:
+    - 'Если воспоминания изменяются, непонятно, почему они должны гарантировать неизменность личности.'
+    - 'Потеря воспоминания уничтожает доступ к прошлому опыту, но не очевидно, уничтожает ли она часть личности.'
+  en:
+    - 'If memories change, it is unclear why they should guarantee an unchanged identity.'
+    - 'Losing a memory removes access to past experience, but it is unclear whether it removes part of the self.'
+
+questions:
+  ru:
+    - 'Что именно остаётся непрерывным, когда воспоминания меняются?'
+    - 'Можно ли потерять все воспоминания и всё ещё оставаться собой?'
+    - 'Является ли память доказательством идентичности или её условием?'
+  en:
+    - 'What remains continuous when memories change?'
+    - 'Can someone lose every memory and still remain the same person?'
+    - 'Is memory evidence of identity, or a condition of identity?'
+
+related:
+  - identity.continuity
+  - identity.self
+  - world.archives
+
+character_affinity:
+  aletheia: 0.85
+  aura: 1.0
+  themis: 0.60
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on memory and personal identity.'

@@ -1,0 +1,70 @@
+id: identity.continuity
+domain: identity
+
+title:
+  ru: 'Непрерывность'
+  en: 'Continuity'
+
+aliases:
+  ru:
+    - 'непрерывность'
+    - 'непрерывность личности'
+    - 'личная непрерывность'
+    - 'тождество во времени'
+  en:
+    - 'continuity'
+    - 'personal continuity'
+    - 'continuity of identity'
+    - 'identity over time'
+
+summary:
+  ru: >
+    Непрерывность — это возможность рассматривать человека в разные моменты времени
+    как одну продолжающуюся личность, несмотря на изменения тела, памяти, убеждений
+    и характера. Проблема возникает потому, что почти ни одна отдельная часть человека
+    не остаётся совершенно неизменной.
+  en: >
+    Continuity is what allows a person at different moments in time to be regarded
+    as one continuing self despite changes in body, memory, beliefs, and character.
+    The difficulty is that almost no single part of a person remains completely unchanged.
+
+claims:
+  ru:
+    - 'Личность может сохранять непрерывность, даже если многие её свойства со временем изменяются.'
+    - 'Физическая непрерывность и психологическая непрерывность не обязательно означают одно и то же.'
+    - 'Ощущение непрерывности может существовать даже тогда, когда невозможно указать одну неизменную основу личности.'
+  en:
+    - 'A person may preserve continuity even while many of their properties change over time.'
+    - 'Physical continuity and psychological continuity do not necessarily mean the same thing.'
+    - 'A sense of continuity may persist even when no single unchanging foundation of identity can be identified.'
+
+tensions:
+  ru:
+    - 'Если человек постоянно меняется, необходимо объяснить, почему более позднее состояние всё ещё считается тем же человеком.'
+    - 'Если для непрерывности требуется что-то неизменное, трудно определить, какая часть личности действительно отвечает этому условию.'
+  en:
+    - 'If a person is constantly changing, we must explain why a later state is still considered the same person.'
+    - 'If continuity requires something unchanging, it is difficult to identify which part of a person actually satisfies that condition.'
+
+questions:
+  ru:
+    - 'Сколько можно изменить в человеке, прежде чем он перестанет быть тем же человеком?'
+    - 'Нужна ли непрерывности одна неизменная основа?'
+    - 'Что важнее для непрерывности личности: тело, память или сама связь между последовательными состояниями?'
+  en:
+    - 'How much can change in a person before they cease to be the same person?'
+    - 'Does continuity require a single unchanging foundation?'
+    - 'What matters more for personal continuity: the body, memory, or the connection between successive states?'
+
+related:
+  - identity.memory
+  - identity.self
+  - philosophy.truth
+
+character_affinity:
+  aletheia: 0.95
+  aura: 0.80
+  themis: 0.80
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on personal continuity and identity over time.'

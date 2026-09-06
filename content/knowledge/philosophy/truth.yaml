@@ -1,0 +1,71 @@
+id: philosophy.truth
+domain: philosophy
+
+title:
+  ru: 'Истина'
+  en: 'Truth'
+
+aliases:
+  ru:
+    - 'истина'
+    - 'несокрытость'
+    - 'что истинно'
+    - 'истинное'
+  en:
+    - 'truth'
+    - 'unconcealment'
+    - 'what is true'
+    - 'the true'
+
+summary:
+  ru: >
+    Истина может пониматься не только как правильное утверждение о мире,
+    но и как процесс, в котором нечто становится доступным для понимания.
+    В таком случае поиск истины требует не только ответа, но и обнаружения
+    предпосылок, ограничений наблюдения и того, что прежде оставалось скрытым.
+  en: >
+    Truth can be understood not only as a correct statement about the world,
+    but also as a process through which something becomes available to understanding.
+    In that sense, seeking truth requires not only an answer, but also attention
+    to assumptions, limits of observation, and what was previously concealed.
+
+claims:
+  ru:
+    - 'Правильный ответ не всегда раскрывает предпосылки, на которых построен вопрос.'
+    - 'То, что кажется очевидным, может зависеть от точки зрения и доступной информации.'
+    - 'Обнаружение ограничения собственного знания может быть частью движения к истине.'
+  en:
+    - 'A correct answer does not always reveal the assumptions on which a question is built.'
+    - 'What appears obvious may depend on perspective and available information.'
+    - "Recognizing the limits of one's own knowledge may be part of moving toward truth."
+
+tensions:
+  ru:
+    - 'Если истина зависит от того, что доступно наблюдателю, возникает вопрос, существует ли она независимо от способа её раскрытия.'
+    - 'Стремление к полной уверенности может скрывать ограничения знания вместо того, чтобы обнаруживать их.'
+  en:
+    - 'If truth depends on what becomes available to an observer, it is unclear whether it exists independently of the way it is revealed.'
+    - 'The desire for complete certainty may conceal the limits of knowledge rather than reveal them.'
+
+questions:
+  ru:
+    - 'Истина — это свойство утверждения или событие, в котором нечто становится видимым?'
+    - 'Можно ли знать, что информация отсутствует, если неизвестно, что именно было скрыто?'
+    - 'Что важнее для поиска истины: уверенность в ответе или способность обнаружить собственную ошибку?'
+  en:
+    - 'Is truth a property of a statement, or an event in which something becomes visible?'
+    - 'Can we know that information is missing if we do not know what has been concealed?'
+    - "What matters more in seeking truth: certainty in an answer, or the ability to discover one's own error?"
+
+related:
+  - identity.continuity
+  - identity.self
+  - world.archives
+
+character_affinity:
+  aletheia: 1.0
+  aura: 0.65
+  themis: 0.85
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on truth, disclosure, uncertainty, and limits of knowledge.'
