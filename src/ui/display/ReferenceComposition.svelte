@@ -1,4 +1,5 @@
 <script lang="ts">
+  import aletheiaNeutral from '../../assets/portraits/aletheia/neutral.png';
   import { defaultLocale, type Locale } from '../../core/language/locale';
   import { systemMessages } from '../../locales/system';
 
@@ -30,8 +31,18 @@
       <span class="channel-index">01 /</span>{labels.visualChannel}
     </h2>
     <div class="visual-field">
-      <div class="empty-register" aria-hidden="true"></div>
-      <p class="caption absent-image">{labels.noImage}</p>
+      {#if character === 'aletheia'}
+        <img
+          src={aletheiaNeutral}
+          alt="ALETHEIA"
+          width="144"
+          height="180"
+          draggable="false"
+        />
+      {:else}
+        <div class="empty-register" aria-hidden="true"></div>
+        <p class="caption absent-image">{labels.noImage}</p>
+      {/if}
     </div>
     <p class="caption channel-footnote" lang="ru">{specimen.visualChannel}</p>
   </section>
@@ -69,6 +80,13 @@
 </main>
 
 <style>
+  img {
+    display: block;
+    width: 144px;
+    height: 180px;
+    image-rendering: pixelated;
+  }
+
   .composition {
     width: 100%;
     height: 100%;
@@ -156,10 +174,13 @@
     grid-template-rows: 24px 184px 18px;
   }
   .visual-field {
+    width: 144px;
+    height: 180px;
+    place-self: center;
     position: relative;
     display: grid;
     place-items: center;
-    border: 1px solid var(--display-rule-secondary);
+    outline: 1px solid var(--display-rule-secondary);
     background: var(--display-background);
   }
   .empty-register {

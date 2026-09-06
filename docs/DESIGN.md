@@ -346,8 +346,10 @@ philosophical origin and two short behavioural lines introduce configurations ra
 than avatar cards. Copy is authored in Russian and English from the Character Bible;
 it is provisional UI text, not dialogue or new lore.
 
-Each portrait placeholder has an exact **144 × 180 logical pixel canvas (4:5)**,
-with its one-pixel outline outside that canvas. This leaves a consistent head/shoulder
+The canonical PROJECT 2186 portrait viewport is **144 × 180 logical pixels (4:5)**
+in both intelligence selection and the main terminal, with its one-pixel outline
+outside that canvas. The terminal frame is centered within the broader visual-channel
+region; the image fills the viewport without stretching, cropping or internal gutters. This leaves a consistent head/shoulder
 field for future digitized assets. No human silhouette or portrait is simulated.
 Registration corners and a quiet central calibration mark identify an empty image
 channel. Final art and image degradation remain deferred.
