@@ -27,7 +27,7 @@ CharacterState activity includes `idle`, `thinking`, `reading`, `resting`, and
 `dreaming`. Character openness and relationship openness are distinct scopes.
 Internal values must never become UI scores, hearts or friendship meters.
 Adaptation is slow and limited: adjust rhythm or verbosity without copying the
-user or erasing the character. Numeric ranges/weights will be decided in Phase 5.
+user or erasing the character. The initial Phase 5 numeric calibration is documented below.
 Character differences affect memory selection, concept affinities, strategy,
 personal distance, challenge, uncertainty, length, refusal and relationship growth;
 they are not just alternate sentence templates.
@@ -370,3 +370,112 @@ callbacks or queued commands survive. The read-only-during-transmission policy r
 keyboard focus. One polite announcement per completed response avoids rapid live-region
 updates. Tests cover fixture/locale parity, submission guards, ordering, segmentation,
 punctuation, completion, cancellation and reduced-motion scheduling.
+
+## Phase 5 character domain
+
+`core/character/` now owns the first character-domain implementation. All modules
+are plain TypeScript, with no Svelte, DOM, storage, audio, provider or fixture imports.
+No CharacterState value is rendered in the artwork. Profile identity, runtime state,
+relationship and user style are separate records; no mutable singleton exists.
+
+### Authored identity and numeric conventions
+
+`profile.ts` contains exactly three CharacterProfile records, deeply readonly in the
+public type and frozen at runtime (including arrays and nested objects). Stable
+fields are id/displayName, seven traits, interests, inquiry/challenge/relational/
+memory-affinity tendencies, and speech verbosity/formality/imagery. Interests are
+plain authoring identifiers, not a loaded concept graph. Memory affinity is only a
+future tendency; no memory mechanism is implemented.
+
+All traits, tendencies, disposition fields and normalized state metrics use 0–1.
+`numbers.ts` clamps finite values and replaces non-finite values with safe defaults.
+Exceptions: averageSentenceLength is a smoothed word count bounded to 0–100;
+lastInteraction is a nonnegative millisecond timestamp (or null before interaction),
+bounded to Number.MAX_SAFE_INTEGER. Time is supplied by the application, never read
+by pure domain functions. Older/invalid event timestamps cannot reverse interaction time.
+
+Initial trait calibration, following Character Bible v0.1:
+
+| Trait               | ALETHEIA | AURA | THEMIS |
+| ------------------- | -------- | ---- | ------ |
+| curiosity           | .92      | .80  | .70    |
+| introspection       | .92      | .82  | .70    |
+| warmth              | .50      | .92  | .50    |
+| directness          | .70      | .40  | .94    |
+| playfulness         | .30      | .50  | .20    |
+| ambiguity tolerance | .92      | .80  | .55    |
+| structure need      | .55      | .35  | .94    |
+
+These are provisional artistic calibrations, not measurements of psychology.
+Aletheia prioritizes inquiry/challenge; Aura has stronger relational/memory affinity;
+Themis has the most compact speech and strongest structure. No profile changes during
+conversation, and no LLM, fixture or UI owns identity.
+
+### Pure transitions and conservative development
+
+`state.ts` models mood, energy, curiosity, openness, activity and lastInteraction.
+Mood starts at .5 and remains neutral because Phase 5 has no evidence to update it.
+Energy starts at .75; curiosity is .55 + .10 × profile curiosity, and openness is
+.45 + .08 × profile warmth. Activity supports idle/thinking/reading/resting/dreaming;
+the latter three are identifiers only, with no simulation or dream behaviour.
+
+Events are sessionStarted, userMessageReceived, responseStarted, responseCompleted.
+Session start establishes idle. Receipt sets thinking and moves curiosity .8% of the
+remaining distance toward .85. Response start retains thinking. Completion returns
+idle, moves energy .2% toward .4 and current openness .1% toward .65. Changes are
+small, deterministic and saturating. No timers or elapsed-time simulation live here.
+
+`relationship.ts` begins at familiarity .05, trust .40, intellectualAffinity .50,
+relationship openness .10. Only a successfully completed exchange changes it:
+familiarity moves .4% toward 1; openness moves .1% toward .35, preserving higher
+supplied openness values. Trust remains unchanged (initially .40): Phase 5 has no
+semantic understanding that justifies trust growth from neutral completion. Future
+semantic phases may introduce explicit trust-changing signals. Intellectual affinity
+stays neutral: question
+marks and exchange counts are not evidence of intellectual agreement or shared values.
+Relationship openness describes accumulated personal access; CharacterState.openness
+is the current internal willingness. They are never aliases or UI statistics.
+
+`user-style.ts` observes only Unicode words, punctuation-delimited sentences, whether
+a question mark occurs, and exclamation density. Russian and English use the same
+surface rules; abbreviations are not semantically interpreted. EMA smoothing uses
+5% new evidence: verbosity targets min(words/60, 1); averageSentenceLength targets
+words/sentences (capped at 100); questionFrequency targets 1 or 0 per message.
+EmotionalExpressiveness is explicitly a punctuation-intensity proxy, with observation
+target .45 + min(exclamations/words, .3)/3; it does not infer emotion or sentiment.
+Formality stays neutral (.5), preferredTopics stays empty, and no raw text is stored.
+Empty/punctuation-only messages provide no style observation. Invalid values are
+sanitized; there is no NLP, dialogue-act classification or topic extraction.
+
+### BehaviourPolicy and integration boundary
+
+`behaviour-policy.ts` derives eight bounded values: warmth, directness, challengeBias,
+questionBias, desiredVerbosity, personalDistance, uncertaintyTolerance, structureBias.
+Traits/tendencies dominate. Curiosity influences inquiry/challenge; energy modestly
+influences directness, structure and length; familiarity/trust and the two openness
+values influence warmth/distance. The only style convergence is desiredVerbosity:
+styleInfluence = min(.15, .05 + .10 × normalized familiarity). Thus initial
+familiarity .05 gives a 5.5% user weight, gradually rising to at most 15%.
+Desired verbosity = authored speech verbosity × (1 − styleInfluence) + smoothed
+user verbosity × styleInfluence + the existing (energy − .75) × .05 adjustment;
+the final value remains bounded. The limit is an interpolation weight, and changing
+user style across its full range can shift desired verbosity at most .15.
+There is no punctuation/slang imitation, text generation, strategy selection or
+ResponsePlan. Unused profile/style fields remain descriptive data for later phases.
+
+`runtime.ts` applies previous records + typed event → new records → disposition.
+It retains CharacterId rather than duplicating the immutable profile in every snapshot.
+`ui/terminal/session.ts` resolves this runtime on terminal entry, supplies timestamps,
+passes a surface observation on accepted input, emits responseStarted once at the
+first transmitted chunk and responseCompleted once at completion. Rejected, duplicate
+or cancelled exchanges do not increase relationship values. Completed fixtures and
+SemanticTransmission remain completely independent of BehaviourDisposition.
+
+The session exposes `inspectCharacter()` as a detached data snapshot for integration
+tests/inspection. It is not attached to window, the DOM, the normal UI or a debug
+panel. Profile exports and pure tests provide further inspection without hidden
+production controls. Reload/unmount discards the records. All runtime records are
+JSON-serializable; future StorageProvider can persist them, with versioning/migrations
+when authorized. No persistence, knowledge, memory, BasicIntelligenceProvider or LLM
+is included. Review numeric calibration, growth rates and the 15% limit with the author
+before using the disposition to drive future response planning.

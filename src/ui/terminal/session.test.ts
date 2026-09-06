@@ -69,3 +69,55 @@ it('supports reduced-motion sessions and exact-limit commands', () => {
   vi.runAllTimers();
   expect(complete.mock.calls[0]?.[0].text).toBe(phase4Responses.en.themis[0]);
 });
+
+it.each(['aletheia', 'aura', 'themis'] as const)(
+  'evolves %s internally while preserving the fixture cycle and UI records',
+  (id) => {
+    vi.useFakeTimers();
+    let visible: CommunicationSession = { state: 'ready', records: [] };
+    const session = createCommunicationSession(
+      id,
+      'ru',
+      (s) => (visible = s),
+      vi.fn(),
+    );
+    const initial = session.inspectCharacter();
+    expect(initial.characterId).toBe(id);
+    expect(initial.characterState.activity).toBe('idle');
+    expect(session.submit('Почему меняется формулировка?')).toBe(true);
+    const received = session.inspectCharacter();
+    expect(received.characterState.activity).toBe('thinking');
+    expect(received.userStyleProfile.questionFrequency).toBeGreaterThan(
+      initial.userStyleProfile.questionFrequency,
+    );
+    expect(received.relationshipState).toEqual(initial.relationshipState);
+    vi.advanceTimersToNextTimer();
+    expect(session.inspectCharacter().characterState.activity).toBe('thinking');
+    vi.runAllTimers();
+    const completed = session.inspectCharacter();
+    expect(completed.characterState.activity).toBe('idle');
+    expect(completed.relationshipState.familiarity).toBeGreaterThan(
+      initial.relationshipState.familiarity,
+    );
+    expect(completed.relationshipState.trust).toBe(
+      initial.relationshipState.trust,
+    );
+    expect(visible.records[1]?.text).toBe(phase4Responses.ru[id][0]);
+    expect(visible.state).toBe('ready');
+    expect(Object.keys(visible)).toEqual(['state', 'records']);
+    completed.characterState.energy = 0;
+    expect(session.inspectCharacter().characterState.energy).toBeGreaterThan(0);
+    session.submit('Ещё один вопрос.');
+    vi.runAllTimers();
+    expect(visible.records[3]?.text).toBe(phase4Responses.ru[id][1]);
+    const beforeInvalid = session.inspectCharacter();
+    session.submit('  ');
+    expect(session.inspectCharacter()).toEqual(beforeInvalid);
+    session.submit('Незавершённый обмен');
+    session.cancel();
+    vi.runAllTimers();
+    expect(session.inspectCharacter().relationshipState).toEqual(
+      beforeInvalid.relationshipState,
+    );
+  },
+);

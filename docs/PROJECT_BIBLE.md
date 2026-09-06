@@ -99,11 +99,12 @@ permission to speak on behalf of the system; it does not become the system.
 | 11    | Offline events and minimal dreams/reflections                         |
 | 12    | Polish, tests and production build                                    |
 
-Phases 0–2 are complete. Phase 3A authorizes only first-run language, geometry and
-audio-preference configuration, held in session, ending at an intelligence-selection-
-required placeholder. Character selection belongs to Phase 3B and requires separate
-authorization. No terminal behaviour, character runtime, persistence, cognition,
-audio generation or later systems are authorized in Phase 3A. Later options include remote
+Phases 0–4 are approved. Phase 5 introduces session-only character profiles, dynamic
+state, relationship, surface user-style metrics and derived behavioural dispositions.
+Identity remains immutable and independent of UI, fixtures and any future model.
+The communication fixtures continue unchanged; internal numeric values remain hidden.
+Knowledge, memory, cognition, persistence and later systems require separate authorization.
+Later options include remote
 or local LLMs, Tool extensions, Tauri, SQLite and controlled agent capabilities.
 No large local models, LangChain, agent frameworks, vector databases,
 authentication or cloud user state in the web MVP.
