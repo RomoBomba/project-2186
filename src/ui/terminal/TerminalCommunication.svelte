@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { tick, untrack } from 'svelte';
+  import {
+    persistenceContext,
+    type Persistence,
+  } from '../../application/persistence';
+  import { tick, untrack, getContext } from 'svelte';
   import { conversationEngine } from '../../application/intelligence';
   import type { CharacterId } from '../../core/character/id';
   import type { Locale } from '../../core/language/locale';
@@ -21,6 +25,7 @@
     active: boolean;
     reducedMotion: boolean;
   } = $props();
+  const persistence = getContext<Persistence | undefined>(persistenceContext);
   let session = $state<CommunicationSession>({ state: 'ready', records: [] });
   let command = $state('');
   let announcement = $state('');
@@ -47,6 +52,12 @@
       },
       conversationEngine,
       untrack(() => reducedMotion),
+      persistence
+        ? {
+            initial: persistence.restore(character),
+            save: (snapshot) => persistence.saveCharacter(snapshot),
+          }
+        : undefined,
     );
     controller = current;
     return () => current.cancel();

@@ -1,3 +1,5 @@
+import { disclosureVoices } from '../../characters/disclosure.ts';
+import { memoryVoices } from '../../characters/memory.ts';
 import { contextLimit } from '../../characters/context.ts';
 import { compose } from './surface.ts';
 import { characterVoices } from '../../characters/voices.ts';
@@ -14,6 +16,30 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
     context: IntelligenceContext,
     plan: ResponsePlan,
   ): Promise<IntelligenceResponse> {
+    if (plan.userGroundedMaterial) {
+      const item = plan.userGroundedMaterial;
+      return {
+        text: disclosureVoices[context.profile.id][context.locale][
+          item.kind
+        ].replace('{value}', () => item.value),
+        usedMaterialKeys: [],
+      };
+    }
+    const memory = plan.longTermContext?.find(
+      (item) => item.id === plan.acknowledgeMemoryId,
+    );
+    if (
+      memory &&
+      (memory.kind === 'preference' ||
+        memory.kind === 'interest' ||
+        memory.kind === 'project')
+    ) {
+      return {
+        text: memoryVoices[context.profile.id][context.locale][memory.kind],
+        usedMaterialKeys: [],
+        usedMemoryIds: [memory.id],
+      };
+    }
     const voice = characterVoices[context.profile.id][context.locale];
     const select = (phrases: readonly string[]) =>
       phrases[Math.max(0, Math.floor(context.turnIndex)) % phrases.length]!;

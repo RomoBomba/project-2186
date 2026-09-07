@@ -39,7 +39,17 @@ export function recordResponse(
     materialKeys: [...history.materialKeys, ...usedKeys].slice(-8),
   };
 }
+// Explicit user testimony, never a world-knowledge assertion or stored record.
+export type UserGroundedMaterial = {
+  kind: import('../memory/long-term.ts').MemoryKind;
+  value: string;
+  confidence: number;
+  source: 'current_turn';
+};
 export type ResponsePlan = {
+  userGroundedMaterial?: UserGroundedMaterial;
+  longTermContext?: import('../memory/long-term.ts').RetrievedMemory[];
+  acknowledgeMemoryId?: string;
   contextReference?: {
     kind: import('../memory/context.ts').ContextKind;
     turn: number;

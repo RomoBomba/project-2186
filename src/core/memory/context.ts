@@ -13,6 +13,8 @@ export type ContextKind =
   | 'answer';
 export type ContextHints = {
   kind?: ContextKind;
+  unresolvedFollowUp?: boolean;
+  refinementConceptIds?: ConceptId[];
   refersToTurn?: number;
   inheritedConceptIds: ConceptId[];
   refersToPreviousResponse: boolean;
@@ -86,11 +88,14 @@ export function resolveContext(
   };
   // Explicit concepts retain their original scores and attention; no synthetic matches.
   const normalized = conceptTokens(text).join(' ');
-  // Preserve only the existing idiom exception for the incidental "true" alias.
-  const fixedReversal =
-    locale === 'en' && normalized === 'what if the opposite is true';
+  const kind = (
+    Object.keys(forms[locale]) as Exclude<ContextKind, 'answer'>[]
+  ).find((key) => forms[locale][key].includes(normalized));
+  // Only the existing complete idioms override explicit matching. A new topic
+  // such as "А что тогда такое истина?" is not one of these forms.
+  const contextualIdiom = kind === 'consequence' || kind === 'reversal';
   if (
-    (perception.matches.length && !fixedReversal) ||
+    (perception.matches.length && !contextualIdiom) ||
     perception.act === 'greeting' ||
     perception.act === 'system_identity_question'
   )
@@ -103,10 +108,7 @@ export function resolveContext(
     !last.materialKeys.length ||
     !memory.currentThread
   )
-    return empty;
-  const kind = (
-    Object.keys(forms[locale]) as Exclude<ContextKind, 'answer'>[]
-  ).find((key) => forms[locale][key].includes(normalized));
+    return contextualIdiom ? { ...empty, unresolvedFollowUp: true } : empty;
   const answer =
     !kind &&
     memory.pendingQuestion?.turn === last.turn &&
@@ -114,6 +116,14 @@ export function resolveContext(
     perception.act === 'claim_or_opinion';
   if (!kind && !answer) return empty;
   return {
+    ...(contextualIdiom
+      ? {
+          refinementConceptIds: perception.matches
+            .map((match) => match.conceptId)
+            .filter((id) => !memory.activeConceptIds.includes(id))
+            .slice(0, 1),
+        }
+      : {}),
     kind: kind ?? 'answer',
     refersToTurn: last.turn,
     inheritedConceptIds: [...memory.activeConceptIds],

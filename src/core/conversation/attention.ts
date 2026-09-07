@@ -14,6 +14,7 @@ export type Attention = {
     affinity: number;
     attentionScore: number;
   }[];
+  strongMultiConcept?: boolean;
   primary?: ConceptId;
   associated?: ConceptId;
   associationReason?: 'matched_related' | 'authored_related';
@@ -64,6 +65,8 @@ export function selectAttention(
   return {
     ranked,
     primary,
+    strongMultiConcept:
+      matches.filter((match) => match.score >= 85).length >= 2,
     ...(associated
       ? {
           associated,

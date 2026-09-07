@@ -1,4 +1,12 @@
 import {
+  extractMemoryCandidates,
+  retainCandidates,
+  emptyLongTermMemory,
+  type LongTermMemory,
+} from '../../core/memory/long-term';
+import type { PersistentCharacter } from '../../core/storage/model';
+import type { CharacterRuntime } from '../../core/character/runtime';
+import {
   createCharacterRuntime,
   transitionCharacterRuntime,
 } from '../../core/character/runtime';
@@ -31,15 +39,36 @@ export function createCommunicationSession(
   completed: (record: TranscriptRecord) => void,
   engine: ConversationEngine,
   reducedMotion = false,
+  persistence?: {
+    initial: { runtime: CharacterRuntime; memory: LongTermMemory };
+    save: (value: PersistentCharacter) => void;
+  },
 ) {
   let session: CommunicationSession = { state: 'ready', records: [] };
-  let characterRuntime = createCharacterRuntime(character, Date.now());
+  let characterRuntime =
+    persistence?.initial.runtime ??
+    createCharacterRuntime(character, Date.now());
+  let longTermMemory = persistence?.initial.memory ?? emptyLongTermMemory();
+  let referencedIds: string[] = [];
+  let lastReferenceTurn = -4;
+  const save = () =>
+    persistence?.save({
+      version: 1,
+      characterId: character,
+      characterState: characterRuntime.characterState,
+      relationshipState: characterRuntime.relationshipState,
+      userStyleProfile: characterRuntime.userStyleProfile,
+      memory: longTermMemory,
+    });
   let workingMemory = initialWorkingMemory();
   let disposed = false;
   let reduced = reducedMotion;
   let playback: ReturnType<typeof startSemanticTransmission> | undefined;
   return {
     // Detached data snapshot for tests/inspection; never rendered by the artwork.
+    inspectLongTermMemory() {
+      return structuredClone(longTermMemory);
+    },
     inspectCharacter() {
       return structuredClone(characterRuntime);
     },
@@ -53,6 +82,12 @@ export function createCommunicationSession(
       if (disposed || session.state !== 'ready') return false;
       const text = raw.trim();
       if (!text || raw.length > maximumCommandLength) return false;
+      const priorSemantic = longTermMemory.semantic;
+      longTermMemory = retainCandidates(
+        longTermMemory,
+        extractMemoryCandidates(text, locale, workingMemory),
+        Date.now(),
+      );
       const observation = observeSurface(text);
       characterRuntime = transitionCharacterRuntime(characterRuntime, {
         type: 'userMessageReceived',
@@ -60,6 +95,7 @@ export function createCommunicationSession(
         observation,
       });
 
+      save();
       const user: TranscriptRecord = {
         id: session.records.length + 1,
         speaker: 'user',
@@ -82,6 +118,7 @@ export function createCommunicationSession(
           characterRuntime.disposition,
           locale,
           workingMemory,
+          { semantic: priorSemantic, referencedIds, lastReferenceTurn },
         )
         .then((result) => {
           if (disposed) return;
@@ -109,7 +146,15 @@ export function createCommunicationSession(
                 type: 'responseCompleted',
                 at: Date.now(),
               });
+              if (result.response.usedMemoryIds?.length) {
+                referencedIds = [
+                  ...referencedIds,
+                  ...result.response.usedMemoryIds,
+                ].slice(-100);
+                lastReferenceTurn = workingMemory.history.turn;
+              }
               workingMemory = result.nextMemory;
+              save();
               session = { ...session, state: 'ready' };
               publish(session);
               completed(response);

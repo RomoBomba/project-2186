@@ -15,14 +15,23 @@
   let {
     configuration,
     onlayoutchange,
+    onselected,
     reducedMotion,
     active,
   }: {
     configuration: SystemConfiguration;
     onlayoutchange: (layout: Layout) => void;
+    onselected?: (character: CharacterId) => void;
     reducedMotion: boolean;
     active: boolean;
   } = $props();
+  let reported = false;
+  $effect(() => {
+    if (model.stage === 'shell' && !reported) {
+      reported = true;
+      onselected?.(model.selected);
+    }
+  });
   let model = $state(createSelection());
   let phase = $state<'hold' | 'collapse' | 'expand'>('hold');
   let root: HTMLElement;

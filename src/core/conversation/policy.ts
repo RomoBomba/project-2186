@@ -10,6 +10,7 @@ import {
   type ResponseHistory,
   type ResponsePlan,
   type ResponseStrategy,
+  type UserGroundedMaterial,
 } from './model.ts';
 import { readMaterial, references, sentenceCount } from './material.ts';
 export type StrategyCandidate = { strategy: ResponseStrategy; weight: number };
@@ -20,6 +21,7 @@ export function planResponse(
   graph: ConceptGraph,
   locale: Locale,
   history: ResponseHistory,
+  disclosure?: UserGroundedMaterial,
 ): { plan: ResponsePlan; candidates: StrategyCandidate[] } {
   const d = Object.fromEntries(
     Object.entries(disposition).map(([key, value]) => [key, unit(value)]),
@@ -52,6 +54,13 @@ export function planResponse(
   }
   if (perception.act === 'system_identity_question')
     return simple('identify_self');
+  if (disclosure && !perception.isQuestion) {
+    const result = simple('reflect');
+    return {
+      ...result,
+      plan: { ...result.plan, userGroundedMaterial: disclosure },
+    };
+  }
   if (perception.act === 'greeting' && !attention.primary)
     return simple('greet');
   if (!attention.primary)
@@ -110,7 +119,10 @@ export function planResponse(
         d.warmth * 1.2 +
         d.questionBias * 0.5 +
         (1 - d.personalDistance) +
-        (attention.associationReason === 'matched_related' ? 0.8 : 0),
+        (attention.strongMultiConcept &&
+        attention.associationReason === 'matched_related'
+          ? 0.8
+          : 0),
     });
   for (const candidate of candidates) {
     candidate.weight -=

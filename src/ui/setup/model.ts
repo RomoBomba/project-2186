@@ -6,12 +6,8 @@ export const layouts = ['A', 'B', 'C'] as const;
 export type Layout = (typeof layouts)[number];
 export type SetupStage =
   'language' | 'standard' | 'layout' | 'audio' | 'complete';
-export type SystemConfiguration = {
-  language: Locale;
-  displayStandard: DisplayStandard;
-  layout: Layout;
-  audioEnabled: boolean;
-};
+import type { SystemConfiguration } from '../../core/storage/model';
+export type { SystemConfiguration } from '../../core/storage/model';
 export type SetupModel = {
   stage: SetupStage;
   configuration: SystemConfiguration;

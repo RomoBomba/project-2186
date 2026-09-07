@@ -19,7 +19,8 @@
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
     "knowledge:check": "node src/infrastructure/knowledge/check.ts",
     "knowledge:build": "node src/infrastructure/knowledge/build-command.ts",
-    "intelligence:inspect": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts"
+    "intelligence:inspect": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts",
+    "memory:inspect": "node src/infrastructure/memory/inspect.ts"
   },
   "dependencies": {
     "svelte": "^5.57.0"

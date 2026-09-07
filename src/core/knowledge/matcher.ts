@@ -20,6 +20,17 @@ export type ConceptMatch = {
 };
 export const defaultMatchThreshold = 65;
 
+// Only partial overlap: exact authored phrases and normalization remain intact.
+const overlapNeutral: Record<Locale, ReadonlySet<string>> = {
+  en: new Set(
+    'what who how why when where is are do does did can could would should if then and or the a an'.split(
+      ' ',
+    ),
+  ),
+  ru: new Set(
+    'что кто как почему когда где ли и или а но это то тогда'.split(' '),
+  ),
+};
 function meaningful(token: string): boolean {
   return [...token].length >= 4;
 }
@@ -80,7 +91,11 @@ export class ConceptMatcher {
         const phrase = conceptTokens(term);
         const significant = [...new Set(phrase.filter(meaningful))];
         if (!significant.length) continue;
-        const overlap = significant.filter((token) => tokens.has(token));
+        const partialTokens = significant.filter(
+          (token) => !overlapNeutral[resolved.locale].has(token),
+        );
+        const overlap = partialTokens.filter((token) => tokens.has(token));
+        const weakOverlap = significant.filter((token) => tokens.has(token));
         let score = 0;
         let kind: MatchEvidence['kind'] = 'overlap';
         if (containsPhrase(input, phrase)) {
@@ -88,14 +103,14 @@ export class ConceptMatcher {
           kind = 'phrase';
         } else if (
           overlap.length >= 2 &&
-          overlap.length / significant.length >= 2 / 3
+          overlap.length / partialTokens.length >= 2 / 3
         ) {
-          score = 60 + Math.round((10 * overlap.length) / significant.length);
+          score = 60 + Math.round((10 * overlap.length) / partialTokens.length);
         } else if (
           source === 'alias' &&
-          overlap.length === 1 &&
-          [...overlap[0]!].length >= 6 &&
-          documentFrequency.get(overlap[0]!) === 1
+          weakOverlap.length === 1 &&
+          [...weakOverlap[0]!].length >= 6 &&
+          documentFrequency.get(weakOverlap[0]!) === 1
         ) {
           score = 40;
           kind = 'token';
@@ -111,7 +126,12 @@ export class ConceptMatcher {
             source,
             kind,
             term,
-            matchedTokens: kind === 'phrase' ? phrase : overlap,
+            matchedTokens:
+              kind === 'phrase'
+                ? phrase
+                : kind === 'token'
+                  ? weakOverlap
+                  : overlap,
           },
         };
       }

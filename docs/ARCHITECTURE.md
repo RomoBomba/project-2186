@@ -876,3 +876,235 @@ its uncommitted cursor and restores DOM focus on apply/cancel. The terminal stay
 mounted, inert underneath the modal system mode; its controller, input draft,
 WorkingMemory, Character Core, transcript and transmission lifecycle are untouched.
 LayoutSchematic is shared by initial setup and the live geometry overlay.
+
+## Phase 8B — sparse, browser-local long-term memory
+
+`core/memory/long-term.ts` owns serializable SemanticMemory, EpisodicMemory,
+extraction, MemorySalienceEvaluator, retention and retrieval. WorkingMemory remains
+unchanged and session-only: no recentTurns, pending question, active thread,
+ResponseHistory or transcript is saved. A restored terminal begins with an empty
+workspace. CharacterProfile and derived disposition are never persisted.
+
+SemanticMemory supports exactly `name`, `preference`, `dislike`, `interest`,
+`project`, `important_value`. Records contain id, original bounded value,
+normalizedValue, locale, confidence, pattern evidence, salience, first/last timestamps,
+reinforcementCount, current/superseded status and optional replacedAt. Extraction
+is an anchored explicit-statement recognizer, not NLP. RU forms: «Меня зовут / Моё
+имя», «Я люблю / Мне нравится», «Я не люблю», «Я интересуюсь», «Я работаю над»,
+«Для меня важна/важен/важно/важны». EN equivalents: “My name is”, “I like/love”,
+“I don't/do not like”, “I'm/I am interested in”, “I'm/I am working on”, “X is
+important to me”. A narrow capitalized one/two-word “I'm Roman” name form is allowed;
+common state adjectives are excluded, but this remains an explicitly limited
+heuristic, not reliable recognition of all names. An explicit favourite-artist form
+in either language retains the artist qualifier in the value.
+
+“Really”/«очень» modifiers are allowed in preference patterns. Normalization uses
+NFKC, lowercase, ё→е, apostrophe/whitespace normalization only; displayed wording
+is not paraphrased. Same locale/category/normalized value reinforces one record.
+Opposing preference/dislike with exactly equal normalized value supersedes the old
+record; a newer explicit name supersedes the old name. There is no cross-language,
+synonym or morphological equivalence. History is retained within capacity rather
+than silently overwritten by contradiction handling.
+
+Input is at most 240 characters; extracted values are 2–100 characters, at least
+60% letters/numbers. Empty/trivial values, commands/URLs/markup, multi-sentence or
+question input and explicit uncertainty/conditional markers are rejected. This
+phase intentionally misses ambiguous facts. It does not infer personality,
+biography or psychological meaning from ordinary conversation.
+
+Before the anchored explicit patterns, one allowlisted greeting/discourse prefix
+may be removed: «Привет», «Здравствуйте», «Кстати», «Также», «Ещё», or
+“Hi”, “Hello”, “By the way”, “Also”. English interest also accepts “I'm also
+interested in”. This does not search arbitrary sentences for embedded declarations.
+Uncertainty such as «Наверное» or «Может быть» remains disqualifying.
+
+Inline «Запомни / Не забудь» and “Remember / Don't forget” only strengthen a
+supported explicit candidate. «Запомни это / Remember this» examines only the
+immediately preceding completed exchange's user turn, reusing the same extractor.
+It never turns the system response into a user fact and does nothing without an
+eligible user statement. No general anaphora is added.
+
+One narrow same-message exception permits an explicit fact followed by exactly
+«. Запомни это» or “. Remember this”. The suffix is removed before value validation
+and supplies the existing explicit bonus/episode decision. It is never retained
+as part of the value. Multiple facts and arbitrary multi-sentence extraction remain
+unsupported; the greeting-prefix rule above is the other bounded exception.
+
+The replaceable evaluator uses:
+
+`salience = min(1, 0.65 × confidence + categoryBonus + explicitBonus + repeatBonus)`
+
+- Category bonus: name .25, important_value .20, all other supported categories .16.
+- Explicit remember bonus .20, otherwise zero.
+- Repeat bonus `.04 × min(3, prior reinforcementCount)`.
+- Keep only confidence ≥ .90, salience ≥ .75 and a valid value.
+- Extraction confidence: full name .99; short English name .94; preference/interest
+  .95; dislike/project/value/favourite-artist .96. Invalid numeric inputs cannot keep.
+- Long messages do not receive extra weight; no sentiment or semantic trust signal.
+
+A structured episode is created only for explicit remember with salience ≥ .95 or
+a full-confidence name disclosure with salience ≥ .88. It records the linked semantic
+id, value-only excerpt, kind, timestamp, significance and empty concept/material lists
+(no fabricated associations). Repeating the same fact/kind does not create another
+episode. Ordinary philosophical exchanges create none. Capacity is 100 semantic and
+30 episodic records per character; oldest entries fall out at capacity. Superseded
+records occupy capacity too. No episodic recall or recurring-concept summarization
+is enabled yet. All three intelligences use the same memory architecture; stores
+are separated by character, avoiding implicit sharing of private disclosures.
+
+### Storage, validation and lifecycle
+
+`core/storage/model.ts` defines StorageProvider and configuration/persistent-state
+contracts without Svelte, Node, IndexedDB or Vite. Its small atomic API loads/saves
+configuration and a character snapshot; separate delete operations allow future
+controls. The snapshot contains distinct CharacterState, RelationshipState,
+UserStyleProfile and the two memory arrays, never a generic transcript document.
+Individual memory deletion can later filter records and save the snapshot. Native
+`infrastructure/storage/indexed-db.ts` implements the boundary, with no dependency.
+A SQLite/Tauri adapter can implement the same interface without changing cognition.
+
+Database `project-2186`, IndexedDB schema version 1:
+
+- `configuration`, key `active`: language, layout, displayStandard, audioEnabled,
+  selected character.
+- `characters`, key CharacterId: record `version: 1`, characterId, characterState,
+  relationshipState, userStyleProfile, memory.
+
+Upgrade creates missing stores idempotently. Future versions require an explicit
+upgrade/decoder, not a guessed conversion. Writes resolve on transaction completion,
+are serialized by the application service, and snapshot data before queuing. Native
+open/transaction failures, blocked upgrades and 1.5-second timeouts select the
+internal `session-only` degraded state. Conversation continues with in-memory state;
+no browser alert or modern error UI is shown. No automatic background retry is used.
+
+`core/storage/validation.ts` explicitly validates each restored section. Corrupt
+configuration invokes first-run setup; unsupported snapshot versions/character ids
+use defaults. Invalid runtime sections fall back independently. Invalid/duplicate-id
+memory records are discarded individually; strings, arrays, finite numeric bounds,
+timestamps and confidence/salience are checked. Decoders reconstruct known fields
+rather than spreading stored objects. Relationship and style values restore exactly
+when valid; calibration and neutral trust behaviour do not change. CharacterState
+retains mood/energy/curiosity/openness/lastInteraction, always restoring activity to
+idle. There is no elapsed-time simulation. Disposition is recomputed from the profile.
+
+App owns one Persistence service via Svelte context, loads during the existing boot,
+and supplies validated state to the terminal. The three small character snapshots
+load independently of configuration validity, so resetting corrupt configuration
+does not erase otherwise valid character records. Fresh storage keeps the full setup and
+selection flow. Completed selection saves configuration; a valid return goes from
+boot directly to the restored terminal. Layout switching mutates the existing field
+and saves configuration without recreating the conversation. Semantic extraction and
+style changes save on accepted submission; completed transmission saves lifecycle
+state and relationship. Failed/cancelled responses do not fabricate successful
+exchanges; a valid explicit user disclosure may survive an interrupted response.
+No async storage access occurs inside ConversationEngine or BasicIntelligenceProvider.
+
+The MVP assumes one active tab writing a character at a time. Concurrent tabs use
+last completed snapshot write; there is no cross-tab merge or account sync. Browser
+storage clearing/eviction deletes data. Writes already committed survive reload;
+closing before a transaction commits can lose the newest update. No unload promise
+or full-history backup is claimed.
+
+### Retrieval and realization
+
+A current-turn explicit candidate is separate `UserGroundedMaterial` on ResponsePlan:
+kind, original value, confidence and source `current_turn`. It is user testimony,
+not ConceptCard/world knowledge, and does not require persistence to be enabled.
+Exactly one supported candidate with confidence ≥ .9 may select the existing
+`reflect` strategy before greeting/unknown handling. Identity questions and explicit
+questions keep precedence. This path does not inherit material from WorkingMemory;
+it bypasses contextual planning only when the current disclosure was selected.
+A concept mention in an interest declaration is not itself a factual question.
+The provider uses a small RU/EN per-character acknowledgement vocabulary and the
+unchanged extracted value, with no inflection, paraphrase or factual elaboration.
+It does not claim that this material has been saved or repeatedly call out memory.
+
+Current disclosures and retrieved records have separate contracts and policies:
+`userGroundedMaterial` can be acknowledged immediately; `longTermContext` remains
+optional old-memory context subject to the selective mention guards below. Save
+confidence, salience, storage schemas and retrieval token normalization are unchanged.
+The lowered .70 mention threshold is eligibility only, not mandatory mention.
+For example, «снова смотрел на звёзды» still does not match the multi-token preference
+«смотреть на звёзды» sufficiently: only «звёзды» matches, without morphology.
+«Снова хочется смотреть на звёзды» can retrieve and acknowledge that record.
+
+The session supplies prior retained semantic records to ConversationEngine separately
+from WorkingMemory. Retrieval uses same-locale current records and explicit Unicode
+value tokens of at least four characters: at least half the value tokens, at least
+two for multi-token values. One-word values need an exact token. No stemming or
+concept-derived semantic inference is performed. In particular «смотрел на звёзды»
+does not automatically equal «смотреть на звёзды»; «снова хочется смотреть на звёзды»
+is a supported surface match. Score is `.8 × matched fraction + .2 × salience`,
+ordered by score then id, at most three candidates. Matching/retrieval scores remain
+private. Episodic records are not used to generate text in this phase.
+
+ResponsePlan receives optional compact longTermContext and acknowledgeMemoryId.
+An acknowledgement is allowed only for preference/interest/project at score ≥ .70,
+a revisit marker («снова/опять», “again/back to”), no negation, uncertainty, disagreement or question, no
+WorkingMemory contextual follow-up, no direct new extracted fact, and no selected
+authored knowledge material. Identity/greeting behaviour is preserved. This narrow
+path can replace an otherwise ungrounded generic reply with an authored memory
+acknowledgement; it never overrides a knowledge-grounded response. Basic Intelligence
+reads only the plan and uses small bilingual character resources, not the database.
+The complete response still goes through unchanged SemanticTransmission.
+
+Actual used memory ids are tracked by the session: the last 100 referenced ids are
+suppressed, with at least four exchange indices between different mentions. This
+prevents repeats throughout ordinary short sessions while keeping the guard bounded.
+They reset with the session and are not long-term user facts. No automatic name,
+dislike or important-value references are emitted. No trust rule changes.
+
+### Inspection and privacy
+
+`npm run memory:inspect -- --locale ru --text "Я люблю смотреть на звёзды."`
+shows pure extraction, pattern evidence, confidence, salience/keep and normalized
+records using a fixed inspection timestamp. It does not access a browser database.
+For development builds only, browser DevTools can call
+`await window.project2186Memory.inspect()` to read validated committed local state,
+configuration and memory. This read-only helper has no artwork panel and is removed
+from production builds. Native DevTools Application/Storage can inspect the two
+IndexedDB stores. Unit tests additionally inspect live session snapshots.
+
+For retrieval diagnostics, add `--stored "Я люблю смотреть на звёзды ночью."`
+to the CLI with `--text` as the query. `inspectMemoryRetrieval` explains matched
+terms, score and rejection reasons without changing retrieval thresholds.
+ConversationEngine's `memoryInspection` distinguishes candidates delivered to the
+plan, reference-policy blockers and actually used memory ids. In development,
+`/memory-inspect.html` reads committed IndexedDB snapshots and can run the same
+query against empty WorkingMemory without saving. This separate read-only page is
+not a production build entry or part of the artwork. Its write counter belongs to
+its own reader service; inspect the main window helper for active writer status.
+Persistence diagnostics report completed writes and the last failed operation/error
+name, without logging private text. Restored-session regression tests exercise
+load → exchange → save → load, including exact reinforcement and stable firstSeenAt.
+
+All data stays in this browser origin's IndexedDB. No network requests, telemetry,
+cloud account, automatic text translation, long transcript persistence or persistent
+WorkingMemory is introduced. The character retains selected statements, not a record
+of everything the user says. A general memory management UI remains future work.
+
+### Curated-alias calibration at the Phase 8B checkpoint
+
+Partial multi-token overlap excludes a small explicit RU/EN structural-word set
+in `core/knowledge/matcher.ts` from both its numerator and denominator. Exact
+phrase matching, normalization, authored text and the existing diagnostic single-token
+score remain unchanged. Domain words are not neutralized. Thus “what remains then”
+has only one substantive overlap token (`remains`) and cannot reach the normal
+65 threshold; “what remains unchanged” remains an exact 100 match.
+
+Attention still retains moderate matches and can associate their concepts. The
+policy's existing +0.8 multi-concept connect bonus now requires at least two distinct
+current matcher candidates with raw scores ≥85, plus a matched related association.
+Affinity-adjusted scores do not decide explicitness. Exact aliases (100) and titles
+(90) qualify; partial overlaps (67–70) do not. Character strategy weights are unchanged.
+
+Only the existing complete consequence/reversal idioms in ContextResolver override
+ordinary explicit-match precedence. With usable recent grounded WorkingMemory,
+“Что тогда остаётся неизменным?” and “what remains unchanged then?” retain the active
+primary thread; up to one newly matched concept becomes an inspectable refinement
+and a material-selection candidate after inherited concepts, before graph expansion.
+No synthesized negation or causal assertion is introduced. Without a usable referent,
+these fixed idioms request clarification, retaining raw matches for inspection without
+fabricating an active thread. Other explicit topic formulations, including
+“А что тогда такое истина?” and “Then what is truth?”, retain normal topic precedence.
+This is a bounded idiom rule, not a general deictic/coreference parser.

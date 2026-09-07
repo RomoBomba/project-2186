@@ -13,6 +13,15 @@ export function contextualPlan(
   graph: ConceptGraph,
   locale: Locale,
 ): ResponsePlan {
+  if (hints.unresolvedFollowUp)
+    return {
+      strategy: 'clarify',
+      knowledgeConfidence: 0,
+      disposition: base.disposition,
+      desiredLength: base.desiredLength,
+      selectedMaterial: [],
+      certainty: 'limited',
+    };
   if (!hints.kind || !hints.inheritedConceptIds[0]) return base;
   const primary = hints.inheritedConceptIds[0];
   const d = base.disposition;
@@ -43,6 +52,7 @@ export function contextualPlan(
   const ids = [
     ...new Set([
       ...hints.inheritedConceptIds,
+      ...(hints.refinementConceptIds ?? []),
       ...graph.expand([primary], { depth: 1, limit: 6 }).map((card) => card.id),
     ]),
   ];

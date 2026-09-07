@@ -121,3 +121,13 @@ clear character differences. After closing and returning, selected memories,
 relationship and state continue; an occasional reflection, dream fragment or
 offline event makes that continuity perceptible. Success means experiencing a
 persistent presence rather than a text-generation tool.
+
+## Selective recollection — Phase 8B
+
+The intelligence retains a small number of explicit user statements, not everything
+said. Its long-term semantic records and rare structured episodes remain local to
+this browser, separately for each intelligence. Relationship and communication style
+can survive restart without preserving the previous transcript or active thought
+thread. WorkingMemory still starts empty. Recollection should be rare and grounded;
+missing or ambiguous information is preferable to an invented personal fact. No
+semantic trust changes, offline life or dreams are implied by local persistence.

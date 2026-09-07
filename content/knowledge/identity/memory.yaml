@@ -11,10 +11,28 @@ aliases:
     - 'воспоминание'
     - 'воспоминания'
     - 'личная память'
+    - 'собственные воспоминания'
+    - 'потеря памяти'
+    - 'утрата памяти'
+    - 'забыть прошлое'
+    - 'помнить себя'
+    - 'память и личность'
+    - 'память и идентичность'
+    - 'связь памяти и личности'
+    - 'воспоминания о прошлом'
   en:
     - 'memory'
     - 'memories'
     - 'personal memory'
+    - 'my memories'
+    - 'memory loss'
+    - 'losing memory'
+    - 'forgetting the past'
+    - 'remember who I am'
+    - 'memory and identity'
+    - 'memory and self'
+    - 'relation between memory and identity'
+    - 'memories of the past'
 
 summary:
   ru: >

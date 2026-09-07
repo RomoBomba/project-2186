@@ -10,7 +10,11 @@ export type IntelligenceContext = {
   turnIndex: number;
   material: readonly SelectedMaterial[];
 };
-export type IntelligenceResponse = { text: string; usedMaterialKeys: string[] };
+export type IntelligenceResponse = {
+  text: string;
+  usedMaterialKeys: string[];
+  usedMemoryIds?: string[];
+};
 export interface IntelligenceProvider {
   respond(
     context: IntelligenceContext,
