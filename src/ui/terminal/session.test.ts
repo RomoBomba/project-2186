@@ -234,3 +234,53 @@ it('waits for complete provider text before semantic playback and commits histor
   expect(state.state).toBe('ready');
   expect(session.inspectResponseHistory().turn).toBe(1);
 });
+
+it('commits working memory after transmission, carries a follow-up, and resets in a new session', async () => {
+  vi.useFakeTimers();
+  let visible: CommunicationSession = { state: 'ready', records: [] };
+  const session = createCommunicationSession(
+    'aletheia',
+    'ru',
+    (s) => (visible = s),
+    vi.fn(),
+    conversationEngine,
+    true,
+  );
+  session.submit('Память делает человека тем же человеком?');
+  expect(session.inspectWorkingMemory().recentTurns).toEqual([]);
+  await vi.runAllTimersAsync();
+  expect(session.inspectWorkingMemory().recentTurns).toHaveLength(2);
+  const trust = session.inspectCharacter().relationshipState.trust;
+  session.submit('Я с тобой не согласен.');
+  await vi.runAllTimersAsync();
+  session.submit('Почему?');
+  await vi.runAllTimersAsync();
+  expect(
+    session.inspectWorkingMemory().lastResponse?.plan.contextReference?.kind,
+  ).toBe('reason');
+  expect(session.inspectWorkingMemory().currentThread?.primaryConceptId).toBe(
+    'identity.memory',
+  );
+  expect(session.inspectCharacter().relationshipState.trust).toBe(trust);
+  expect(visible.records.at(-1)?.text).toBe(
+    session.inspectWorkingMemory().recentTurns.at(-1)?.text,
+  );
+  const next = createCommunicationSession(
+    'aletheia',
+    'ru',
+    vi.fn(),
+    vi.fn(),
+    conversationEngine,
+    true,
+  );
+  expect(next.inspectWorkingMemory().recentTurns).toEqual([]);
+  next.submit('Почему?');
+  await vi.runAllTimersAsync();
+  expect(
+    next.inspectWorkingMemory().lastResponse?.plan.contextReference,
+  ).toBeUndefined();
+  session.submit('Продолжай');
+  session.cancel();
+  await vi.runAllTimersAsync();
+  expect(session.inspectWorkingMemory().history.turn).toBe(3);
+});

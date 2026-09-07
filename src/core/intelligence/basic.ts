@@ -1,3 +1,4 @@
+import { contextLimit } from '../../characters/context.ts';
 import { compose } from './surface.ts';
 import { characterVoices } from '../../characters/voices.ts';
 import { materialKey } from '../conversation/model.ts';
@@ -20,6 +21,8 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
       return { text: select(voice.greeting), usedMaterialKeys: [] };
     if (plan.strategy === 'identify_self')
       return { text: select(voice.identity), usedMaterialKeys: [] };
+    if (plan.contextReference?.exhausted)
+      return { text: contextLimit[context.locale], usedMaterialKeys: [] };
     if (plan.strategy === 'admit_uncertainty')
       return { text: select(voice.uncertainty), usedMaterialKeys: [] };
     if (!plan.selectedMaterial.length)

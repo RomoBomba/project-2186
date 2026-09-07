@@ -13,10 +13,12 @@
   let {
     character,
     decorative = false,
+    compact = false,
     children,
   }: {
     character: CharacterId | undefined;
     decorative?: boolean;
+    compact?: boolean;
     children: Snippet;
   } = $props();
   const source = $derived(character ? portraits[character] : undefined);
@@ -26,8 +28,9 @@
   <img
     src={source}
     alt={decorative ? '' : character?.toUpperCase()}
-    width="144"
-    height="180"
+    width={compact ? 72 : 144}
+    height={compact ? 90 : 180}
+    class:compact
     draggable="false"
   />
 {:else}
@@ -40,5 +43,9 @@
     width: 144px;
     height: 180px;
     image-rendering: pixelated;
+  }
+  img.compact {
+    width: 72px;
+    height: 90px;
   }
 </style>

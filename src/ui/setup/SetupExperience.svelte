@@ -3,12 +3,14 @@
   import { languageChoices, setupMessages } from '../../locales/setup';
   import DisplayTransition from '../display/DisplayTransition.svelte';
   import { displayStandards, type DisplayStandard } from '../display/standards';
+  import { applyDisplayGeometry } from '../display/geometry';
   import StandardPreview from './StandardPreview.svelte';
   import LayoutSchematic from './LayoutSchematic.svelte';
   import {
     createSetup,
     layouts,
     updateSetup,
+    type Layout,
     type SetupAction,
     type SetupModel,
     type SystemConfiguration,
@@ -20,7 +22,7 @@
     onstandardchange,
     children,
   }: {
-    children: Snippet<[SystemConfiguration, boolean]>;
+    children: Snippet<[SystemConfiguration, boolean, (layout: Layout) => void]>;
     reducedMotion: boolean;
     active: boolean;
     onstandardchange: (standard: DisplayStandard) => void;
@@ -174,7 +176,13 @@
   {reducedMotion}
 >
   {#if model.stage === 'complete'}
-    {@render children(model.configuration, active && phase === 'hold')}
+    {@render children(
+      model.configuration,
+      active && phase === 'hold',
+      (layout) => {
+        applyDisplayGeometry(model.configuration, layout);
+      },
+    )}
   {:else}
     <main
       class="setup"

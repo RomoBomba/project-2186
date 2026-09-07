@@ -25,9 +25,10 @@
           standard = value;
         }}
       >
-        {#snippet children(configuration, setupActive)}
+        {#snippet children(configuration, setupActive, onlayoutchange)}
           <IntelligenceExperience
             {configuration}
+            {onlayoutchange}
             {reducedMotion}
             active={setupActive}
           />

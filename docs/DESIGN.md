@@ -423,3 +423,46 @@ announcement exposes a completed response once, rather than announcing each chun
 All chrome uses CIVIC/PHOSPHOR/AMBER semantic tokens; portraits keep authored colours.
 Phase 4 is silent. Fixture copy, transmission rhythm and transcript density need
 artistic review; the fixtures are temporary and do not claim real understanding.
+
+## Active display geometry completion
+
+The chosen A/B/C now controls the active terminal, not only its setup preview.
+A retains its approved grid, spacing and full 144 × 180 portrait at the left.
+B uses the complementary 400 / 184 column arrangement: SIGNAL and COMMAND at
+left, full portrait at right. Text remains left-aligned and semantic DOM order
+remains header → 01 VISUAL → 02 SIGNAL → 03 COMMAND. The partial header rule is
+anchored from the right in B. No reversed lettering or generic responsive flow.
+
+A = visual presence prioritized on the left. B = visual presence prioritized on
+the right. A/B are character-presence compositions. C = dialogue prioritized,
+with compact persistent visual presence: the reading/conversation composition.
+
+C has one 608-pixel-wide column. Rows are 126 / 160 / 62 logical pixels,
+with 8-pixel gaps and 16-pixel margins. The upper-right visual module is 144 pixels
+wide: channel label, 72 × 90 portrait and single-line INSTANCE caption share the
+same right edge. The caption starts four pixels below the image. The wider label
+measure extends to the left of the half-scale portrait; all three elements remain
+right-anchored inside the existing display margin. The module stays outside transcript scrolling.
+SIGNAL below spans 608 pixels, including a 608 × 118 scrollable transcript; COMMAND
+also spans 608 pixels. There is no permanent narrow portrait column below the inset.
+
+A/B use the same vertically composed visual module: channel label, 144 × 180
+portrait and INSTANCE caption six pixels below, all left-aligned. Channel and
+instance identify different things; neither belongs to SIGNAL. Transcript speaker
+names remain. No image processing or alternative assets are used.
+
+The active terminal no longer displays 640 × 400 as permanent metadata. Its
+logical display remains exactly that size. DISPLAY / A–C (ЭКРАН / A–C) is now a
+small focusable system control, also opened by F2. An opaque in-system geometry
+mode reuses the setup schematics; C shows its inset at upper right and is labelled
+DIALOGUE / ДИАЛОГ. Arrows wrap, Enter or clicking applies, Escape cancels. An underlined layout letter
+marks the currently applied geometry separately from the navigation pointer. Each
+choice contains only its letter, schematic and one short description underneath;
+there are no dash placeholders. The C header rule stops before its upper-right inset.
+Tab remains within the mode and closing restores focus to the opening control or
+command field. There is no animation, blur, rounded card or restart.
+
+Every layout consumes the same semantic display colours and one communication
+component/session. Portrait rendering stays pixelated and its authored colours
+remain independent of CIVIC, PHOSPHOR and AMBER. Layout changes update the existing session configuration only; the overlay holds
+only a temporary navigation cursor. C's compact inset and full-width reading hierarchy are the specific author-review points.

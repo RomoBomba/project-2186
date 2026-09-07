@@ -3,7 +3,7 @@
   import { onDestroy, tick } from 'svelte';
   import { characterIds, type CharacterId } from '../../core/character/id';
   import { intelligenceMessages } from '../../locales/intelligence';
-  import type { SystemConfiguration } from '../setup/model';
+  import type { Layout, SystemConfiguration } from '../setup/model';
   import DisplayTransition from '../display/DisplayTransition.svelte';
   import ReferenceComposition from '../display/ReferenceComposition.svelte';
   import {
@@ -14,10 +14,12 @@
 
   let {
     configuration,
+    onlayoutchange,
     reducedMotion,
     active,
   }: {
     configuration: SystemConfiguration;
+    onlayoutchange: (layout: Layout) => void;
     reducedMotion: boolean;
     active: boolean;
   } = $props();
@@ -121,6 +123,8 @@
     {#if model.stage === 'shell'}
       <ReferenceComposition
         locale={configuration.language}
+        layout={configuration.layout}
+        {onlayoutchange}
         character={model.selected}
         {reducedMotion}
         active={active && phase === 'hold'}

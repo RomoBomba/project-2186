@@ -57,14 +57,20 @@
     left: 7px;
     right: 49px;
   }
+  [data-layout='C'] .header-rule {
+    right: 32px;
+  }
   [data-layout='C'] .visual {
-    left: 7px;
-    top: 21px;
-    width: 21px;
-    height: 21px;
+    left: auto;
+    right: 7px;
+    top: 7px;
+    width: 14px;
+    height: 18px;
   }
   [data-layout='C'] .signal {
-    left: 38px;
+    left: 7px;
+    top: 38px;
+    width: 112px;
   }
   [data-layout='C'] .command {
     left: 7px;

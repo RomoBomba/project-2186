@@ -123,9 +123,7 @@
     {/if}
   </div>
   <p class="channel-state">
-    <span class="marker" aria-hidden="true"></span>{copy[session.state]}<span
-      class="instance">{character.toUpperCase()}</span
-    >
+    <span class="marker" aria-hidden="true"></span>{copy[session.state]}
   </p>
 </section>
 <form class="command-channel" onsubmit={submit}>
@@ -159,7 +157,7 @@
 
 <style>
   .signal {
-    grid-column: 2;
+    grid-column: var(--signal-column, 2);
     grid-row: 2;
     display: grid;
     grid-template-rows: 24px minmax(0, 1fr) 18px;
@@ -249,12 +247,8 @@
   [data-channel-state='transmitting'] .marker {
     border-color: var(--display-accent);
   }
-  .instance {
-    margin-left: auto;
-    color: var(--display-text-secondary);
-  }
   .command-channel {
-    grid-column: 2;
+    grid-column: var(--command-column, 2);
     grid-row: 3;
     min-width: 0;
     padding-top: 7px;

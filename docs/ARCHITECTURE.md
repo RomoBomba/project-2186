@@ -729,3 +729,150 @@ and its existing repetition penalties. Realization does not append a question to
 other strategies or suppress a selected question for a character-specific quota.
 Unknown/greeting/identity resources and all timing remain unchanged. The response
 is still complete before SemanticTransmission begins.
+
+## Phase 8A: session working memory
+
+`core/memory/working.ts` owns a serializable WorkingMemory. A terminal session
+creates it, passes it to ConversationEngine, and commits the returned nextMemory
+only after SemanticTransmission completes. Rejection, cancellation and unfinished
+transmission do not commit a turn. The UI transcript remains a separate visual
+record; it may be longer. A reload/new session creates empty working memory.
+
+WorkingMemory contains:
+
+- recentTurns: last **8 speaker turns**, or four completed exchanges; speaker,
+  raw text, index, concept IDs, user dialogue act / intelligence strategy.
+  Retained user text is capped at 512 characters and intelligence text at 1024.
+- history: the **single owner** of Phase 7 anti-repetition metadata (6 strategies,
+  8 material keys, completed exchange counter). The old nextHistory and inspection
+  view refer to this same data, not a second independently updated history.
+- activeConceptIds: primary plus at most one associated concept actually involved
+  in the realized response. Unselected graph neighbours do not become active.
+- currentThread: primary, optional association, startedTurn and lastActiveTurn.
+  A different explicit primary starts a new thread. Contextual use refreshes it;
+  three completed exchanges without use remove it. No wall-clock timers.
+- lastResponse: detached plan, actually used material keys, exchange index and
+  locale. The latest user intent/system strategy also live in recentTurns.
+- pendingQuestion: at most one actually realized authored question and its concept
+  IDs/index. It is consumed/replaced on the next completed exchange. A question
+  that was selected but omitted for length never becomes pending.
+
+WorkingMemory is **not SemanticMemory, EpisodicMemory, a persistent transcript or
+long-term user profile**. No storage, salience, user-fact extraction or semantic
+trust signal exists here. Phase 5 lifecycle/calibration and style smoothing are
+unchanged. Raw text never enters UserStyleProfile. Phase 8B remains deferred.
+
+### Conservative context resolution
+
+`core/memory/context.ts` resolves exact normalized RU/EN short forms into reason,
+disagreement, reversal, consequence, clarification or continuation; a conservative
+claim/opinion statement may answer the immediately pending question. It reports
+kind, refersToTurn, inheritedConceptIds, refersToPreviousResponse and
+answersPendingQuestion. It never rewrites input or supplies fake matcher scores.
+The previous response must have realized authored material in the same locale,
+be the immediately preceding exchange and have an active thread. An authored
+question can itself be clarified or followed by “why”; a greeting or unsupported
+unknown response cannot establish such a referent.
+
+Precedence: current explicit concept matches inhibit inheritance; explicit
+identity/greeting intents also inhibit inheritance; only then can a recognized
+follow-up or conservative pending-question answer inherit the active concepts.
+All other messages use unchanged Phase 7 handling. The exact fixed reversal form
+“what if the opposite is true?” is treated as an idiom: its incidental `true` alias
+is retained in raw match diagnostics but does not switch the thread to truth.
+Adding an explicit topic outside that exact phrase restores normal precedence.
+No general short-message, pronoun, morphology or multi-intent resolver is added.
+“память?” matches normally; an unrelated Mars-temperature query stays unknown.
+A pending question does not turn arbitrary statements such as buying bread into
+answers; currently only recognized claim/opinion openings qualify.
+
+### Context planning and realization
+
+`conversation/context-policy.ts` extends planning without new strategies. Single-
+turn policy and its attention formula remain unchanged. For inherited context:
+
+- disagreement selects ask_follow_up when questionBias exceeds structureBias,
+  otherwise clarify;
+- reversal selects contrast; continuation / pending answer select reflect;
+- reason selects reflect when warmth exceeds both challengeBias and structureBias;
+  otherwise gentle_challenge when challengeBias exceeds structureBias, or clarify.
+  Remaining clarification/consequence selects clarify. Contextual inspection reports
+  this deterministic branch as one candidate with weight 1, not a Phase 7 ranking.
+
+This is disposition-based, never a character-ID switch. Material priority is
+previous primary, previous association, then depth-1 neighbours (existing limit 6).
+Only **one further authored unit** is selected. Questions are preferred for a
+follow-up question; tension for challenge/contrast; summary for clarification;
+otherwise claim, tension, summary. Exclude keys in the existing repetition window,
+all immediately previous used keys, and identical text still in recent responses.
+Preserve whole-unit character/sentence budgets; if nothing new fits, use a short
+RU/EN acknowledgement of insufficient further grounds. No repeated sentence is
+presented as new evidence under another key.
+
+A graph relation or another claim is **not a proof or causal entailment**. These
+responses offer further authored consideration, not inferred justification; no
+“therefore” connective or inverted proposition is invented. “Opposite” uses an
+existing tension, without logically negating the user's text. Author review should
+assess whether the small corpus offers enough directly relevant supporting material.
+
+ResponsePlan adds only contextReference: kind, referenced exchange, previous
+material keys and exhausted flag. It contains no transcript. Contextual confidence
+is 0 (no new lexical match), not a fabricated confidence score. Provider receives
+selected material and the plan, never WorkingMemory or raw turns. The existing
+surface composer and SemanticTransmission timing remain unchanged; only the
+explicit exhaustion response is new, under `characters/context.ts`.
+
+### Sequence inspection
+
+```sh
+npm run intelligence:inspect -- --character aletheia --locale ru \
+  --turn "Память делает человека тем же человеком?" --turn "Почему?"
+```
+
+`--text` still supports one turn; repeated `--turn` runs a session with the same
+Character Core receipt/completion lifecycle as the terminal. Each result shows
+perception/raw matches, contextual hints, next active thread, attention, plan,
+material keys and response. No debug panel or raw transcript dump enters the UI.
+The engine still accepts a legacy ResponseHistory for single-turn tests; application
+sessions pass WorkingMemory, whose history is authoritative.
+
+Phase 8A follow-up calibration extends only the exact-form lists: reversal accepts
+«А если посмотреть наоборот?», «А если всё наоборот?», «А с другой стороны?» and
+English “What if it's the opposite?”, “What if we look at it the other way?”,
+“What about the opposite?”, “On the other hand?”. Consequence also accepts
+«Что тогда?», «Что тогда остаётся?», «Что тогда остаётся неизменным?»,
+«И что из этого следует?» and “What remains then?”, “What remains unchanged then?”,
+“What follows from that?”. Existing Unicode/ё normalization applies. These are
+context forms, never canonical aliases or general substring triggers. The same
+previous-response grounding guard and explicit-topic precedence apply. Policy and
+material selection are unchanged: reversal uses contrast with unused tension,
+alternate claim or further available material; no logical negation is generated.
+
+## Active terminal geometry completion
+
+IntelligenceExperience forwards the existing configuration.layout to
+ReferenceComposition. Its data-layout selects authored CSS placement; the same
+TerminalCommunication instance renders in every layout, with inherited grid-column
+variables for signal and command. No alternate conversation controller, copied
+WorkingMemory or second layout state exists. The header displays the chosen letter.
+NeutralPortrait accepts an optional compact presentation flag for C's 72 × 90
+viewport; default selection/A/B portrait geometry remains 144 × 180. Assets are
+imported once through the existing shared map. DisplayStandard remains orthogonal.
+This completes the earlier active B/C deferral; no Phase 8B work is included.
+
+The subsequent hierarchy refinement keeps the same layout ownership. C uses a
+single full-width grid column and a persistent upper-right portrait module in the
+header row; SIGNAL and COMMAND each occupy their own full-width row. A/B and C
+share a semantic portrait figure/figcaption using the existing localized instance
+label. The secondary name at the signal status line is removed. No conversation
+session effects, scroll handlers, memory or transmission code are changed.
+
+Live geometry control uses a callback from ReferenceComposition through
+IntelligenceExperience to SetupExperience, the existing configuration owner.
+applyDisplayGeometry mutates only configuration.layout on the existing Svelte
+proxy; replacing the entire configuration object would invalidate unrelated
+locale/session props. No second applied-layout state exists. The overlay owns only
+its uncommitted cursor and restores DOM focus on apply/cancel. The terminal stays
+mounted, inert underneath the modal system mode; its controller, input draft,
+WorkingMemory, Character Core, transcript and transmission lifecycle are untouched.
+LayoutSchematic is shared by initial setup and the live geometry overlay.

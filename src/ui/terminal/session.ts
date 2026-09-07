@@ -7,7 +7,7 @@ import type { CharacterId } from '../../core/character/id';
 import type { Locale } from '../../core/language/locale';
 import { characterProfiles } from '../../core/character/profile';
 import type { ConversationEngine } from '../../core/conversation/engine';
-import { initialResponseHistory } from '../../core/conversation/model';
+import { initialWorkingMemory } from '../../core/memory/working';
 import { terminalMessages } from '../../locales/terminal';
 import {
   segmentTransmission,
@@ -34,7 +34,7 @@ export function createCommunicationSession(
 ) {
   let session: CommunicationSession = { state: 'ready', records: [] };
   let characterRuntime = createCharacterRuntime(character, Date.now());
-  let responseHistory = initialResponseHistory();
+  let workingMemory = initialWorkingMemory();
   let disposed = false;
   let reduced = reducedMotion;
   let playback: ReturnType<typeof startSemanticTransmission> | undefined;
@@ -44,7 +44,10 @@ export function createCommunicationSession(
       return structuredClone(characterRuntime);
     },
     inspectResponseHistory() {
-      return structuredClone(responseHistory);
+      return structuredClone(workingMemory.history);
+    },
+    inspectWorkingMemory() {
+      return structuredClone(workingMemory);
     },
     submit(raw: string): boolean {
       if (disposed || session.state !== 'ready') return false;
@@ -78,7 +81,7 @@ export function createCommunicationSession(
           characterProfiles[character],
           characterRuntime.disposition,
           locale,
-          responseHistory,
+          workingMemory,
         )
         .then((result) => {
           if (disposed) return;
@@ -106,7 +109,7 @@ export function createCommunicationSession(
                 type: 'responseCompleted',
                 at: Date.now(),
               });
-              responseHistory = result.nextHistory;
+              workingMemory = result.nextMemory;
               session = { ...session, state: 'ready' };
               publish(session);
               completed(response);

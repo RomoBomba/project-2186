@@ -1,3 +1,10 @@
+import {
+  initialWorkingMemory,
+  completeExchange,
+  type WorkingMemory,
+} from '../memory/working.ts';
+import { resolveContext } from '../memory/context.ts';
+import { contextualPlan } from './context-policy.ts';
 import type { CharacterProfile } from '../character/profile.ts';
 import type { BehaviourDisposition } from '../character/behaviour-policy.ts';
 import type { Locale } from '../language/locale.ts';
@@ -9,7 +16,7 @@ import { perceive } from './perception.ts';
 import { selectAttention } from './attention.ts';
 import { planResponse } from './policy.ts';
 import { readMaterial } from './material.ts';
-import { recordResponse, type ResponseHistory } from './model.ts';
+import { type ResponseHistory } from './model.ts';
 export class ConversationEngine {
   private readonly matcher: ConceptMatcher;
   private readonly graph: ConceptGraph;
@@ -24,12 +31,18 @@ export class ConversationEngine {
     profile: CharacterProfile,
     disposition: BehaviourDisposition,
     locale: Locale,
-    history: ResponseHistory,
+    workspace: ResponseHistory | WorkingMemory,
   ) {
+    const memory =
+      'history' in workspace
+        ? workspace
+        : { ...initialWorkingMemory(), history: workspace };
+    const history = memory.history;
     const matches = this.matcher.match(message, locale, {
       allowFallback: false,
     });
     const perception = perceive(message, locale, matches);
+    const context = resolveContext(message, perception, memory, locale);
     const attention = selectAttention(
       matches,
       this.graph,
@@ -37,7 +50,7 @@ export class ConversationEngine {
       locale,
       history,
     );
-    const { plan, candidates } = planResponse(
+    const planned = planResponse(
       perception,
       attention,
       disposition,
@@ -45,6 +58,16 @@ export class ConversationEngine {
       locale,
       history,
     );
+    const plan = contextualPlan(
+      planned.plan,
+      context,
+      memory,
+      this.graph,
+      locale,
+    );
+    const candidates = context.kind
+      ? [{ strategy: plan.strategy, weight: 1 }]
+      : planned.candidates;
     const material = plan.selectedMaterial
       .map((ref) => readMaterial(this.graph, ref, locale))
       .filter((item) => item !== undefined);
@@ -60,17 +83,23 @@ export class ConversationEngine {
     );
     if (!response.text.trim())
       throw new Error('IntelligenceProvider returned no response');
+    const nextMemory = completeExchange(
+      memory,
+      message,
+      perception,
+      plan,
+      response,
+      locale,
+    );
     return {
+      context,
+      nextMemory,
       perception,
       attention,
       candidates,
       plan,
       response,
-      nextHistory: recordResponse(
-        history,
-        plan.strategy,
-        response.usedMaterialKeys,
-      ),
+      nextHistory: nextMemory.history,
     };
   }
 }

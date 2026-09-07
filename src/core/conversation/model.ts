@@ -40,6 +40,12 @@ export function recordResponse(
   };
 }
 export type ResponsePlan = {
+  contextReference?: {
+    kind: import('../memory/context.ts').ContextKind;
+    turn: number;
+    previousMaterialKeys: string[];
+    exhausted: boolean;
+  };
   strategy: ResponseStrategy;
   primaryConceptId?: ConceptId;
   associatedConceptId?: ConceptId;

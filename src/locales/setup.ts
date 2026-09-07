@@ -22,6 +22,8 @@ type SetupMessages = {
   navigate: string;
   confirm: string;
   back: string;
+  apply: string;
+  current: string;
 };
 
 export const languageChoices = [
@@ -42,7 +44,7 @@ export const setupMessages = {
     audioPrompt: 'SYSTEM SIGNAL OUTPUT',
     layoutA: 'VISUAL / LEFT',
     layoutB: 'VISUAL / RIGHT',
-    layoutC: 'VISUAL / COMPACT',
+    layoutC: 'DIALOGUE',
     enabled: 'ENABLED',
     muted: 'MUTED',
     audioNote: 'SIGNAL CONFIGURATION ONLY / CHANNEL SILENT',
@@ -52,6 +54,8 @@ export const setupMessages = {
     navigate: 'ARROWS / SELECT',
     confirm: 'ENTER / CONFIRM',
     back: 'ESC / RETURN',
+    apply: 'ENTER / APPLY',
+    current: 'ACTIVE',
   },
   ru: {
     system: 'НАСТРОЙКА СИСТЕМЫ',
@@ -65,7 +69,7 @@ export const setupMessages = {
     audioPrompt: 'СИСТЕМНЫЕ ЗВУКОВЫЕ СИГНАЛЫ',
     layoutA: 'ИЗОБРАЖЕНИЕ / СЛЕВА',
     layoutB: 'ИЗОБРАЖЕНИЕ / СПРАВА',
-    layoutC: 'КОМПАКТНЫЙ КАНАЛ',
+    layoutC: 'ДИАЛОГ',
     enabled: 'ВКЛЮЧЁН',
     muted: 'ОТКЛЮЧЁН',
     audioNote: 'ПАРАМЕТР СИГНАЛОВ / ЗВУК ПОКА НЕДОСТУПЕН',
@@ -75,5 +79,7 @@ export const setupMessages = {
     navigate: 'СТРЕЛКИ / ВЫБОР',
     confirm: 'ENTER / ПОДТВЕРДИТЬ',
     back: 'ESC / ВОЗВРАТ',
+    apply: 'ENTER / ПРИМЕНИТЬ',
+    current: 'АКТИВНА',
   },
 } satisfies Record<Locale, SetupMessages>;
