@@ -26,7 +26,18 @@ const patterns: Record<Locale, Partial<Record<DialogueAct, string[]>>> = {
       'добрый вечер',
       'добрый день',
     ],
-    system_identity_question: ['кто ты', 'как тебя зовут', 'что ты такое'],
+    system_identity_question: [
+      'кто ты',
+      'ты кто',
+      'а ты кто',
+      'кто ты такая',
+      'кто ты такой',
+      'что ты',
+      'что ты такое',
+      'как тебя зовут',
+      'как твое имя',
+      'как тебя называют',
+    ],
     explanation_request: ['что такое', 'что значит', 'объясни'],
     disagreement: ['не согласен', 'не согласна', 'я бы поспорил'],
     uncertainty: ['не знаю', 'не уверен', 'не уверена', 'мне кажется'],
@@ -40,6 +51,8 @@ const patterns: Record<Locale, Partial<Record<DialogueAct, string[]>>> = {
       'who are you',
       'what are you',
       'what is your name',
+      "what's your name",
+      'and who are you',
     ],
     explanation_request: ['what is', 'explain'],
     disagreement: ['i disagree'],
@@ -66,7 +79,7 @@ export function perceive(
   if (greeting) {
     const remainder = normalized.slice(greeting.length).trim();
     const identity = (patterns[locale].system_identity_question ?? []).find(
-      (phrase) => remainder === phrase || remainder.startsWith(phrase + ' '),
+      (phrase) => remainder === phrase,
     );
     if (identity)
       return {
@@ -89,7 +102,11 @@ export function perceive(
   ];
   for (const act of order) {
     const phrase = (patterns[locale][act] ?? []).find(
-      act === 'uncertainty' || act === 'disagreement' ? contains : starts,
+      act === 'system_identity_question'
+        ? (phrase) => normalized === phrase
+        : act === 'uncertainty' || act === 'disagreement'
+          ? contains
+          : starts,
     );
     if (phrase)
       return {

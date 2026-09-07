@@ -16,9 +16,13 @@
     configuration,
     onlayoutchange,
     onselected,
+    oncancel,
     reducedMotion,
     active,
+    external = false,
   }: {
+    external?: boolean;
+    oncancel?: () => void;
     configuration: SystemConfiguration;
     onlayoutchange: (layout: Layout) => void;
     onselected?: (character: CharacterId) => void;
@@ -107,7 +111,10 @@
       !root?.contains(document.activeElement)
     )
       return;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    if (event.key === 'Escape' && oncancel) {
+      event.preventDefault();
+      if (!event.repeat) oncancel();
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
       model = updateSelection(model, {
         type: 'move',
@@ -129,7 +136,7 @@
     inert={!active || phase !== 'hold'}
     data-intelligence-stage={model.stage}
   >
-    {#if model.stage === 'shell'}
+    {#if model.stage === 'shell' && !external}
       <ReferenceComposition
         locale={configuration.language}
         layout={configuration.layout}
@@ -138,7 +145,7 @@
         {reducedMotion}
         active={active && phase === 'hold'}
       />
-    {:else}
+    {:else if model.stage !== 'shell'}
       <main
         class="intelligence"
         lang={configuration.language}

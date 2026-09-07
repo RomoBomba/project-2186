@@ -24,6 +24,54 @@ const history = initialResponseHistory();
 
 describe('conservative perception', () => {
   it.each([
+    'кто ты',
+    'ты кто',
+    'а ты кто',
+    'кто ты такая',
+    'кто ты такой',
+    'что ты',
+    'что ты такое',
+    'как тебя зовут',
+    'как твоё имя',
+    'как твое имя',
+    'как тебя называют',
+    'Привет, ты кто?',
+  ])('recognizes the complete Russian identity phrase: %s', async (text) => {
+    expect(perceive(text.toUpperCase() + '?', 'ru').act).toBe(
+      'system_identity_question',
+    );
+    const result = await engine.respond(
+      text,
+      characterProfiles.aletheia,
+      initial.disposition,
+      'ru',
+      history,
+    );
+    expect(result.plan.strategy).toBe('identify_self');
+  });
+  it.each([
+    'who are you',
+    'what are you',
+    "what's your name",
+    'what is your name',
+    'and who are you?',
+    'Hello, who are you?',
+  ])('preserves English identity: %s', (text) => {
+    expect(perceive(text, 'en').act).toBe('system_identity_question');
+  });
+  it.each([
+    'Ты знаешь, кто написал эту книгу?',
+    'Кто такой человек?',
+    'Имя автора мне неизвестно.',
+    'Что ты думаешь о памяти?',
+    'ты',
+    'кто',
+    'имя',
+  ])('rejects unrelated identity words: %s', (text) => {
+    expect(perceive(text, 'ru').act).not.toBe('system_identity_question');
+  });
+
+  it.each([
     ['ru', 'Привет, кто ты?', 'привет', 'кто ты?'],
     ['en', 'Hello, who are you?', 'hello', 'who are you?'],
   ] as const)(

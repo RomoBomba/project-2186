@@ -1,4 +1,7 @@
 <script lang="ts">
+  import SystemGate from '../system/SystemGate.svelte';
+  import type { SystemAction } from '../system/menu';
+  import type { SavedConfiguration } from '../../core/storage/model';
   import { tick } from 'svelte';
   import GeometryOverlay from './GeometryOverlay.svelte';
   import type { Layout } from '../setup/model';
@@ -16,7 +19,13 @@
     character,
     active,
     reducedMotion,
+    onsystemaction,
+    systemConfiguration,
+    systemOpen = $bindable(false),
   }: {
+    systemOpen?: boolean;
+    onsystemaction?: (action: SystemAction) => void;
+    systemConfiguration?: SavedConfiguration;
     locale?: Locale;
     layout?: Layout;
     onlayoutchange?: (layout: Layout) => void;
@@ -27,7 +36,7 @@
   let geometryOpen = $state(false);
   let returnFocus: HTMLElement | null = null;
   function openGeometry() {
-    if (!active || geometryOpen) return;
+    if (!active || geometryOpen || systemOpen) return;
     returnFocus = document.activeElement as HTMLElement | null;
     geometryOpen = true;
   }
@@ -36,7 +45,22 @@
     geometryOpen = false;
     void tick().then(() => returnFocus?.focus({ preventScroll: true }));
   }
+  function openSystem() {
+    if (!active || geometryOpen || systemOpen) return;
+    returnFocus = document.activeElement as HTMLElement | null;
+    systemOpen = true;
+  }
+  function systemAction(action: SystemAction) {
+    if (action !== 'intelligence') systemOpen = false;
+    if (action === 'return')
+      void tick().then(() => returnFocus?.focus({ preventScroll: true }));
+    else onsystemaction?.(action);
+  }
   function keydown(event: KeyboardEvent) {
+    if (event.key === 'F1' && active && onsystemaction) {
+      event.preventDefault();
+      if (!event.repeat) openSystem();
+    }
     if (event.key === 'F2' && active) {
       event.preventDefault();
       if (!event.repeat) openGeometry();
@@ -48,7 +72,7 @@
 <svelte:window onkeydown={keydown} />
 <div class="terminal-surface">
   <main
-    inert={geometryOpen}
+    inert={geometryOpen || systemOpen || !active}
     class="composition"
     data-layout={layout}
     lang={locale}
@@ -67,6 +91,13 @@
           aria-keyshortcuts="F2"
           onclick={openGeometry}>{labels.display} / {layout}</button
         >
+        {#if onsystemaction}<button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={systemOpen}
+            aria-keyshortcuts="F1"
+            onclick={openSystem}>SYSTEM / MENU</button
+          >{/if}
       </div>
     </header>
 
@@ -88,8 +119,21 @@
       </figure>
     </section>
 
-    <TerminalCommunication {character} {locale} {active} {reducedMotion} />
+    <TerminalCommunication
+      {character}
+      {locale}
+      active={active && !geometryOpen && !systemOpen}
+      {reducedMotion}
+    />
   </main>
+  {#if systemOpen && systemConfiguration}
+    <SystemGate
+      configuration={systemConfiguration}
+      menu
+      {active}
+      onaction={systemAction}
+    />
+  {/if}
   {#if geometryOpen}
     <div class="geometry-backdrop"></div>
     <GeometryOverlay
@@ -102,6 +146,12 @@
 </div>
 
 <style>
+  .display-designation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
   .geometry-backdrop {
     position: absolute;
     inset: 0;

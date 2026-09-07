@@ -466,3 +466,33 @@ Every layout consumes the same semantic display colours and one communication
 component/session. Portrait rendering stays pixelated and its authored colours
 remain independent of CIVIC, PHOSPHOR and AMBER. Layout changes update the existing session configuration only; the overlay holds
 only a temporary navigation cursor. C's compact inset and full-width reading hierarchy are the specific author-review points.
+
+## Phase 8C — returning system and navigation
+
+A valid saved configuration now leads from boot to an authored returning gate.
+Its single metadata line is `AURA │ ЭКРАН / C │ AMBER` (localized DISPLAY in English).
+The four indexed rows are CONTINUE, NEW SESSION, SYSTEM CONFIGURATION and SELECT
+INTELLIGENCE. There are no resolution, audio, storage or memory statistics here.
+Arrow keys select a row, Enter applies, and each row is a semantic clickable button.
+The visible `>` marker and brighter text share one selected row; menu rows have
+no underline. Up/Down navigate vertically; Left/Right are convenience aliases.
+The help remains ↑ ↓. Keyboard focus follows the same selected index.
+
+The active terminal has exactly two metadata controls stacked at its upper right:
+DISPLAY / X (F2) and SYSTEM / MENU (F1). F2 keeps the existing geometry quick path.
+F1 replaces the visible surface with the same restrained ruled system language;
+its first action is RETURN rather than CONTINUE. Escape/RETURN closes it safely,
+restoring access to the underlying live terminal. There is no blur, rounded modal,
+icon, statistics panel or new visual-effects system. Browser-reserved shortcuts may
+not be delivered; both controls remain clickable and reachable by Tab.
+
+Configuration reuses the existing four setup stages with current values preselected.
+Escape/back moves through stages; on the language stage it cancels editing and
+returns, restoring the original display standard. Confirmation of audio applies the
+configuration. From the returning gate this returns to the gate; from the terminal
+it returns to the same conversation. New-session and intelligence-selection mode
+changes reuse the approved 220/360 collapse/expand primitive; reduced motion removes
+those geometric delays. Boot is never replayed for navigation.
+
+CONTINUE does not restore the transcript. NEW SESSION does not erase persistent
+memory. These actions operate on working sessions, not stored character history.

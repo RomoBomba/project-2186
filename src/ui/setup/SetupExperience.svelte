@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, tick, type Snippet } from 'svelte';
+  import { onDestroy, tick, untrack, type Snippet } from 'svelte';
   import { languageChoices, setupMessages } from '../../locales/setup';
   import DisplayTransition from '../display/DisplayTransition.svelte';
   import { displayStandards, type DisplayStandard } from '../display/standards';
@@ -21,13 +21,36 @@
     active,
     onstandardchange,
     children,
+    initial,
+    initialStage = 'language',
+    oncomplete,
+    oncancel,
   }: {
-    children: Snippet<[SystemConfiguration, boolean, (layout: Layout) => void]>;
+    initial?: SystemConfiguration;
+    initialStage?: 'language' | 'audio';
+    oncomplete?: (configuration: SystemConfiguration) => void;
+    oncancel?: (() => void) | undefined;
+    children?: Snippet<
+      [SystemConfiguration, boolean, (layout: Layout) => void]
+    >;
     reducedMotion: boolean;
     active: boolean;
     onstandardchange: (standard: DisplayStandard) => void;
   } = $props();
-  let model = $state(createSetup());
+  let model = $state<SetupModel>(
+    untrack(() =>
+      initial
+        ? { stage: initialStage, configuration: { ...initial } }
+        : createSetup(),
+    ),
+  );
+  let reported = false;
+  $effect(() => {
+    if (model.stage === 'complete' && phase === 'hold' && !reported) {
+      reported = true;
+      oncomplete?.({ ...model.configuration });
+    }
+  });
   let cursor = $state(1);
   let phase = $state<'hold' | 'collapse' | 'expand'>('hold');
   let root = $state<HTMLElement>();
@@ -152,7 +175,10 @@
       !root?.contains(document.activeElement)
     )
       return;
-    if (event.key === 'Escape' && model.stage !== 'language') {
+    if (event.key === 'Escape' && model.stage === 'language' && oncancel) {
+      event.preventDefault();
+      if (!event.repeat) oncancel();
+    } else if (event.key === 'Escape' && model.stage !== 'language') {
       event.preventDefault();
       if (!event.repeat) apply({ type: 'back' });
     } else if (
@@ -176,7 +202,7 @@
   {reducedMotion}
 >
   {#if model.stage === 'complete'}
-    {@render children(
+    {@render children?.(
       model.configuration,
       active && phase === 'hold',
       (layout) => {
@@ -290,10 +316,13 @@
 
       <footer>
         <span>{copy.navigate}</span><span>{copy.confirm}</span>
-        {#if model.stage !== 'language'}<button
+        {#if model.stage !== 'language' || oncancel}<button
             class="back"
             type="button"
-            onclick={() => apply({ type: 'back' })}>{copy.back}</button
+            onclick={() =>
+              model.stage === 'language'
+                ? oncancel?.()
+                : apply({ type: 'back' })}>{copy.back}</button
           >{/if}
       </footer>
     </main>

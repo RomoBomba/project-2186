@@ -26,6 +26,7 @@ export const maximumCommandLength = 512;
 export type TranscriptRecord = {
   id: number;
   speaker: 'user' | CharacterId;
+  locale?: Locale;
   text: string;
 };
 export type CommunicationSession = {
@@ -65,6 +66,9 @@ export function createCommunicationSession(
   let reduced = reducedMotion;
   let playback: ReturnType<typeof startSemanticTransmission> | undefined;
   return {
+    setLocale(value: Locale) {
+      locale = value;
+    },
     // Detached data snapshot for tests/inspection; never rendered by the artwork.
     inspectLongTermMemory() {
       return structuredClone(longTermMemory);
@@ -82,10 +86,11 @@ export function createCommunicationSession(
       if (disposed || session.state !== 'ready') return false;
       const text = raw.trim();
       if (!text || raw.length > maximumCommandLength) return false;
+      const exchangeLocale = locale;
       const priorSemantic = longTermMemory.semantic;
       longTermMemory = retainCandidates(
         longTermMemory,
-        extractMemoryCandidates(text, locale, workingMemory),
+        extractMemoryCandidates(text, exchangeLocale, workingMemory),
         Date.now(),
       );
       const observation = observeSurface(text);
@@ -99,11 +104,13 @@ export function createCommunicationSession(
       const user: TranscriptRecord = {
         id: session.records.length + 1,
         speaker: 'user',
+        locale: exchangeLocale,
         text,
       };
       let response: TranscriptRecord = {
         id: user.id + 1,
         speaker: character,
+        locale: exchangeLocale,
         text: '',
       };
       session = {
@@ -116,7 +123,7 @@ export function createCommunicationSession(
           text,
           characterProfiles[character],
           characterRuntime.disposition,
-          locale,
+          exchangeLocale,
           workingMemory,
           { semantic: priorSemantic, referencedIds, lastReferenceTurn },
         )
@@ -171,7 +178,7 @@ export function createCommunicationSession(
           });
           response = {
             ...response,
-            text: terminalMessages[locale].unavailable,
+            text: terminalMessages[exchangeLocale].unavailable,
           };
           session = {
             state: 'ready',
@@ -187,6 +194,7 @@ export function createCommunicationSession(
       playback?.reduceMotion();
     },
     cancel() {
+      save();
       disposed = true;
       playback?.cancel();
     },

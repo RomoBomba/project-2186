@@ -32,7 +32,7 @@
   let input = $state<HTMLInputElement>();
   let viewport = $state<HTMLDivElement>();
   let followLatest = true;
-  let controller: ReturnType<typeof createCommunicationSession> | undefined;
+  let controller = $state<ReturnType<typeof createCommunicationSession>>();
   const labels = $derived(systemMessages[locale]);
   const copy = $derived(terminalMessages[locale]);
   const busy = $derived(session.state !== 'ready');
@@ -43,7 +43,7 @@
     announcement = '';
     const current = createCommunicationSession(
       character,
-      locale,
+      untrack(() => locale),
       (next) => {
         session = next;
       },
@@ -61,6 +61,9 @@
     );
     controller = current;
     return () => current.cancel();
+  });
+  $effect(() => {
+    controller?.setLocale(locale);
   });
   $effect(() => {
     if (reducedMotion) controller?.reduceMotion();
@@ -121,7 +124,7 @@
           <li>
             <span class="record-label"
               >{record.speaker === 'user'
-                ? copy.you
+                ? terminalMessages[record.locale ?? locale].you
                 : record.speaker.toUpperCase()} / {String(record.id).padStart(
                 3,
                 '0',

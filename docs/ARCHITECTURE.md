@@ -1108,3 +1108,65 @@ these fixed idioms request clarification, retaining raw matches for inspection w
 fabricating an active thread. Other explicit topic formulations, including
 “А что тогда такое истина?” and “Then what is truth?”, retain normal topic precedence.
 This is a bounded idiom rule, not a general deictic/coreference parser.
+
+## Phase 8C — application navigation ownership
+
+`SystemExperience` owns the small post-boot screen flow: returning gate, terminal,
+setup, configuration edit and existing intelligence selection. It consumes the
+existing Persistence configuration; there is no second returning-screen store.
+Fresh/invalid configuration starts setup. Valid configuration starts the gate.
+CONTINUE creates a terminal controller from the selected character snapshot, with
+empty transcript, WorkingMemory and session anti-repetition state.
+
+NEW SESSION unmounts the old working terminal and reuses full setup and intelligence
+selection. It never calls deletion APIs. SELECT INTELLIGENCE reuses the existing
+selector and confirmation, preserving global settings. On terminal disposal the
+current persistent snapshot is saved into the existing cache/ordered write queue
+and pending playback is cancelled. The next character resolves its own cached
+snapshot; unavailable persistence continues to use the same session-only fallback.
+The web MVP still assumes one writer tab; navigation introduces no schema migration.
+
+Configuration editing from a terminal keeps that terminal mounted, hidden and inert.
+Only its global presentation configuration changes after completion. Transcript,
+WorkingMemory, runtime, memory, repetition metadata, draft input and scroll ownership
+remain with the same controller. A response already transmitting may finish while
+the system surface is open. No transmission timing is altered. From the gate,
+configuration editing returns to the gate without opening a terminal.
+
+Language changes call the UI-session `setLocale` rather than recreating its controller.
+Each accepted exchange captures its language, including failure copy and transcript
+speaker-label locale; existing records remain unchanged. Subsequent requests use the
+new locale. WorkingMemory is retained without translation; its existing same-locale
+context safety remains in force. No cognition or cross-language context inference is
+added in this phase.
+
+Ownership remains: global configuration (language/layout/standard/audio/selected id),
+character-scoped persistent runtime and semantic/episodic memory, and session-only
+transcript/WorkingMemory/context/repetition. CONTINUE does NOT restore transcript;
+NEW SESSION does NOT erase persistent memory. Neither action resets relationships.
+
+### Returning-gate input regression
+
+The gate's selected index is read synchronously by the Svelte focus effect before
+awaiting tick. Previously it was read only in the promise callback, so arrows moved
+the marker without moving DOM focus; native Enter activated the still-focused
+CONTINUE button. There was no restore-driven auto-continue effect. Enter now prevents
+native duplicate activation and dispatches the selected action explicitly; mouse
+click dispatches the clicked row. Navigation routes are mapped explicitly by
+`ui/system/menu.ts`. Actions are accepted only from the active gate/terminal, and
+setup/selection completion callbacks are ignored outside their respective routes.
+Persisted configuration is initialization data, never a terminal-navigation event.
+
+### Phase 8C selector cancellation
+
+The selector carries only an immediate origin: gate, active terminal/menu, or
+setup. Escape during selection returns there; setup resumes at audio. Opening the
+selector from the terminal keeps its mounted session and system menu intact.
+Cancellation neither saves configuration nor disposes the session. A different
+confirmed intelligence changes the terminal key, saving the old snapshot through
+existing teardown and loading the new character. Confirming the current character
+keeps the existing session and closes the menu.
+
+Identity perception recognizes complete normalized RU/EN phrases, optionally after
+an existing greeting. Short “что ты” must match the complete phrase, not questions
+such as “что ты думаешь о памяти”. No knowledge aliases or provider logic are used.

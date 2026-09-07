@@ -3,13 +3,11 @@
   import type { DisplayStandard } from './ui/display/standards';
   import DisplayShell from './ui/display/DisplayShell.svelte';
   import BootExperience from './ui/boot/BootExperience.svelte';
-  import SetupExperience from './ui/setup/SetupExperience.svelte';
-  import IntelligenceExperience from './ui/character-select/IntelligenceExperience.svelte';
+  import SystemExperience from './ui/system/SystemExperience.svelte';
   import './ui/global.css';
   import { Persistence, persistenceContext } from './application/persistence';
   import { IndexedDBStorage } from './infrastructure/storage/indexed-db';
   import type { SavedConfiguration } from './core/storage/model';
-  import ReferenceComposition from './ui/display/ReferenceComposition.svelte';
   const persistence = new Persistence(new IndexedDBStorage());
   setContext(persistenceContext, persistence);
   let restored = $state<SavedConfiguration>();
@@ -41,46 +39,14 @@
 <DisplayShell>
   <BootExperience>
     {#snippet children(reducedMotion, active)}
-      {#if loaded && restored}
-        <ReferenceComposition
-          locale={restored.language}
-          layout={restored.layout}
-          character={restored.character}
+      {#if loaded}
+        <SystemExperience
+          {persistence}
+          initial={restored}
           {active}
           {reducedMotion}
-          onlayoutchange={(layout) => {
-            if (restored) {
-              restored.layout = layout;
-              persistence.saveConfiguration({ ...restored });
-            }
-          }}
+          onstandardchange={(value) => (standard = value)}
         />
-      {:else if loaded}
-        <SetupExperience
-          {reducedMotion}
-          {active}
-          onstandardchange={(value) => {
-            standard = value;
-          }}
-        >
-          {#snippet children(configuration, setupActive, onlayoutchange)}
-            <IntelligenceExperience
-              {configuration}
-              onlayoutchange={(layout) => {
-                onlayoutchange(layout);
-                if (persistence.configuration)
-                  persistence.saveConfiguration({
-                    ...persistence.configuration,
-                    layout,
-                  });
-              }}
-              onselected={(character) =>
-                persistence.saveConfiguration({ ...configuration, character })}
-              {reducedMotion}
-              active={setupActive}
-            />
-          {/snippet}
-        </SetupExperience>
       {/if}
     {/snippet}
   </BootExperience>
