@@ -1,7 +1,13 @@
+import {
+  recognizeSelfQuery,
+  type SelfQuery,
+  type SelfQueryKind,
+} from '../self/query.ts';
 import type { Locale } from '../language/locale.ts';
 import { conceptTokens } from '../knowledge/normalization.ts';
 import type { ConceptMatch } from '../knowledge/matcher.ts';
 export type DialogueAct =
+  | 'self_question'
   | 'greeting'
   | 'system_identity_question'
   | 'explanation_request'
@@ -12,6 +18,7 @@ export type DialogueAct =
   | 'personal_disclosure'
   | 'other';
 export type Perception = {
+  selfQuery?: SelfQuery;
   act: DialogueAct;
   evidence: string[];
   isQuestion: boolean;
@@ -66,6 +73,7 @@ export function perceive(
   text: string,
   locale: Locale,
   matches: ConceptMatch[] = [],
+  previousSelf?: SelfQueryKind,
 ): Perception {
   const tokens = conceptTokens(text);
   const normalized = tokens.join(' ');
@@ -89,6 +97,15 @@ export function perceive(
         matches,
       };
   }
+  const selfQuery = recognizeSelfQuery(text, locale, previousSelf);
+  if (selfQuery)
+    return {
+      act: 'self_question',
+      selfQuery,
+      evidence: [selfQuery.evidence],
+      isQuestion: true,
+      matches,
+    };
   const question =
     text.includes('?') || (patterns[locale].question ?? []).some(starts);
   const order: DialogueAct[] = [

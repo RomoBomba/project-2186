@@ -1,3 +1,8 @@
+import { selfQueryKinds, type SelfQueryKind } from '../../core/self/query.ts';
+import {
+  createSystemSelfModel,
+  availableSelfFacts,
+} from '../../core/self/model.ts';
 import { readFile } from 'node:fs/promises';
 import { parse } from 'yaml';
 import type { Locale } from '../../core/language/locale.ts';
@@ -26,6 +31,8 @@ export type BenchmarkCase = {
   mustAnswer: boolean;
   mustNotMatch: string[];
   context?: string[];
+  selfCohort?: 'original' | 'expanded';
+  expectedSelfQuery?: SelfQueryKind;
 };
 export async function loadBenchmark(
   cards: readonly ConceptCard[],
@@ -63,6 +70,10 @@ export async function loadBenchmark(
         'false_positive',
       ].includes(c.category) ||
       typeof c.mustAnswer !== 'boolean' ||
+      (c.category === 'self' &&
+        (!c.expectedSelfQuery ||
+          !selfQueryKinds.includes(c.expectedSelfQuery) ||
+          !['original', 'expanded'].includes(c.selfCohort ?? ''))) ||
       ![c.expectedConcepts, c.mustNotMatch].every(
         (a) => Array.isArray(a) && a.every((id) => concepts.has(id)),
       ) ||
@@ -112,7 +123,23 @@ export async function runBenchmark(
         c.locale,
         memory,
       );
+      const self = result.plan.selfMaterial;
+      const available = availableSelfFacts(
+        createSystemSelfModel(characterProfiles[character]),
+      );
+      const selfGrounded =
+        !!self &&
+        self.facts.length > 0 &&
+        self.facts.every((f) => available.includes(f)) &&
+        (!['reasoning', 'consciousness'].includes(self.query.kind) ||
+          self.facts.includes('experience_unestablished')) &&
+        (self.query.kind !== 'memory' ||
+          self.facts.includes('no_full_transcript')) &&
+        !self.facts.includes('retained_user');
       planning.push({
+        selfQuery: result.perception.selfQuery?.kind ?? null,
+        selfMaterial: self ?? null,
+        selfGrounded,
         character,
         strategy: result.plan.strategy,
         primary: result.plan.primaryConceptId ?? null,
@@ -152,7 +179,52 @@ export async function runBenchmark(
     c.expectedConcepts.map((id) => c.matches.some((m) => m.conceptId === id)),
   );
   const relations = ordinary.filter((c) => c.category === 'relation');
+  const selfRows = rows.filter((c) => c.category === 'self');
+  const selfMetrics = (cohort: typeof selfRows) => ({
+    selfQueryClassificationAccuracy: ratio(
+      cohort.reduce(
+        (n, c) =>
+          n +
+          c.planning.filter((p) => p.selfQuery === c.expectedSelfQuery).length,
+        0,
+      ),
+      cohort.length * 3,
+    ),
+    selfAnswerCoverage: ratio(
+      cohort.filter((c) =>
+        c.planning.every(
+          (p) =>
+            p.selfQuery === c.expectedSelfQuery &&
+            p.selfMaterial &&
+            p.response.trim(),
+        ),
+      ).length,
+      cohort.length,
+    ),
+    selfGroundingAccuracy: ratio(
+      cohort.reduce(
+        (n, c) => n + c.planning.filter((p) => p.selfGrounded).length,
+        0,
+      ),
+      cohort.length * 3,
+    ),
+  });
   return {
+    selfMetrics: {
+      original: selfMetrics(
+        selfRows.filter((c) => c.selfCohort === 'original'),
+      ),
+      expanded: selfMetrics(
+        selfRows.filter((c) => c.selfCohort === 'expanded'),
+      ),
+      selfFalsePositiveRate: ratio(
+        ordinary.reduce(
+          (n, c) => n + c.planning.filter((p) => p.selfQuery !== null).length,
+          0,
+        ),
+        ordinary.length * 3,
+      ),
+    },
     corpusCount: cards.length,
     caseCount: rows.length,
     localeCounts: {
@@ -199,9 +271,11 @@ export async function runBenchmark(
       rows.filter(
         (c) =>
           c.category === 'self' &&
+          c.selfCohort === 'original' &&
           c.matches.some((m) => c.expectedConcepts.includes(m.conceptId)),
       ).length,
-      rows.filter((c) => c.category === 'self').length,
+      rows.filter((c) => c.category === 'self' && c.selfCohort === 'original')
+        .length,
     ),
     contextualCoverage: ratio(
       rows

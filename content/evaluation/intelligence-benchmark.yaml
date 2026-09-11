@@ -1451,6 +1451,8 @@
     - science.intelligence
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: reasoning
 - id: en-064
   locale: en
   input: Do you think?
@@ -1460,6 +1462,8 @@
     - science.intelligence
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: reasoning
 - id: ru-065
   locale: ru
   input: Ты создаёшь искусство?
@@ -1469,6 +1473,8 @@
     - art.creation
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: creativity
 - id: en-065
   locale: en
   input: Do you create art?
@@ -1478,6 +1484,8 @@
     - art.creation
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: creativity
 - id: ru-066
   locale: ru
   input: В чём ты уникальна?
@@ -1487,6 +1495,8 @@
     - art.originality
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: character_difference
 - id: en-066
   locale: en
   input: What makes you unique?
@@ -1496,6 +1506,8 @@
     - art.originality
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: character_difference
 - id: ru-067
   locale: ru
   input: Ты помнишь меня?
@@ -1505,6 +1517,8 @@
     - identity.memory
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: memory
 - id: en-067
   locale: en
   input: Do you remember me?
@@ -1514,6 +1528,8 @@
     - identity.memory
   mustAnswer: true
   mustNotMatch: []
+  selfCohort: original
+  expectedSelfQuery: memory
 - id: ru-068
   locale: ru
   input: Почему?
@@ -1636,3 +1652,475 @@
     - science.intelligence
     - world.archives
     - world.reconstruction
+- id: ru-self-001
+  locale: ru
+  input: Кто ты?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: identity
+- id: en-self-001
+  locale: en
+  input: Who are you?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: identity
+- id: ru-self-002
+  locale: ru
+  input: Что ты такое?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: identity
+- id: en-self-002
+  locale: en
+  input: What are you?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: identity
+- id: ru-self-003
+  locale: ru
+  input: Ты думаешь?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: en-self-003
+  locale: en
+  input: Do you think?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: ru-self-004
+  locale: ru
+  input: Ты умеешь рассуждать?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: en-self-004
+  locale: en
+  input: Can you reason?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: ru-self-005
+  locale: ru
+  input: Как ты приходишь к ответу?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: en-self-005
+  locale: en
+  input: How do you arrive at answers?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: ru-self-006
+  locale: ru
+  input: Ты меня помнишь?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: en-self-006
+  locale: en
+  input: Do you remember me?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: ru-self-007
+  locale: ru
+  input: Ты всё запоминаешь?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: en-self-007
+  locale: en
+  input: Do you remember everything?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: ru-self-008
+  locale: ru
+  input: Ты помнишь наши прошлые разговоры?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: en-self-008
+  locale: en
+  input: Do you remember previous conversations?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: ru-self-009
+  locale: ru
+  input: У тебя есть сознание?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: consciousness
+- id: en-self-009
+  locale: en
+  input: Are you conscious?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: consciousness
+- id: ru-self-010
+  locale: ru
+  input: Есть ли у тебя субъективный опыт?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: consciousness
+- id: en-self-010
+  locale: en
+  input: Do you have subjective experience?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: consciousness
+- id: ru-self-011
+  locale: ru
+  input: Ты создаёшь искусство?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: creativity
+- id: en-self-011
+  locale: en
+  input: Do you create art?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: creativity
+- id: ru-self-012
+  locale: ru
+  input: Ты можешь создать что-то новое?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: creativity
+- id: en-self-012
+  locale: en
+  input: Can you create something new?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: creativity
+- id: ru-self-013
+  locale: ru
+  input: У тебя есть тело?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: embodiment
+- id: en-self-013
+  locale: en
+  input: Do you have a body?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: embodiment
+- id: ru-self-014
+  locale: ru
+  input: Это твоё лицо?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: embodiment
+- id: en-self-014
+  locale: en
+  input: Is that your face?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: embodiment
+- id: ru-self-015
+  locale: ru
+  input: Чем ты отличаешься от других интеллектов?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: character_difference
+- id: en-self-015
+  locale: en
+  input: What makes you different from the other intelligences?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: character_difference
+- id: ru-self-016
+  locale: ru
+  input: В чём ты уникальна?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: character_difference
+- id: en-self-016
+  locale: en
+  input: What is unique about you?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: character_difference
+- id: ru-self-017
+  locale: ru
+  input: Что ты умеешь?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: capability
+- id: en-self-017
+  locale: en
+  input: What can you do?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: capability
+- id: ru-self-018
+  locale: ru
+  input: Ты спишь?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: unknown_self
+- id: en-self-018
+  locale: en
+  input: Do you sleep?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: unknown_self
+- id: ru-self-019
+  locale: ru
+  input: Привет, ты кто?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: identity
+- id: en-self-019
+  locale: en
+  input: Hello, who are you?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: identity
+- id: ru-self-020
+  locale: ru
+  input: А сознание у тебя есть?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: consciousness
+- id: en-self-020
+  locale: en
+  input: Do you have consciousness?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: consciousness
+- id: ru-self-021
+  locale: ru
+  input: Чем мышление отличается для тебя от сознания?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: en-self-021
+  locale: en
+  input: How does thinking differ from consciousness for you?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: reasoning
+- id: ru-self-022
+  locale: ru
+  input: Что именно ты можешь помнить?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: en-self-022
+  locale: en
+  input: What exactly can you remember?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: ru-self-023
+  locale: ru
+  input: Ты помнишь весь наш прошлый разговор?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: en-self-023
+  locale: en
+  input: Do you remember our whole last conversation?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: memory
+- id: ru-self-024
+  locale: ru
+  input: Это твоё лицо на экране?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: embodiment
+- id: en-self-024
+  locale: en
+  input: Is that your face on the screen?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: embodiment
+- id: ru-self-025
+  locale: ru
+  input: Чем ты отличаешься от двух других интеллектов?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: character_difference
+- id: en-self-025
+  locale: en
+  input: How do you differ from the other two intelligences?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: character_difference
+- id: ru-self-026
+  locale: ru
+  input: Тогда чем твоё создание отличается от копирования?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: creativity
+  context:
+    - Ты создаёшь искусство?
+- id: en-self-026
+  locale: en
+  input: Then how does your creation differ from copying?
+  category: self
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  selfCohort: expanded
+  expectedSelfQuery: creativity
+  context:
+    - Do you create art?

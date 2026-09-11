@@ -51,3 +51,28 @@ audit artifacts retain metrics and per-case evidence/plans. Full responses remai
 reproducible with --details. Do not tune expected labels to improve metrics.
 Canonical/title coverage makes this easier than unseen conversation: the score is
 not general intelligence accuracy.
+
+## Phase 9A1 self cohort
+
+The original eight inputs and their concept expectations are preserved with
+`selfCohort: original`; 52 additional self inputs (26 RU + 26 EN) use `expanded`.
+Each has `expectedSelfQuery`. There are now 194 cases. The original general-retrieval
+metrics and the original raw self retrieval metric retain their old denominators.
+Self handling is a distinct path: raw ConceptMatcher self recall can remain 0/8 while
+system-self answer coverage reaches 8/8.
+
+New deterministic metrics, separated by original/expanded cohort:
+
+- selfQueryClassificationAccuracy: expected SelfQueryKind / case × character pairs.
+- selfAnswerCoverage: cases where all three characters produce the expected self kind,
+  a self plan and nonempty response / self cases (8 or 52).
+- selfGroundingAccuracy: selected self facts belong to the exposed model, reasoning
+  and consciousness carry their qualification, memory includes the no-full-transcript
+  limit, and no retained-user claim is made in these empty-memory runs / self pairs.
+  This measures plan grounding, not a semantic judgment of arbitrary prose.
+- selfFalsePositiveRate: ordinary non-self case × character pairs incorrectly routed
+  to self /384. Additional general-question false positives are covered by unit tests.
+
+All new self metrics use the existing runner. Name/preference state and reload cases
+are exercised separately in domain tests; the benchmark never reads browser memory.
+Frozen 9A0 baseline/after JSON reports are historical artifacts, not rewritten outputs.

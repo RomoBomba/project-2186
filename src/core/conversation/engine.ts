@@ -1,3 +1,5 @@
+import { createSystemSelfModel } from '../self/model.ts';
+import { planSelfResponse } from '../self/plan.ts';
 import {
   retrieveMemories,
   inspectMemoryRetrieval,
@@ -52,7 +54,21 @@ export class ConversationEngine {
     const matches = this.matcher.match(message, locale, {
       allowFallback: false,
     });
-    const perception = perceive(message, locale, matches);
+    const previousSelf =
+      memory.lastResponse?.locale === locale
+        ? memory.lastResponse.plan.selfMaterial?.query.kind
+        : undefined;
+    const perception = perceive(message, locale, matches, previousSelf);
+    const selfQuery =
+      perception.selfQuery ??
+      (perception.act === 'system_identity_question'
+        ? {
+            kind: 'identity' as const,
+            evidence: perception.evidence.join(' / '),
+            contextual: false,
+          }
+        : undefined);
+    if (selfQuery) perception.selfQuery = selfQuery;
     const context = resolveContext(message, perception, memory, locale);
     const attention = selectAttention(
       matches,
@@ -81,11 +97,23 @@ export class ConversationEngine {
       history,
       disclosure,
     );
-    const plan = planned.plan.userGroundedMaterial
-      ? planned.plan
-      : contextualPlan(planned.plan, context, memory, this.graph, locale);
+    const plan = selfQuery
+      ? planSelfResponse(
+          selfQuery,
+          createSystemSelfModel(profile, longTerm?.semantic),
+          disposition,
+          history.turn,
+        )
+      : planned.plan.userGroundedMaterial
+        ? planned.plan
+        : contextualPlan(planned.plan, context, memory, this.graph, locale);
+    if (plan.selfMaterial)
+      plan.selfMaterial.supportingConcepts =
+        plan.selfMaterial.supportingConcepts.filter(
+          (id) => !!this.graph.get(id),
+        );
     const memoryReferenceBlockers: string[] = [];
-    if (longTerm) {
+    if (longTerm && !plan.selfMaterial) {
       const relevant = retrieveMemories(message, locale, longTerm.semantic);
       if (relevant.length) plan.longTermContext = relevant;
       const reference = relevant.find(
@@ -123,9 +151,10 @@ export class ConversationEngine {
       if (!memoryReferenceBlockers.length && reference)
         plan.acknowledgeMemoryId = reference.id;
     }
-    const candidates = context.kind
-      ? [{ strategy: plan.strategy, weight: 1 }]
-      : planned.candidates;
+    const candidates =
+      plan.selfMaterial || context.kind
+        ? [{ strategy: plan.strategy, weight: 1 }]
+        : planned.candidates;
     const material = plan.selectedMaterial
       .map((ref) => readMaterial(this.graph, ref, locale))
       .filter((item) => item !== undefined);

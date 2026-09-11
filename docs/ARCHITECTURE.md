@@ -1190,3 +1190,52 @@ of both question and query token sets. Meaningful tokens retain the existing len
 Matching a question does not instruct realization to repeat it. Existing policy
 still selects authored material independently. Attention, character calibration,
 graph traversal and SemanticTransmission remain unchanged.
+
+## Phase 9A1 — system self knowledge
+
+`core/self/model.ts` owns SystemSelfModel, plain serializable facts about the shared
+artificial architecture: functional reasoning, bounded conversational context,
+selective retention, no complete historical transcript, unestablished subjective
+equivalence, compositional creation, visual representation without a biological
+body, character-scoped continuity, and profile identity/interests. This is separate
+from ConceptCard/ConceptGraph and contains no final response prose. CharacterProfile
+remains the source of character differences; its calibration is unchanged.
+
+`core/self/query.ts` recognizes small anchored RU/EN phrase families, using existing
+normalization. An explicit second-person construction is required; general questions
+about machines, memory or consciousness remain general knowledge. Known identity
+phrases and greeting precedence retain the existing Perception path and are mapped
+to the same self plan in ConversationEngine. Unsupported personal-attribute questions
+use a bounded unknown_self family, not a blanket trigger on “you”.
+
+Perception exposes SelfQuery; `core/self/plan.ts` chooses factual IDs and qualifications
+before the provider runs. ResponsePlan.selfMaterial contains the query, selected facts,
+profile-derived character/comparison interests, optional criterion question and possible
+supporting concept IDs. Supporting IDs are filtered against the actual graph; no
+encyclopedia material replaces the self answer. The existing strategy vocabulary is
+reused (identify_self, reflect, admit_uncertainty). General ResponsePolicy is unchanged.
+
+The engine derives retained-user-information only from current, high-confidence valid
+semantic records supplied by the caller. Self plans expose only its boolean consequence,
+never names, values, counts or entire memory records. With no such records, the system
+does not claim recollection. Prior-conversation questions always include the absence
+of a complete historical transcript. Storage adapters and extraction/salience are not
+called or changed by the self model. No additional persistence schema is introduced.
+
+`characters/self.ts` supplies localized factual clauses. BasicIntelligenceProvider
+realizes a complete response from these selected IDs; it does not inspect raw turns,
+query storage or classify input. Existing approved identity voice lines are retained
+for identity plans. Other answers compose fact clauses, optional profile descriptions
+and occasional criterion questions. Reasoning emphasis derives from structureBias,
+warmth and questionBias; mandatory epistemic limits precede optional additions.
+The existing desired-verbosity bands bound whole-clause output to 300/420/480 characters
+and at most three sentences. No human subjective experience is asserted or dogmatically
+denied, and no internal implementation identifiers are exposed.
+
+Immediate self follow-ups use only lastResponse.plan.selfMaterial in existing
+WorkingMemory, in the same locale. Explicit self queries establish their subject;
+short why/continue/clarify forms inherit only the immediately preceding self kind.
+The bounded creativity/copy follow-up requires a preceding creativity self plan.
+An intervening general turn ends this self reference; reload clears it. This is not a
+general relation frame or a second memory store. Existing contextual interpretation,
+anti-repetition history and persistent-memory ownership remain unchanged.

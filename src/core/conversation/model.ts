@@ -47,6 +47,7 @@ export type UserGroundedMaterial = {
   source: 'current_turn';
 };
 export type ResponsePlan = {
+  selfMaterial?: import('../self/plan.ts').SelfMaterial;
   userGroundedMaterial?: UserGroundedMaterial;
   longTermContext?: import('../memory/long-term.ts').RetrievedMemory[];
   acknowledgeMemoryId?: string;

@@ -1,3 +1,4 @@
+import { realizeSelf } from './self-surface.ts';
 import { disclosureVoices } from '../../characters/disclosure.ts';
 import { memoryVoices } from '../../characters/memory.ts';
 import { contextLimit } from '../../characters/context.ts';
@@ -16,6 +17,8 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
     context: IntelligenceContext,
     plan: ResponsePlan,
   ): Promise<IntelligenceResponse> {
+    if (plan.selfMaterial && plan.selfMaterial.query.kind !== 'identity')
+      return { text: realizeSelf(plan, context.locale), usedMaterialKeys: [] };
     if (plan.userGroundedMaterial) {
       const item = plan.userGroundedMaterial;
       return {
