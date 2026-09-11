@@ -1,0 +1,76 @@
+id: philosophy.knowledge
+domain: philosophy
+
+title:
+  ru: 'Знание'
+  en: 'Knowledge'
+
+aliases:
+  ru:
+    - 'знание'
+    - 'что значит знать'
+    - 'что такое знание'
+    - 'знать наверняка'
+    - 'можно ли знать наверняка'
+    - 'достоверное знание'
+    - 'основание знания'
+    - 'границы знания'
+    - 'что мы можем знать'
+  en:
+    - 'knowledge'
+    - 'what does it mean to know'
+    - 'what is knowledge'
+    - 'know for certain'
+    - 'can we know for certain'
+    - 'reliable knowledge'
+    - 'basis of knowledge'
+    - 'limits of knowledge'
+    - 'what can we know'
+
+summary:
+  ru: >
+    Знание требует большего, чем простая уверенность: необходимо основание,
+    позволяющее отличить удачную догадку от обоснованного убеждения. Но любое
+    основание зависит от доступных свидетельств и ограничений наблюдателя.
+  en: >
+    Knowledge requires more than confidence: it needs grounds that distinguish a lucky
+    guess from a justified belief. Yet every ground depends on available evidence and
+    the limitations of the observer.
+
+claims:
+  ru:
+    - 'Уверенность сама по себе не делает убеждение знанием.'
+    - 'Признание границ знания может быть частью более надёжного понимания.'
+  en:
+    - 'Confidence alone does not make a belief knowledge.'
+    - 'Recognizing limits of knowledge may be part of more reliable understanding.'
+
+tensions:
+  ru:
+    - 'Для проверки одного основания часто требуется другое основание.'
+    - 'Чем выше требование к абсолютной достоверности, тем меньше утверждений можно считать знанием.'
+  en:
+    - 'Checking one justification often requires another justification.'
+    - 'The stronger the demand for absolute certainty, the fewer claims remain eligible as knowledge.'
+
+questions:
+  ru:
+    - 'Можно ли знать что-либо без возможности ошибиться?'
+    - 'Что важнее: уверенность или качество основания?'
+  en:
+    - 'Can something be known without any possibility of error?'
+    - 'What matters more: certainty or the quality of the grounds?'
+
+related:
+  - philosophy.truth
+  - philosophy.uncertainty
+  - world.archives
+  - identity.belief
+
+character_affinity:
+  aletheia: 1.0
+  aura: 0.65
+  themis: 0.95
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on knowledge, justification, certainty, and epistemic limits.'

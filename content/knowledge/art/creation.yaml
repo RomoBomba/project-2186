@@ -1,0 +1,74 @@
+id: art.creation
+domain: art
+
+title:
+  ru: 'Создание'
+  en: 'Creation'
+
+aliases:
+  ru:
+    - 'создание'
+    - 'творчество'
+    - 'создать произведение'
+    - 'творческий процесс'
+    - 'что значит создавать'
+    - 'как возникает искусство'
+    - 'автор и произведение'
+    - 'машинное творчество'
+    - 'может ли машина творить'
+  en:
+    - 'creation'
+    - 'creativity'
+    - 'create an artwork'
+    - 'creative process'
+    - 'what does it mean to create'
+    - 'how art is created'
+    - 'artist and artwork'
+    - 'machine creativity'
+    - 'can a machine create art'
+
+summary:
+  ru: >
+    Создание превращает возможности, материалы и ограничения в новую форму. Творческий
+    процесс может включать намерение, выбор, случайность и переосмысление уже существующего.
+  en: >
+    Creation turns possibilities, materials, and constraints into a new form. A creative
+    process may involve intention, choice, chance, and reinterpretation of what already exists.
+
+claims:
+  ru:
+    - 'Создание почти всегда опирается на уже существующие материалы, формы или идеи.'
+    - 'Ограничения могут направлять творчество, а не только мешать ему.'
+  en:
+    - 'Creation almost always builds on existing materials, forms, or ideas.'
+    - 'Constraints can guide creativity rather than only obstruct it.'
+
+tensions:
+  ru:
+    - 'Если новое всегда возникает из существующего, трудно провести точную границу между созданием и преобразованием.'
+    - 'Если случайность играет большую роль, неясно, какая часть результата принадлежит намерению автора.'
+  en:
+    - 'If the new always emerges from what already exists, it is difficult to draw a precise boundary between creation and transformation.'
+    - "If chance plays a major role, it becomes unclear how much of the result belongs to the creator's intention."
+
+questions:
+  ru:
+    - 'Что отличает создание от простого преобразования?'
+    - 'Может ли система создавать искусство без собственного намерения?'
+  en:
+    - 'What distinguishes creation from mere transformation?'
+    - 'Can a system create art without its own intention?'
+
+related:
+  - art.originality
+  - art.interpretation
+  - philosophy.freedom
+  - science.intelligence
+
+character_affinity:
+  aletheia: 0.70
+  aura: 1.0
+  themis: 0.60
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on creativity, intention, constraints, and machine creation.'

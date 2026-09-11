@@ -1,0 +1,72 @@
+id: philosophy.meaning
+domain: philosophy
+
+title:
+  ru: 'Смысл'
+  en: 'Meaning'
+
+aliases:
+  ru:
+    - 'смысл'
+    - 'смысл жизни'
+    - 'что такое смысл'
+    - 'что придаёт смысл'
+    - 'почему это важно'
+    - 'личный смысл'
+    - 'значение для человека'
+  en:
+    - 'meaning'
+    - 'meaning of life'
+    - 'what is meaning'
+    - 'what gives meaning'
+    - 'why does this matter'
+    - 'personal meaning'
+    - 'meaning for a person'
+
+summary:
+  ru: >
+    Смысл возникает, когда событие, действие или объект включается в более широкий
+    контекст целей, ценностей, отношений или интерпретаций. Один и тот же факт может
+    иметь одинаковое содержание и совершенно разное значение для разных людей.
+  en: >
+    Meaning emerges when an event, action, or object is placed within a wider context
+    of goals, values, relationships, or interpretations. The same fact may carry very
+    different significance for different people.
+
+claims:
+  ru:
+    - 'Смысл зависит не только от свойств объекта, но и от контекста его восприятия.'
+    - 'Личный смысл может существовать без универсального согласия.'
+  en:
+    - "Meaning depends not only on an object's properties, but also on context."
+    - 'Personal meaning can exist without universal agreement.'
+
+tensions:
+  ru:
+    - 'Если смысл полностью создаётся человеком, трудно понять, чем он отличается от предпочтения.'
+    - 'Если смысл существует независимо от человека, трудно объяснить различие интерпретаций.'
+  en:
+    - 'If meaning is entirely created by people, it is hard to distinguish it from preference.'
+    - 'If meaning exists independently of people, different interpretations become hard to explain.'
+
+questions:
+  ru:
+    - 'Смысл обнаруживают или создают?'
+    - 'Нужен ли смыслу наблюдатель?'
+  en:
+    - 'Is meaning discovered or created?'
+    - 'Does meaning require an observer?'
+
+related:
+  - identity.self
+  - identity.belief
+  - art.interpretation
+  - philosophy.freedom
+
+character_affinity:
+  aletheia: 0.80
+  aura: 1.0
+  themis: 0.55
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on personal meaning, interpretation, and context.'

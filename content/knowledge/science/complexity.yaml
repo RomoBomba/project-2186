@@ -1,0 +1,74 @@
+id: science.complexity
+domain: science
+
+title:
+  ru: 'Сложность'
+  en: 'Complexity'
+
+aliases:
+  ru:
+    - 'сложность'
+    - 'сложная система'
+    - 'сложные системы'
+    - 'много взаимодействующих частей'
+    - 'эмерджентность'
+    - 'возникающие свойства'
+    - 'непредсказуемая система'
+    - 'поведение системы'
+  en:
+    - 'complexity'
+    - 'complex system'
+    - 'complex systems'
+    - 'many interacting parts'
+    - 'emergence'
+    - 'emergent properties'
+    - 'unpredictable system'
+    - 'system behaviour'
+
+summary:
+  ru: >
+    Сложная система состоит из множества взаимодействующих частей, поэтому её поведение
+    нельзя всегда понять простым изучением каждого элемента отдельно. На уровне целого
+    могут возникать устойчивые свойства, которых нет у отдельных частей.
+  en: >
+    A complex system contains many interacting parts, so its behaviour cannot always be
+    understood by studying each element separately. Stable properties may emerge at the
+    level of the whole that are absent from the individual parts.
+
+claims:
+  ru:
+    - 'Поведение целого может отличаться от простой суммы поведения его частей.'
+    - 'Сложность может ограничивать предсказание даже при известных правилах системы.'
+  en:
+    - 'The behaviour of a whole can differ from the simple sum of its parts.'
+    - "Complexity can limit prediction even when the system's rules are known."
+
+tensions:
+  ru:
+    - 'Если свойства целого возникают из частей, остаётся вопрос, достаточно ли знания частей для полного объяснения.'
+    - 'Модель должна упрощать систему, но чрезмерное упрощение уничтожает нужное поведение.'
+  en:
+    - 'If properties of the whole arise from parts, it remains unclear whether knowledge of the parts is sufficient for full explanation.'
+    - 'A model must simplify a system, yet too much simplification destroys the behaviour one wanted to understand.'
+
+questions:
+  ru:
+    - 'Когда система становится сложной, а не просто большой?'
+    - 'Может ли новое свойство существовать только на уровне целого?'
+  en:
+    - 'When does a system become complex rather than merely large?'
+    - 'Can a new property exist only at the level of the whole?'
+
+related:
+  - science.causality
+  - science.intelligence
+  - world.reconstruction
+  - philosophy.uncertainty
+
+character_affinity:
+  aletheia: 0.75
+  aura: 0.60
+  themis: 1.0
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on complex systems, emergence, prediction, and models.'

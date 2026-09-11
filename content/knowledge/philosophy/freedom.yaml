@@ -1,0 +1,75 @@
+id: philosophy.freedom
+domain: philosophy
+
+title:
+  ru: 'Свобода'
+  en: 'Freedom'
+
+aliases:
+  ru:
+    - 'свобода'
+    - 'свобода воли'
+    - 'свободная воля'
+    - 'свободный выбор'
+    - 'свобода выбора'
+    - 'быть свободным'
+    - 'что делает человека свободным'
+    - 'могу ли я выбирать свободно'
+    - 'выбор и ответственность'
+  en:
+    - 'freedom'
+    - 'free will'
+    - 'free choice'
+    - 'freedom of choice'
+    - 'being free'
+    - 'what makes a person free'
+    - 'can I choose freely'
+    - 'choice and responsibility'
+
+summary:
+  ru: >
+    Свобода связана со способностью действовать не только как результат внешнего
+    принуждения или непосредственной причины, но и в соответствии с собственным
+    выбором. Однако любой выбор возникает внутри условий, которые человек не выбирал полностью.
+  en: >
+    Freedom concerns the ability to act not only as the result of external coercion
+    or immediate causes, but also according to one's own choice. Yet every choice
+    arises within conditions a person did not fully choose.
+
+claims:
+  ru:
+    - 'Свобода не обязательно означает отсутствие причин или ограничений.'
+    - 'Ответственность обычно предполагает хотя бы некоторую способность поступить иначе.'
+  en:
+    - 'Freedom does not necessarily mean the absence of causes or constraints.'
+    - 'Responsibility usually assumes at least some capacity to act otherwise.'
+
+tensions:
+  ru:
+    - 'Если каждое решение имеет причины, трудно определить, в каком смысле человек мог бы поступить иначе.'
+    - 'Полная независимость от причин сделала бы поступок случайным, а не обязательно свободным.'
+  en:
+    - 'If every decision has causes, it is difficult to determine in what sense a person could have acted otherwise.'
+    - 'Complete independence from causes could make an action random rather than genuinely free.'
+
+questions:
+  ru:
+    - 'Нужна ли свободе возможность поступить иначе?'
+    - 'Можно ли быть свободным внутри ограничений, которые невозможно изменить?'
+  en:
+    - 'Does freedom require the possibility of acting otherwise?'
+    - 'Can someone be free within constraints they cannot change?'
+
+related:
+  - science.causality
+  - identity.belief
+  - identity.self
+  - philosophy.meaning
+
+character_affinity:
+  aletheia: 0.95
+  aura: 0.80
+  themis: 0.90
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on freedom, choice, causality, and responsibility.'

@@ -1,0 +1,72 @@
+id: art.originality
+domain: art
+
+title:
+  ru: 'Оригинальность'
+  en: 'Originality'
+
+aliases:
+  ru:
+    - 'оригинальность'
+    - 'оригинал'
+    - 'что делает произведение оригинальным'
+    - 'уникальность произведения'
+    - 'оригинал и копия'
+    - 'первоначальное произведение'
+    - 'авторская оригинальность'
+    - 'новизна в искусстве'
+  en:
+    - 'originality'
+    - 'original'
+    - 'what makes an artwork original'
+    - 'uniqueness of an artwork'
+    - 'original and copy'
+    - 'original work'
+    - 'artistic originality'
+    - 'novelty in art'
+
+summary:
+  ru: >
+    Оригинальность может означать происхождение от конкретного автора, уникальность
+    объекта или появление нового способа видеть и создавать. Эти значения не всегда совпадают.
+  en: >
+    Originality may refer to originating from a particular author, the uniqueness of an
+    object, or the emergence of a new way of seeing and creating. These senses do not always coincide.
+
+claims:
+  ru:
+    - 'Оригинальность объекта и оригинальность идеи не обязательно совпадают.'
+    - 'Новое произведение может использовать существующие формы и всё же создавать новый смысл.'
+  en:
+    - 'The originality of an object and the originality of an idea do not necessarily coincide.'
+    - 'A new work may use existing forms while still creating new meaning.'
+
+tensions:
+  ru:
+    - 'Если идею можно точно повторить, трудно определить, принадлежит ли оригинальность идее или воплощению.'
+    - 'Требование абсолютной новизны делает почти любое произведение зависимым от предшествующей культуры.'
+  en:
+    - 'If an idea can be reproduced exactly, it is unclear whether originality belongs to the idea or its realization.'
+    - 'A demand for absolute novelty makes almost every work dependent on preceding culture.'
+
+questions:
+  ru:
+    - 'Что именно делает произведение оригинальным?'
+    - 'Может ли копия стать новым оригиналом?'
+  en:
+    - 'What exactly makes an artwork original?'
+    - 'Can a copy become a new original?'
+
+related:
+  - art.aura
+  - art.creation
+  - art.interpretation
+  - philosophy.meaning
+
+character_affinity:
+  aletheia: 0.75
+  aura: 1.0
+  themis: 0.60
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on originality, provenance, novelty, and reproduction.'

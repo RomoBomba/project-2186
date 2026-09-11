@@ -1,0 +1,74 @@
+id: science.causality
+domain: science
+
+title:
+  ru: 'Причинность'
+  en: 'Causality'
+
+aliases:
+  ru:
+    - 'причинность'
+    - 'причина'
+    - 'причина и следствие'
+    - 'причинно-следственная связь'
+    - 'что является причиной'
+    - 'почему это произошло'
+    - 'следствие причины'
+    - 'всё имеет причину'
+  en:
+    - 'causality'
+    - 'cause'
+    - 'cause and effect'
+    - 'causal relation'
+    - 'what caused this'
+    - 'why did this happen'
+    - 'effect of a cause'
+    - 'everything has a cause'
+
+summary:
+  ru: >
+    Причинность описывает связь, при которой одно состояние или событие участвует
+    в возникновении другого. Наблюдаемая последовательность сама по себе не доказывает
+    причинной связи: причину нужно отличать от совпадения и корреляции.
+  en: >
+    Causality describes a relation in which one state or event contributes to another.
+    Sequence alone does not prove causation: cause must be distinguished from coincidence
+    and correlation.
+
+claims:
+  ru:
+    - 'Последовательность событий сама по себе не доказывает причинность.'
+    - 'Один результат может иметь несколько взаимодействующих причин.'
+  en:
+    - 'Sequence alone does not prove causation.'
+    - 'One outcome may have several interacting causes.'
+
+tensions:
+  ru:
+    - 'Если каждое событие полностью определяется предыдущими причинами, свобода выбора становится труднее объяснить.'
+    - 'Чем сложнее система, тем труднее выделить одну причину без упрощения.'
+  en:
+    - 'If every event is completely determined by prior causes, freedom of choice becomes harder to explain.'
+    - 'The more complex a system becomes, the harder it is to isolate a single cause without oversimplifying.'
+
+questions:
+  ru:
+    - 'Как отличить причину от совпадения?'
+    - 'Если решение имеет причины, означает ли это, что оно было неизбежным?'
+  en:
+    - 'How can a cause be distinguished from coincidence?'
+    - 'If a decision has causes, does that mean it was inevitable?'
+
+related:
+  - philosophy.freedom
+  - philosophy.uncertainty
+  - science.complexity
+  - identity.belief
+
+character_affinity:
+  aletheia: 0.80
+  aura: 0.55
+  themis: 1.0
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on causality, correlation, explanation, and determinism.'

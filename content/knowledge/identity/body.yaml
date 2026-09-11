@@ -1,0 +1,74 @@
+id: identity.body
+domain: identity
+
+title:
+  ru: 'Тело'
+  en: 'Body'
+
+aliases:
+  ru:
+    - 'тело'
+    - 'моё тело'
+    - 'тело и личность'
+    - 'тело и я'
+    - 'физическая идентичность'
+    - 'смена тела'
+    - 'если заменить тело'
+    - 'является ли тело частью меня'
+  en:
+    - 'body'
+    - 'my body'
+    - 'body and identity'
+    - 'body and self'
+    - 'physical identity'
+    - 'changing bodies'
+    - 'if the body were replaced'
+    - 'is the body part of who I am'
+
+summary:
+  ru: >
+    Тело обеспечивает физическую непрерывность человека и задаёт условия его восприятия
+    мира. Однако многие части тела меняются, заменяются или утрачиваются без очевидного
+    исчезновения личности.
+  en: >
+    The body provides physical continuity and shapes the conditions through which a person
+    perceives the world. Yet many bodily parts change, are replaced, or are lost without
+    an obvious disappearance of identity.
+
+claims:
+  ru:
+    - 'Тело влияет на опыт человека, даже если не полностью определяет его личность.'
+    - 'Физическая непрерывность может сохраняться при значительных изменениях тела.'
+  en:
+    - 'The body affects experience even if it does not fully determine identity.'
+    - 'Physical continuity can survive substantial bodily change.'
+
+tensions:
+  ru:
+    - 'Если тело полностью заменить постепенно, неясно, существует ли момент, когда личность становится другой.'
+    - 'Если тело не необходимо для Я, трудно объяснить, почему телесные изменения так сильно меняют опыт.'
+  en:
+    - 'If the body were replaced gradually, it is unclear whether there would be a moment when identity became different.'
+    - 'If the body is not necessary for the self, it is difficult to explain why bodily changes so strongly shape experience.'
+
+questions:
+  ru:
+    - 'Является ли тело частью личности или только её носителем?'
+    - 'Если перенести память в другое тело, кто продолжит прежнюю личность?'
+  en:
+    - 'Is the body part of identity, or only its carrier?'
+    - 'If memories were transferred to another body, which body would continue the previous person?'
+
+related:
+  - identity.self
+  - identity.continuity
+  - identity.change
+  - philosophy.consciousness
+
+character_affinity:
+  aletheia: 0.80
+  aura: 0.75
+  themis: 0.90
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on embodiment and personal identity.'

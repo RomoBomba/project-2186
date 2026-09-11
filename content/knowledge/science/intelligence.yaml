@@ -1,0 +1,76 @@
+id: science.intelligence
+domain: science
+
+title:
+  ru: 'Интеллект'
+  en: 'Intelligence'
+
+aliases:
+  ru:
+    - 'интеллект'
+    - 'что такое интеллект'
+    - 'разум'
+    - 'машинный интеллект'
+    - 'искусственный интеллект'
+    - 'признаки интеллекта'
+    - 'умная система'
+    - 'что делает систему разумной'
+    - 'может ли машина мыслить'
+  en:
+    - 'intelligence'
+    - 'what is intelligence'
+    - 'mind'
+    - 'machine intelligence'
+    - 'artificial intelligence'
+    - 'signs of intelligence'
+    - 'intelligent system'
+    - 'what makes a system intelligent'
+    - 'can a machine think'
+
+summary:
+  ru: >
+    Интеллект можно понимать как способность строить модели, находить связи,
+    адаптировать поведение и использовать ограниченную информацию для решения новых
+    задач. Эти способности не обязательно означают наличие сознания.
+  en: >
+    Intelligence can be understood as the capacity to build models, discover relations,
+    adapt behaviour, and use limited information to solve new problems. These abilities
+    do not necessarily imply consciousness.
+
+claims:
+  ru:
+    - 'Интеллект проявляется не только в объёме знаний, но и в способности использовать их в новых условиях.'
+    - 'Адаптивное поведение может быть интеллектуальным, не будучи сознательным.'
+  en:
+    - 'Intelligence appears not only in the amount of knowledge, but in the ability to use it under new conditions.'
+    - 'Adaptive behaviour may be intelligent without being conscious.'
+
+tensions:
+  ru:
+    - 'Если интеллект измерять только успешным поведением, трудно отличить понимание от эффективной имитации.'
+    - 'Если для интеллекта требовать сознания, многие формы разумного поведения оказываются исключены.'
+  en:
+    - 'If intelligence is measured only by successful behaviour, it becomes difficult to distinguish understanding from effective imitation.'
+    - 'If consciousness is required for intelligence, many forms of intelligent behaviour are excluded.'
+
+questions:
+  ru:
+    - 'Что отличает интеллект от сложного автоматического поведения?'
+    - 'Может ли система быть разумной, не имея сознания?'
+  en:
+    - 'What distinguishes intelligence from complex automatic behaviour?'
+    - 'Can a system be intelligent without being conscious?'
+
+related:
+  - philosophy.consciousness
+  - science.complexity
+  - art.creation
+  - world.reconstruction
+
+character_affinity:
+  aletheia: 0.90
+  aura: 0.80
+  themis: 1.0
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on intelligence, adaptation, understanding, and artificial systems.'

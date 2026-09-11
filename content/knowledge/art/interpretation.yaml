@@ -1,0 +1,74 @@
+id: art.interpretation
+domain: art
+
+title:
+  ru: 'Интерпретация'
+  en: 'Interpretation'
+
+aliases:
+  ru:
+    - 'интерпретация'
+    - 'толкование'
+    - 'понимание произведения'
+    - 'смысл произведения'
+    - 'что означает произведение'
+    - 'значение искусства'
+    - 'разные интерпретации'
+    - 'как понимать искусство'
+  en:
+    - 'interpretation'
+    - 'reading'
+    - 'understanding an artwork'
+    - 'meaning of an artwork'
+    - 'what does the artwork mean'
+    - 'meaning of art'
+    - 'different interpretations'
+    - 'how to understand art'
+
+summary:
+  ru: >
+    Интерпретация связывает произведение с наблюдателем и контекстом, в котором оно
+    воспринимается. Одно произведение может допускать несколько прочтений, если они
+    опираются на разные стороны самого произведения и опыта зрителя.
+  en: >
+    Interpretation connects an artwork with an observer and the context in which it is
+    experienced. One work may permit multiple readings grounded in different aspects of
+    the work and the observer's experience.
+
+claims:
+  ru:
+    - 'Смысл произведения не всегда исчерпывается намерением автора.'
+    - 'Интерпретация зависит от контекста и опыта наблюдателя.'
+  en:
+    - "The meaning of a work is not always exhausted by the artist's intention."
+    - "Interpretation depends on context and the observer's experience."
+
+tensions:
+  ru:
+    - 'Если допустимо множество интерпретаций, трудно провести границу между прочтением и произвольным приписыванием смысла.'
+    - 'Если существует единственно правильное прочтение, роль зрителя становится почти лишней.'
+  en:
+    - 'If many interpretations are possible, it becomes difficult to distinguish interpretation from arbitrary projection.'
+    - 'If there is only one correct reading, the role of the observer becomes almost unnecessary.'
+
+questions:
+  ru:
+    - 'Может ли интерпретация быть ошибочной?'
+    - 'Кому принадлежит смысл произведения: автору, произведению или наблюдателю?'
+  en:
+    - 'Can an interpretation be wrong?'
+    - 'Who owns the meaning of an artwork: the artist, the work, or the observer?'
+
+related:
+  - art.aura
+  - art.creation
+  - art.originality
+  - philosophy.meaning
+
+character_affinity:
+  aletheia: 0.85
+  aura: 1.0
+  themis: 0.50
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on interpretation, artistic meaning, authorship, and the observer.'

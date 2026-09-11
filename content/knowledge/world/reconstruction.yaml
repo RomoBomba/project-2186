@@ -1,0 +1,77 @@
+id: world.reconstruction
+domain: world
+
+title:
+  ru: 'Реконструкция'
+  en: 'Reconstruction'
+
+aliases:
+  ru:
+    - 'реконструкция'
+    - 'после реконструкции'
+    - 'период реконструкции'
+    - 'восстановление цивилизации'
+    - 'восстановление после катастрофы'
+    - 'что было после катастрофы'
+    - 'новая цивилизация'
+    - 'восстановленный мир'
+    - 'после перехода'
+  en:
+    - 'reconstruction'
+    - 'after the reconstruction'
+    - 'reconstruction period'
+    - 'rebuilding civilization'
+    - 'recovery after the catastrophe'
+    - 'what happened after the catastrophe'
+    - 'new civilization'
+    - 'reconstructed world'
+    - 'after the transition'
+
+summary:
+  ru: >
+    Реконструкция — условное название периода, в котором человеческие сообщества
+    восстановили устойчивые системы после масштабного исторического разрыва.
+    PROJECT 2186 располагает сведениями о восстановлении, но причины предшествующего
+    события представлены неполно.
+  en: >
+    Reconstruction is the provisional name for the period in which human communities
+    restored stable systems after a major historical rupture. PROJECT 2186 has records
+    of the recovery, but the causes of the preceding event remain incomplete.
+
+claims:
+  ru:
+    - 'Реконструкция создала новые институты и технические системы на основе неполно сохранившегося прошлого.'
+    - 'Некоторые современные ограничения PROJECT 2186 возникли в период реконструкции, но их исходные обоснования сохранились не полностью.'
+  en:
+    - 'Reconstruction created new institutions and technical systems from an incompletely preserved past.'
+    - 'Some present limitations of PROJECT 2186 originated during reconstruction, but their original justifications are incompletely preserved.'
+
+tensions:
+  ru:
+    - 'Восстановление требует опоры на прошлое, но именно прошлое сохранилось фрагментарно.'
+    - 'Система может продолжать следовать правилу, даже если причина этого правила больше недоступна.'
+  en:
+    - 'Reconstruction requires relying on the past, yet the past is precisely what survives only in fragments.'
+    - 'A system may continue following a rule even when the reason for that rule is no longer available.'
+
+questions:
+  ru:
+    - 'Можно ли восстановить общество, не восстановив его прошлое?'
+    - 'Что происходит с правилом, когда его первоначальная причина забыта?'
+  en:
+    - 'Can a society be rebuilt without rebuilding its past?'
+    - 'What happens to a rule when its original reason has been forgotten?'
+
+related:
+  - world.archives
+  - science.complexity
+  - science.intelligence
+  - philosophy.knowledge
+
+character_affinity:
+  aletheia: 0.90
+  aura: 0.80
+  themis: 1.0
+
+sources:
+  - note: 'Canonical PROJECT 2186 world concept. The exact catastrophe/transition remains intentionally unresolved.'

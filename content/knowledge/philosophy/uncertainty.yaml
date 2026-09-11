@@ -1,0 +1,74 @@
+id: philosophy.uncertainty
+domain: philosophy
+
+title:
+  ru: 'Неопределённость'
+  en: 'Uncertainty'
+
+aliases:
+  ru:
+    - 'неопределённость'
+    - 'неуверенность'
+    - 'сомнение'
+    - 'я не уверен'
+    - 'я не уверена'
+    - 'можно ли быть уверенным'
+    - 'неизвестность'
+    - 'недостаток уверенности'
+  en:
+    - 'uncertainty'
+    - 'uncertain'
+    - 'doubt'
+    - 'I am not sure'
+    - "I'm not sure"
+    - 'can we be certain'
+    - 'the unknown'
+    - 'lack of certainty'
+
+summary:
+  ru: >
+    Неопределённость возникает, когда доступных оснований недостаточно для одного
+    окончательного вывода. Она может быть недостатком информации, свойством самой
+    ситуации или признаком слишком грубого описания.
+  en: >
+    Uncertainty arises when available grounds are insufficient for one final conclusion.
+    It may reflect missing information, a property of the situation itself, or an overly
+    coarse description.
+
+claims:
+  ru:
+    - 'Неопределённость не равна полному незнанию.'
+    - 'Решения часто приходится принимать раньше, чем неопределённость исчезает.'
+  en:
+    - 'Uncertainty is not identical to complete ignorance.'
+    - 'Decisions often have to be made before uncertainty disappears.'
+
+tensions:
+  ru:
+    - 'Чрезмерная уверенность скрывает риск ошибки, но чрезмерное сомнение делает действие невозможным.'
+    - 'Не всегда ясно, вызвана неопределённость недостатком данных или устройством самой реальности.'
+  en:
+    - 'Excessive certainty hides the risk of error, while excessive doubt can make action impossible.'
+    - 'It is not always clear whether uncertainty comes from missing data or from reality itself.'
+
+questions:
+  ru:
+    - 'Когда сомнение полезно, а когда оно мешает действовать?'
+    - 'Как отличить неизвестное от принципиально неопределённого?'
+  en:
+    - 'When is doubt useful, and when does it prevent action?'
+    - 'How can the unknown be distinguished from what is inherently uncertain?'
+
+related:
+  - philosophy.knowledge
+  - philosophy.truth
+  - science.causality
+  - world.archives
+
+character_affinity:
+  aletheia: 1.0
+  aura: 0.75
+  themis: 0.85
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on uncertainty, incomplete evidence, and action.'

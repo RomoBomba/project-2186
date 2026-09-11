@@ -1,0 +1,74 @@
+id: identity.belief
+domain: identity
+
+title:
+  ru: 'Убеждение'
+  en: 'Belief'
+
+aliases:
+  ru:
+    - 'убеждение'
+    - 'убеждения'
+    - 'мои убеждения'
+    - 'во что я верю'
+    - 'сменить убеждения'
+    - 'изменить мнение'
+    - 'убеждения и личность'
+    - 'если мои убеждения изменятся'
+  en:
+    - 'belief'
+    - 'beliefs'
+    - 'my beliefs'
+    - 'what I believe'
+    - 'change my beliefs'
+    - 'change my mind'
+    - 'beliefs and identity'
+    - 'if my beliefs change'
+
+summary:
+  ru: >
+    Убеждения организуют то, как человек объясняет мир, оценивает поступки и принимает
+    решения. Они могут быть важной частью личности, но человек способен пересматривать
+    даже фундаментальные убеждения, не обязательно переставая быть собой.
+  en: >
+    Beliefs organize how a person explains the world, evaluates actions, and makes
+    decisions. They may be an important part of identity, yet a person can revise even
+    fundamental beliefs without necessarily ceasing to be themselves.
+
+claims:
+  ru:
+    - 'Убеждения влияют на решения, но сами могут меняться под воздействием новых оснований.'
+    - 'Не каждое убеждение одинаково важно для идентичности.'
+  en:
+    - 'Beliefs influence decisions, but can themselves change in response to new grounds.'
+    - 'Not every belief is equally important to identity.'
+
+tensions:
+  ru:
+    - 'Если основные убеждения полностью изменились, трудно определить, в каком смысле сохраняется прежняя личность.'
+    - 'Если убеждение становится частью идентичности, его пересмотр может восприниматься как угроза самому себе.'
+  en:
+    - 'If fundamental beliefs change completely, it becomes difficult to determine in what sense the previous identity remains.'
+    - 'When a belief becomes part of identity, revising it may feel like a threat to the self.'
+
+questions:
+  ru:
+    - 'Если мои убеждения изменятся, останусь ли я тем же человеком?'
+    - 'Какие убеждения действительно являются частью личности?'
+  en:
+    - 'If my beliefs change, will I remain the same person?'
+    - 'Which beliefs truly form part of identity?'
+
+related:
+  - identity.self
+  - identity.change
+  - philosophy.truth
+  - philosophy.freedom
+
+character_affinity:
+  aletheia: 0.95
+  aura: 0.75
+  themis: 0.85
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on belief, revision, worldview, and identity.'

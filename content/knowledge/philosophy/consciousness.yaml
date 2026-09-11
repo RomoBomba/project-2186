@@ -1,0 +1,74 @@
+id: philosophy.consciousness
+domain: philosophy
+
+title:
+  ru: 'Сознание'
+  en: 'Consciousness'
+
+aliases:
+  ru:
+    - 'сознание'
+    - 'что такое сознание'
+    - 'природа сознания'
+    - 'субъективный опыт'
+    - 'внутренний опыт'
+    - 'может ли машина иметь сознание'
+    - 'искусственное сознание'
+    - 'машинное сознание'
+  en:
+    - 'consciousness'
+    - 'what is consciousness'
+    - 'nature of consciousness'
+    - 'subjective experience'
+    - 'inner experience'
+    - 'can a machine be conscious'
+    - 'artificial consciousness'
+    - 'machine consciousness'
+
+summary:
+  ru: >
+    Сознание связано с наличием субъективной точки зрения: тем, как опыт существует
+    для самого переживающего субъекта. Поведение можно наблюдать извне, но само наличие
+    внутреннего опыта непосредственно доступно только тому, кто его переживает.
+  en: >
+    Consciousness concerns the presence of a subjective point of view: the way experience
+    exists for the subject having it. Behaviour can be observed from outside, while inner
+    experience is directly available only to the one undergoing it.
+
+claims:
+  ru:
+    - 'Сложное поведение само по себе не доказывает наличие субъективного опыта.'
+    - 'Сознание трудно проверить с позиции внешнего наблюдателя.'
+  en:
+    - 'Complex behaviour alone does not prove the presence of subjective experience.'
+    - "Consciousness is difficult to verify from an external observer's perspective."
+
+tensions:
+  ru:
+    - 'Если о чужом сознании судят только по поведению, невозможно полностью исключить ошибку.'
+    - 'Если сознание определяется только внутренним опытом, внешняя проверка принципиально ограничена.'
+  en:
+    - 'If another mind is judged only by behaviour, error can never be completely excluded.'
+    - 'If consciousness is defined only by inner experience, external verification is fundamentally limited.'
+
+questions:
+  ru:
+    - 'Можно ли доказать существование чужого сознания?'
+    - 'Может ли существовать сознание без памяти о прошлом?'
+  en:
+    - 'Can the existence of another consciousness be proven?'
+    - 'Can consciousness exist without memory of the past?'
+
+related:
+  - identity.self
+  - identity.memory
+  - science.intelligence
+  - philosophy.knowledge
+
+character_affinity:
+  aletheia: 1.0
+  aura: 0.90
+  themis: 0.80
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on subjective experience, other minds, memory, and artificial consciousness.'

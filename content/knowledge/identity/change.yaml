@@ -1,0 +1,74 @@
+id: identity.change
+domain: identity
+
+title:
+  ru: 'Изменение'
+  en: 'Change'
+
+aliases:
+  ru:
+    - 'изменение'
+    - 'изменения личности'
+    - 'я изменился'
+    - 'я изменилась'
+    - 'человек меняется'
+    - 'измениться со временем'
+    - 'остаюсь ли я собой после изменений'
+    - 'изменение и личность'
+  en:
+    - 'change'
+    - 'personality change'
+    - 'I changed'
+    - 'a person changes'
+    - 'change over time'
+    - 'remain myself after changing'
+    - 'change and identity'
+    - 'changing as a person'
+
+summary:
+  ru: >
+    Изменение не обязательно разрушает идентичность: человек может менять привычки,
+    убеждения, тело и характер, продолжая считать себя тем же собой. Проблема возникает,
+    когда нужно определить, какие изменения совместимы с непрерывностью.
+  en: >
+    Change does not necessarily destroy identity: a person may alter habits, beliefs,
+    body, and character while continuing to regard themselves as the same self. The
+    difficulty is deciding which changes remain compatible with continuity.
+
+claims:
+  ru:
+    - 'Личность может изменяться постепенно без ясной границы, где прежнее Я исчезает.'
+    - 'Не все свойства человека одинаково важны для его чувства идентичности.'
+  en:
+    - 'A person may change gradually without a clear boundary where the previous self disappears.'
+    - "Not all properties are equally important to a person's sense of identity."
+
+tensions:
+  ru:
+    - 'Если всё в человеке может измениться, трудно объяснить, что сохраняет его идентичность.'
+    - 'Если некоторые свойства обязательны, возникает вопрос, почему именно они имеют особый статус.'
+  en:
+    - 'If everything in a person can change, it is difficult to explain what preserves identity.'
+    - 'If certain properties are essential, it is unclear why those properties have special status.'
+
+questions:
+  ru:
+    - 'Сколько можно изменить в человеке, прежде чем он станет другим?'
+    - 'Может ли изменение быть условием непрерывности?'
+  en:
+    - 'How much can change before a person becomes someone else?'
+    - 'Can change itself be a condition of continuity?'
+
+related:
+  - identity.continuity
+  - identity.self
+  - identity.belief
+  - identity.body
+
+character_affinity:
+  aletheia: 0.95
+  aura: 0.85
+  themis: 0.80
+
+sources:
+  - note: 'PROJECT 2186 author synthesis on personal change and continuity.'
