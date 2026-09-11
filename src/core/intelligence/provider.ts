@@ -9,6 +9,10 @@ export type IntelligenceContext = {
   locale: Locale;
   turnIndex: number;
   material: readonly SelectedMaterial[];
+  relationMaterial?: readonly {
+    reference: import('../reasoning/model.ts').RelationRef;
+    text: string;
+  }[];
 };
 export type IntelligenceResponse = {
   text: string;

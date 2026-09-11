@@ -50,3 +50,97 @@ it('labels actual graph-only material separately from direct current evidence', 
   expect(refs.some((m) => m.provenance === 'direct_input')).toBe(true);
   expect(refs.some((m) => m.provenance === 'graph_only')).toBe(true);
 });
+
+it('evaluates the bilingual reasoning cohort with all three characters and grounded answers', async () => {
+  const cohort = (await loadBenchmark(canonicalKnowledge)).filter(
+    (c) => c.reasoningCohort,
+  );
+  expect(cohort).toHaveLength(32);
+  const report = await runBenchmark(canonicalKnowledge, cohort);
+  expect(report.reasoningMetrics.reasoningFrameAccuracy).toMatchObject({
+    numerator: 96,
+    denominator: 96,
+    rate: 1,
+  });
+  expect(report.reasoningMetrics.requiredConceptAvailability.rate).toBe(1);
+  expect(report.reasoningMetrics.authoredRelationCoverage.rate).toBe(1);
+  expect(report.reasoningMetrics.associationBeforeAnswerRate.numerator).toBe(0);
+  for (const c of report.rows)
+    for (const p of c.planning) {
+      expect(p.reasoning?.frame).toBe(c.expectedReasoningFrame);
+      if (c.expectedRelation) {
+        expect(p.reasoning?.relationId).toBe(c.expectedRelation);
+        expect(p.reasoning?.required.length).toBeGreaterThan(0);
+      }
+      expect(p.response).not.toMatch(/\?$/u);
+      expect(p.material.every((m) => m.kind !== 'question')).toBe(true);
+    }
+});
+
+it('runs conversational prefixes through the same engine and grades grounded focus rather than prose', async () => {
+  const cases = (await loadBenchmark(canonicalKnowledge)).filter(
+    (c) => c.conversationCohort,
+  );
+  expect(cases).toHaveLength(64);
+  const report = await runBenchmark(canonicalKnowledge, cases);
+  expect(report.conversationalMetrics.paraphraseFrameAccuracy.rate).toBe(1);
+  expect(report.conversationalMetrics.followUpResolutionRate.rate).toBe(1);
+  // Historical fixed-focus expectations include over-retention cases; retain their denominator for reporting.
+  expect(
+    report.conversationalMetrics.reasoningFocusRetentionRate.denominator,
+  ).toBe(168);
+  expect(report.conversationalMetrics.selfFocusRetentionRate.rate).toBe(1);
+  expect(report.conversationalMetrics.groundedPartialAnswerRate.rate).toBe(1);
+  expect(
+    report.conversationalMetrics.irrelevantOptionalAssociationRate.numerator,
+  ).toBe(0);
+  for (const c of report.rows)
+    for (const p of c.planning) {
+      expect(p.response.trim()).not.toBe('');
+      if (c.expectedPartial) expect(p.reasoning?.partial).toBe(true);
+      if (c.expectedFollowUp && p.focus?.scope === 'general') {
+        if (p.followUp.targets?.length)
+          expect(p.focus.concepts).toContain(p.followUp.targets[0]);
+        else expect(p.focus.concepts).toEqual(p.previousFocus?.concepts);
+      }
+    }
+});
+
+it('measures targeted retain, pivot and replace cases without rewarding stale material', async () => {
+  const cases = (await loadBenchmark(canonicalKnowledge)).filter(
+    (c) => c.transitionCohort,
+  );
+  expect(cases).toHaveLength(16);
+  const report = await runBenchmark(canonicalKnowledge, cases);
+  expect(report.focusMetrics.focusTransitionAccuracy).toMatchObject({
+    numerator: 48,
+    denominator: 48,
+    rate: 1,
+  });
+  expect(report.focusMetrics.overRetainedFocusRate).toMatchObject({
+    numerator: 0,
+    denominator: 30,
+    rate: 0,
+  });
+  for (const c of report.rows)
+    for (const p of c.planning) {
+      if (c.expectedTransition === 'retain')
+        expect(p.focusTransition).toBe('retained');
+      else {
+        expect(p.focus?.concepts).toContain(c.expectedTarget);
+        expect(p.focusTransition).toBe(
+          c.expectedTransition === 'replace'
+            ? 'replaced'
+            : p.reasoning?.relationId
+              ? 'refined'
+              : 'pivoted',
+        );
+        if (!p.reasoning?.relationId) {
+          expect(p.material.length).toBeGreaterThan(0);
+          expect(
+            p.material.every((m) => m.conceptId === c.expectedTarget),
+          ).toBe(true);
+        }
+      }
+    }
+});

@@ -47,6 +47,7 @@ export type UserGroundedMaterial = {
   source: 'current_turn';
 };
 export type ResponsePlan = {
+  reasoning?: import('../reasoning/model.ts').ReasoningPlan;
   selfMaterial?: import('../self/plan.ts').SelfMaterial;
   userGroundedMaterial?: UserGroundedMaterial;
   longTermContext?: import('../memory/long-term.ts').RetrievedMemory[];

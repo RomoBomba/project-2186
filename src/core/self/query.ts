@@ -25,6 +25,7 @@ const patterns: Record<Locale, Partial<Record<SelfQueryKind, RegExp[]>>> = {
     reasoning: [
       /^(?:а )?ты (?:мыслишь|думаешь|умеешь рассуждать)$/,
       /^как ты (?:думаешь|мыслишь|рассуждаешь|приходишь к ответу|приходишь к ответам)$/,
+      /^чем твое (?:мышление|рассуждение) отличается от человеческого$/,
       /^чем мышление отличается для тебя от сознания$/,
     ],
     memory: [
@@ -59,6 +60,7 @@ const patterns: Record<Locale, Partial<Record<SelfQueryKind, RegExp[]>>> = {
   en: {
     reasoning: [
       /^(?:do you think|can you reason|how do you think|how do you reason|how do you arrive at (?:an answer|answers))$/,
+      /^how (?:is your (?:thinking|reasoning) different|does your (?:thinking|reasoning) differ) from human (?:thinking|reasoning)$/,
       /^how does thinking differ from consciousness for you$/,
     ],
     memory: [

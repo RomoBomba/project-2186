@@ -1239,3 +1239,173 @@ The bounded creativity/copy follow-up requires a preceding creativity self plan.
 An intervening general turn ends this self reference; reload clears it. This is not a
 general relation frame or a second memory store. Existing contextual interpretation,
 anti-repetition history and persistent-memory ownership remain unchanged.
+
+## Phase 9A2 — relational reasoning
+
+`core/reasoning` introduces six explicit ReasoningFrames: define, distinguish,
+relate, consequence, criterion and counterpressure. Perception recognizes bounded
+RU/EN constructions; isolated question/connective words do not activate a frame.
+The requested operation is independent of character identity. Existing dialogue acts,
+matcher scores, attention formula and self-query precedence remain intact.
+
+`src/relations/pack.ts` contains thirteen bilingual ConceptRelations covering the
+12 approved subjects (body–self and body–continuity are separate pairs). Each has
+an explicit ID, two concept endpoints, direction, and authored claim/distinction/
+boundary units. These are semantic statements, not completed character dialogues.
+The RelationIndex supports symmetric and directional lookup, validates material,
+and limits the pack to endpoints present in the supplied corpus. Tests verify every
+production endpoint exists. The data is plain TypeScript, with no host dependency.
+
+A `related` graph edge means **association**. A ConceptRelation means **authored
+semantic knowledge about a relationship**. Neither a graph edge nor absence of an
+edge establishes causation, necessity, equivalence or contradiction. Missing relation
+material falls back to an existing card or a limitation, never an invented relation.
+
+For recognized operations only, a small explicit RU/EN operand vocabulary supplements
+strong current matcher evidence. It lists useful authored forms such as `памяти`,
+`неуверенным`, `архивами`; it is not stemming, a global alias pack or a change to
+ConceptMatcher. Evidence is labeled `matcher`, `relation_term` or `working_focus`.
+For example, “copy” selects the originality/aura discussion as a planning operand;
+it does not assert that a copy equals aura. Unpaired vocabulary evidence cannot by
+itself activate the single-concept fallback. Strong current matches rank candidate
+pairs before vocabulary-only pairs; stable input evidence order resolves ties.
+
+ResponsePlan.reasoning contains frame, up to two principal concepts, evidence,
+relation ID and selected unit references (`required`, `optional`), basis and an
+optional previous-turn reference. It does not contain rendered relation sentences.
+SystemSelfModel remains the source of self facts, including self-directed distinctions.
+BasicIntelligenceProvider receives only selected localized relation units through
+IntelligenceContext, never raw transcript or relation lookup responsibilities.
+
+Frame planning precedes optional association. DEFINE uses a core summary/claim;
+DISTINGUISH and CRITERION prioritize distinctions; RELATE and CONSEQUENCE start
+with an authored claim; COUNTERPRESSURE tests an authored boundary. No logical
+negation or causal consequence is synthesized. Card-only criteria select direct
+claims, not graph-only art material or an authored question in place of an answer.
+The initial implementation leaves optional relation associations empty. Historical
+non-frame association strategies remain available.
+
+Whole selected units are joined without invented connective propositions, within the
+existing character/sentence budgets. Usually at most two units are selected; warm
+RELATE dispositions use one compact claim. Higher directness favors a distinction
+as the second unit, otherwise an epistemic boundary; DISTINGUISH includes the core
+claim when space permits. No character-ID switch changes the operation. Questions
+are not required to finish these grounded answers. Character calibration is unchanged.
+
+Phase 9A2.1 makes the reasoning focus explicit; the ownership and continuation
+rules below supersede the original last-response-only rule. Existing material keys
+still share the eight-key anti-repetition history.
+
+The development benchmark adds 32 cases (16 per locale), evaluated for all three
+characters. Frame accuracy and authored relation coverage require the explicit plan;
+requiredConceptAvailability counts expected IDs available through accepted current
+matches or planned principal concepts. Grounded plan rate counts frame plans with
+required relation/card material. associationBeforeAnswerRate detects graph-only or
+optional material without required relation material or a direct expected non-question
+card first; it is a structural diagnostic, not a semantic quality grader. Historical
+9A0/9A1 cohorts retain their original denominators. `intelligence:inspect` exposes
+reasoning within the existing plan output, including continuation and material IDs.
+
+## Phase 9A2.1 — bounded conversational robustness
+
+WorkingMemory.reasoningFocus is a plain session-only record: scope (general/self),
+frame, at most two concepts, optional relation ID or self kind, startedTurn,
+lastUsedTurn and locale. It contains no prose, transcript or proposition objects.
+A completed grounded plan establishes/updates it. Two unrelated exchanges retain
+it; the third expires it. A new explicit outside topic replaces or clears the focus.
+Grounded continued use refreshes it even when material has been exhausted; repeated
+questions are activity, not unrelated decay. Reload still creates empty WorkingMemory.
+Storage, relationships, extraction and all persistent schemas are unchanged.
+
+FollowUpResolver operates before self/general planning. It recognizes small RU/EN
+reason, conditional, consequence, operand, reference and stance-like cue families.
+Reference words have no independent semantics: with a valid same-locale focus they
+refer to the active relation, never to a guessed entity from arbitrary old turns.
+A why-question needs a bounded deictic construction or a shared operand; unrelated
+factual why-questions do not inherit philosophy. Explicit definition requests about
+outside concepts (including “Then what is truth?”) override focus. “What about the
+body?” can refine a pair only through an existing directly authored relation.
+Other contextual extensions retain the known boundary rather than assert a new link.
+
+Operation cues and operand evidence are separate. Suppose/loss/remaining, explanatory
+proof questions and consequence clauses can activate the existing frames without a
+fixed concept span. An operation alone does not supply knowledge. Closed RU noun
+paradigms supplement operand evidence: explicit stems of at least four letters plus
+allowlisted endings, never arbitrary suffix removal. Inflection is labeled separately
+from matcher evidence and does not receive alias score 100 or any synthetic matcher
+score. Adjectives and lookalikes such as памятник, истинность, причинить, архиватор
+are rejected. Single-noun fallback requires an actual accepted match or a recognized
+closed noun paradigm. Exact alias/title authority, normalization and thresholds are
+unchanged; all thirteen relations remain byte-identical to pre-calibration content.
+
+Direct self answers establish a self-scoped focus. Human-comparison and contextual
+consciousness questions reuse SystemSelfModel facts, including the unestablished
+subjective-equivalence boundary; no human model or persistent ideology is inferred.
+The same profile/disposition still governs realization.
+
+A contextual general plan selects one unused grounded unit when available. If units
+are exhausted, a known relation boundary may be restated and marked partial rather
+than dropping to generic unknown. Card-only causal criteria likewise remain bounded
+by available claims. A short bilingual epistemic limitation follows the grounded
+unit; it adds no scientific method or new philosophical claim. Both pieces count
+against existing sentence/character budgets. This is a partial answer, not a claim
+that the extended question has been fully resolved. Short-term repetition of a
+boundary is deliberate and inspectable after exhaustion.
+
+Frame/focus plans contain only required relation material or their principal card;
+no graph-only extra material is appended for variety. Non-frame associative behavior
+is preserved. Debug output includes FollowUpResolution, next reasoningFocus,
+reasoning evidence and partial status through the existing inspect/benchmark path.
+
+The existing benchmark adds a conversational cohort of 64 prefix cases: eight
+four-turn groups in both locales, each evaluated for all three characters. Each case
+replays its context through the real engine, rather than injecting a synthetic focus.
+The historical cohorts and denominators remain unchanged. New metrics inspect frame,
+focus, follow-up resolution, grounded partial plans, self grounding and extraneous
+material; no final response wording is used as the grading target. Baseline adapts
+pre-calibration last-plan/self/context metadata to the same diagnostics, rather than
+counting all old focus as absent solely because the new field did not exist.
+Inflection recall is a narrow operand probe, not a general morphology benchmark.
+
+## Phase 9A2.2 — explicit focus refinement
+
+Within general follow-ups, explicit new operands now precede inherited relation
+selection. Accepted strong matcher evidence (raw score at least 85) is preferred;
+precise existing operand/inflection evidence is considered when no such new direct
+operand exists. Equal-strength current operands use their occurrence order in the
+utterance. This keeps “memories change” focused on memory rather than the incidental
+alphabetical ordering of matcher candidates. Match scores and canonical aliases do
+not change.
+
+FollowUpResolver exposes optional target concept IDs. A narrowly scoped first-person
+continuity construction (“Then would that still be me?”) can target identity.self
+only with a usable general focus; it is not a SystemSelfModel query, a global alias,
+or a blanket rule for the pronoun “I”. Why/if/then introductions cannot veto new
+semantic evidence. Why-questions still need a reference or an explicit known operand;
+unknown factual questions remain outside the old thread.
+
+The planner must select a relation containing the new target. If none exists, it
+uses the target's ConceptCard; the previous secondary concept may remain bounded
+contextual support, explicitly without a relation ID or inferred proposition.
+Conditional pivots prefer a direct authored tension/summary before a generic claim.
+Pure continuations preserve that support. Existing authored compatible pairs may
+refine the focus (for example knowledge/truth); unavailable memory/continuity and
+self/memory relations are never invented. New targets actually change material refs
+and therefore output, not just focus metadata.
+
+The engine exposes FocusTransition after completing the exchange: retained (no new
+explicit target), refined (compatible explicit emphasis or a connected authored
+pair), pivoted (contextual new target/card), replaced (independent topic/scope or
+initial establishment), cleared (no remaining focus). This diagnostic is not UI or
+persistent state. Existing focus bounds, lifecycle and self authority are unchanged.
+
+The same benchmark adds sixteen targeted RU/EN transition cases, evaluated for all
+three characters. Transition accuracy checks observable before/after focus and actual
+used material for the requested new concept, so changing metadata alone cannot pass.
+Baseline uses the pre-9A2.2 engine with the same cases and metric implementation.
+Over-retention counts new-target cases still stuck on the unchanged old focus without
+the requested target. Historical 9A2.1 expectedFocus fixtures remain unchanged for an
+honest comparison: their unconditional retention score decreases when formerly
+rewarded belief/consciousness focus is correctly replaced by memory/self, or when
+an explicit belief operand refines the knowledge thread. Tests now require retention
+only for pure continuations and require explicit targets to reach the selected focus.

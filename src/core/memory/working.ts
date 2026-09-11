@@ -1,3 +1,7 @@
+import {
+  advanceReasoningFocus,
+  type ReasoningFocus,
+} from '../reasoning/focus.ts';
 import type { Locale } from '../language/locale.ts';
 import type { ConceptId } from '../knowledge/model.ts';
 import type { Perception } from '../conversation/perception.ts';
@@ -17,6 +21,7 @@ export type RecentTurn = {
   strategy?: ResponseStrategy;
 };
 export type WorkingMemory = {
+  reasoningFocus?: ReasoningFocus;
   history: ResponseHistory;
   recentTurns: RecentTurn[];
   activeConceptIds: ConceptId[];
@@ -81,7 +86,15 @@ export function completeExchange(
           `${ref.conceptId}:${ref.kind}:${ref.index}`,
         ),
     ) && response.text.endsWith('?');
+  const reasoningFocus = advanceReasoningFocus(
+    previous.reasoningFocus,
+    plan,
+    turn,
+    locale,
+    perception.matches.filter((m) => m.score >= 85).map((m) => m.conceptId),
+  );
   return {
+    ...(reasoningFocus ? { reasoningFocus } : {}),
     history,
     recentTurns: [
       ...previous.recentTurns,

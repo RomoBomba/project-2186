@@ -127,12 +127,11 @@ describe('conservative perception', () => {
   ] as const)('%s: %s → %s', (locale, text, act) => {
     const result = perceive(text, locale);
     expect(result.act).toBe(act);
-    expect(Object.keys(result).sort()).toEqual([
-      'act',
-      'evidence',
-      'isQuestion',
-      'matches',
-    ]);
+    expect(
+      Object.keys(result)
+        .filter((key) => key !== 'reasoningIntent')
+        .sort(),
+    ).toEqual(['act', 'evidence', 'isQuestion', 'matches']);
   });
   it('keeps surface evidence and concept evidence separate', () => {
     const matches = matcher.match('память', 'ru');

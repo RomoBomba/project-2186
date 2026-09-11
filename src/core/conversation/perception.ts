@@ -1,3 +1,5 @@
+import { reasoningIntent } from '../reasoning/intent.ts';
+import type { ReasoningIntent } from '../reasoning/model.ts';
 import {
   recognizeSelfQuery,
   type SelfQuery,
@@ -18,6 +20,7 @@ export type DialogueAct =
   | 'personal_disclosure'
   | 'other';
 export type Perception = {
+  reasoningIntent?: ReasoningIntent;
   selfQuery?: SelfQuery;
   act: DialogueAct;
   evidence: string[];
@@ -69,7 +72,7 @@ const patterns: Record<Locale, Partial<Record<DialogueAct, string[]>>> = {
     question: ['why', 'how', 'can', 'does', 'is', 'are', 'what'],
   },
 };
-export function perceive(
+function perceiveBase(
   text: string,
   locale: Locale,
   matches: ConceptMatch[] = [],
@@ -149,4 +152,10 @@ export function perceive(
     isQuestion: question,
     matches,
   };
+}
+
+export function perceive(...args: Parameters<typeof perceiveBase>): Perception {
+  const result = perceiveBase(...args);
+  const intent = reasoningIntent(args[0], args[1]);
+  return intent ? { ...result, reasoningIntent: intent } : result;
 }

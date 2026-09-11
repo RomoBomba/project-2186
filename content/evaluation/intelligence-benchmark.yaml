@@ -2124,3 +2124,1493 @@
   expectedSelfQuery: creativity
   context:
     - Do you create art?
+- id: ru-reasoning-001
+  locale: ru
+  input: Может ли сознание существовать без памяти?
+  category: relation
+  expectedConcepts: &a5
+    - philosophy.consciousness
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: consciousness-memory
+- id: en-reasoning-001
+  locale: en
+  input: Can consciousness exist without memory?
+  category: relation
+  expectedConcepts: *a5
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: consciousness-memory
+- id: ru-reasoning-002
+  locale: ru
+  input: Если мои убеждения полностью изменятся, останусь ли я собой?
+  category: relation
+  expectedConcepts: &a6
+    - identity.belief
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: consequence
+  expectedRelation: belief-continuity
+- id: en-reasoning-002
+  locale: en
+  input: If my beliefs change completely, will I remain myself?
+  category: relation
+  expectedConcepts: *a6
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: consequence
+  expectedRelation: belief-continuity
+- id: ru-reasoning-003
+  locale: ru
+  input: Чем изменение отличается от непрерывности?
+  category: relation
+  expectedConcepts: &a7
+    - identity.change
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: change-continuity
+- id: en-reasoning-003
+  locale: en
+  input: How is change different from continuity?
+  category: relation
+  expectedConcepts: *a7
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: change-continuity
+- id: ru-reasoning-004
+  locale: ru
+  input: Как тело связано с личностью?
+  category: relation
+  expectedConcepts: &a8
+    - identity.body
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: body-self
+- id: en-reasoning-004
+  locale: en
+  input: How are the body and the self related?
+  category: relation
+  expectedConcepts: *a8
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: body-self
+- id: ru-reasoning-005
+  locale: ru
+  input: Если каждое решение имеет причину, свободен ли человек?
+  category: relation
+  expectedConcepts: &a9
+    - philosophy.freedom
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: consequence
+  expectedRelation: freedom-causality
+- id: en-reasoning-005
+  locale: en
+  input: If every decision has a cause, is a person free?
+  category: relation
+  expectedConcepts: *a9
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: consequence
+  expectedRelation: freedom-causality
+- id: ru-reasoning-006
+  locale: ru
+  input: Чем знание отличается от уверенности?
+  category: relation
+  expectedConcepts: &a10
+    - philosophy.knowledge
+    - philosophy.uncertainty
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: knowledge-uncertainty
+- id: en-reasoning-006
+  locale: en
+  input: How is knowledge different from certainty?
+  category: relation
+  expectedConcepts: *a10
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: knowledge-uncertainty
+- id: ru-reasoning-007
+  locale: ru
+  input: Чем знание отличается от истины?
+  category: relation
+  expectedConcepts: &a11
+    - philosophy.knowledge
+    - philosophy.truth
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: knowledge-truth
+- id: en-reasoning-007
+  locale: en
+  input: How is knowledge different from truth?
+  category: relation
+  expectedConcepts: *a11
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: knowledge-truth
+- id: ru-reasoning-008
+  locale: ru
+  input: Может ли копия быть оригиналом?
+  category: relation
+  expectedConcepts: &a12
+    - art.originality
+    - art.aura
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: originality-aura
+- id: en-reasoning-008
+  locale: en
+  input: Can a copy be an original?
+  category: relation
+  expectedConcepts: *a12
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: originality-aura
+- id: ru-reasoning-009
+  locale: ru
+  input: Чем создание отличается от оригинальности?
+  category: relation
+  expectedConcepts: &a13
+    - art.creation
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: creation-originality
+- id: en-reasoning-009
+  locale: en
+  input: How is creation different from originality?
+  category: relation
+  expectedConcepts: *a13
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: distinguish
+  expectedRelation: creation-originality
+- id: ru-reasoning-010
+  locale: ru
+  input: Может ли машина создавать искусство?
+  category: relation
+  expectedConcepts: &a14
+    - science.intelligence
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: criterion
+  expectedRelation: creation-intelligence
+- id: en-reasoning-010
+  locale: en
+  input: Can a machine create art?
+  category: relation
+  expectedConcepts: *a14
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: criterion
+  expectedRelation: creation-intelligence
+- id: ru-reasoning-011
+  locale: ru
+  input: Если архив потерян, исчезает ли вместе с ним историческая истина?
+  category: relation
+  expectedConcepts: &a15
+    - world.archives
+    - philosophy.truth
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: consequence
+  expectedRelation: archives-truth
+- id: en-reasoning-011
+  locale: en
+  input: If an archive is lost, does historical truth disappear with it?
+  category: relation
+  expectedConcepts: *a15
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: consequence
+  expectedRelation: archives-truth
+- id: ru-reasoning-012
+  locale: ru
+  input: Как реконструкция связана с архивами?
+  category: relation
+  expectedConcepts: &a16
+    - world.reconstruction
+    - world.archives
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: archives-reconstruction
+- id: en-reasoning-012
+  locale: en
+  input: How are reconstruction and archives related?
+  category: relation
+  expectedConcepts: *a16
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: archives-reconstruction
+- id: ru-reasoning-013
+  locale: ru
+  input: Как отличить причину от совпадения?
+  category: relation
+  expectedConcepts: &a17
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: criterion
+- id: en-reasoning-013
+  locale: en
+  input: How can a cause be distinguished from coincidence?
+  category: relation
+  expectedConcepts: *a17
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: criterion
+- id: ru-reasoning-014
+  locale: ru
+  input: Что такое знание?
+  category: relation
+  expectedConcepts: &a18
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: define
+- id: en-reasoning-014
+  locale: en
+  input: What is knowledge?
+  category: relation
+  expectedConcepts: *a18
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: define
+- id: ru-reasoning-015
+  locale: ru
+  input: Можно ли что-то знать, оставаясь неуверенным?
+  category: relation
+  expectedConcepts: &a19
+    - philosophy.knowledge
+    - philosophy.uncertainty
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: knowledge-uncertainty
+- id: en-reasoning-015
+  locale: en
+  input: Can one know something while uncertain?
+  category: relation
+  expectedConcepts: *a19
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: relate
+  expectedRelation: knowledge-uncertainty
+- id: ru-reasoning-016
+  locale: ru
+  input: Если всё имеет причину, свободы нет.
+  category: relation
+  expectedConcepts: &a20
+    - philosophy.freedom
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: counterpressure
+  expectedRelation: freedom-causality
+- id: en-reasoning-016
+  locale: en
+  input: If everything has a cause, there is no freedom.
+  category: relation
+  expectedConcepts: *a20
+  mustAnswer: true
+  mustNotMatch: []
+  reasoningCohort: true
+  expectedReasoningFrame: counterpressure
+  expectedRelation: freedom-causality
+
+- id: ru-conversation-1-1
+  locale: ru
+  input: Если всё имеет причину, возможна ли свобода?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedReasoningFrame: consequence
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-1-2
+  locale: ru
+  input: Почему наличие причины не исключает свободу?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Если всё имеет причину, возможна ли свобода?
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-1-3
+  locale: ru
+  input: Но если физически я не мог выбрать иначе?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Если всё имеет причину, возможна ли свобода?
+    - Почему наличие причины не исключает свободу?
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-1-4
+  locale: ru
+  input: А ты сама считаешь выбор свободным или нет?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Если всё имеет причину, возможна ли свобода?
+    - Почему наличие причины не исключает свободу?
+    - Но если физически я не мог выбрать иначе?
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-1-1
+  locale: en
+  input: If everything has a cause, is freedom possible?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedReasoningFrame: consequence
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-1-2
+  locale: en
+  input: Why doesn't having a cause eliminate freedom?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - If everything has a cause, is freedom possible?
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-1-3
+  locale: en
+  input: But if I physically could not choose otherwise?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - If everything has a cause, is freedom possible?
+    - Why doesn't having a cause eliminate freedom?
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-1-4
+  locale: en
+  input: So do you consider choice free or not?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - If everything has a cause, is freedom possible?
+    - Why doesn't having a cause eliminate freedom?
+    - But if I physically could not choose otherwise?
+  conversationCohort: true
+  expectedFocus: freedom-causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-2-1
+  locale: ru
+  input: Если мои убеждения полностью изменятся, останусь ли я собой?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: belief-continuity
+  expectedReasoningFrame: consequence
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-2-2
+  locale: ru
+  input: А если воспоминания изменятся?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Если мои убеждения полностью изменятся, останусь ли я собой?
+  conversationCohort: true
+  expectedFocus: belief-continuity
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-2-3
+  locale: ru
+  input: Тогда что вообще должно сохраниться?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Если мои убеждения полностью изменятся, останусь ли я собой?
+    - А если воспоминания изменятся?
+  conversationCohort: true
+  expectedFocus: belief-continuity
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-2-4
+  locale: ru
+  input: А тело?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Если мои убеждения полностью изменятся, останусь ли я собой?
+    - А если воспоминания изменятся?
+    - Тогда что вообще должно сохраниться?
+  conversationCohort: true
+  expectedFocus: body-continuity
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-2-1
+  locale: en
+  input: If my beliefs completely change, will I remain myself?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: belief-continuity
+  expectedReasoningFrame: consequence
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-2-2
+  locale: en
+  input: What if my memories change?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - If my beliefs completely change, will I remain myself?
+  conversationCohort: true
+  expectedFocus: belief-continuity
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-2-3
+  locale: en
+  input: Then what should remain?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - If my beliefs completely change, will I remain myself?
+    - What if my memories change?
+  conversationCohort: true
+  expectedFocus: belief-continuity
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-2-4
+  locale: en
+  input: What about the body?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - If my beliefs completely change, will I remain myself?
+    - What if my memories change?
+    - Then what should remain?
+  conversationCohort: true
+  expectedFocus: body-continuity
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-3-1
+  locale: ru
+  input: Допустим я потерял все воспоминания. Сознание останется?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedReasoningFrame: relate
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-3-2
+  locale: ru
+  input: Почему ты так считаешь?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Допустим я потерял все воспоминания. Сознание останется?
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-3-3
+  locale: ru
+  input: А если личность изменится?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Допустим я потерял все воспоминания. Сознание останется?
+    - Почему ты так считаешь?
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-3-4
+  locale: ru
+  input: Тогда это всё ещё буду я?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Допустим я потерял все воспоминания. Сознание останется?
+    - Почему ты так считаешь?
+    - А если личность изменится?
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-3-1
+  locale: en
+  input: Suppose I lost all memories. Would consciousness remain?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedReasoningFrame: relate
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-3-2
+  locale: en
+  input: Why do you think that?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Suppose I lost all memories. Would consciousness remain?
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-3-3
+  locale: en
+  input: What if personal identity changes?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Suppose I lost all memories. Would consciousness remain?
+    - Why do you think that?
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-3-4
+  locale: en
+  input: Then would that still be me?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Suppose I lost all memories. Would consciousness remain?
+    - Why do you think that?
+    - What if personal identity changes?
+  conversationCohort: true
+  expectedFocus: consciousness-memory
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-4-1
+  locale: ru
+  input: Чем истина отличается от того, что мы считаем знанием?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedReasoningFrame: distinguish
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts:
+    - philosophy.knowledge
+- id: ru-conversation-4-2
+  locale: ru
+  input: А если утверждение оказалось истинным случайно?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Чем истина отличается от того, что мы считаем знанием?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-4-3
+  locale: ru
+  input: Тогда что делает убеждение знанием?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Чем истина отличается от того, что мы считаем знанием?
+    - А если утверждение оказалось истинным случайно?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-4-4
+  locale: ru
+  input: Почему это так?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Чем истина отличается от того, что мы считаем знанием?
+    - А если утверждение оказалось истинным случайно?
+    - Тогда что делает убеждение знанием?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-4-1
+  locale: en
+  input: How is truth different from what we consider knowledge?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedReasoningFrame: distinguish
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-4-2
+  locale: en
+  input: What if the statement happened to be true by chance?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - How is truth different from what we consider knowledge?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-4-3
+  locale: en
+  input: Then what makes a belief knowledge?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - How is truth different from what we consider knowledge?
+    - What if the statement happened to be true by chance?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-4-4
+  locale: en
+  input: Why is that?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - How is truth different from what we consider knowledge?
+    - What if the statement happened to be true by chance?
+    - Then what makes a belief knowledge?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-5-1
+  locale: ru
+  input: Может ли копия быть оригиналом?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedReasoningFrame: relate
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-5-2
+  locale: ru
+  input: А если она атом в атом идентична?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Может ли копия быть оригиналом?
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-5-3
+  locale: ru
+  input: Но если снаружи разницу невозможно обнаружить?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Может ли копия быть оригиналом?
+    - А если она атом в атом идентична?
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-5-4
+  locale: ru
+  input: Для кого тогда?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Может ли копия быть оригиналом?
+    - А если она атом в атом идентична?
+    - Но если снаружи разницу невозможно обнаружить?
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-5-1
+  locale: en
+  input: Can a copy be an original?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedReasoningFrame: relate
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-5-2
+  locale: en
+  input: What if it is identical atom for atom?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Can a copy be an original?
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-5-3
+  locale: en
+  input: But if no difference can be detected from outside?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Can a copy be an original?
+    - What if it is identical atom for atom?
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-5-4
+  locale: en
+  input: Who is it for then?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Can a copy be an original?
+    - What if it is identical atom for atom?
+    - But if no difference can be detected from outside?
+  conversationCohort: true
+  expectedFocus: originality-aura
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-6-1
+  locale: ru
+  input: Почему последовательность событий ещё не доказывает причину?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedReasoningFrame: criterion
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts:
+    - science.causality
+- id: ru-conversation-6-2
+  locale: ru
+  input: Что тогда считается доказательством причины?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Почему последовательность событий ещё не доказывает причину?
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-6-3
+  locale: ru
+  input: А если эксперимент невозможен?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Почему последовательность событий ещё не доказывает причину?
+    - Что тогда считается доказательством причины?
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-6-4
+  locale: ru
+  input: Значит причина может остаться неизвестной?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Почему последовательность событий ещё не доказывает причину?
+    - Что тогда считается доказательством причины?
+    - А если эксперимент невозможен?
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-6-1
+  locale: en
+  input: Why does a sequence of events not prove a cause?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedReasoningFrame: criterion
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-6-2
+  locale: en
+  input: Then what counts as evidence of a cause?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Why does a sequence of events not prove a cause?
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-6-3
+  locale: en
+  input: What if an experiment is impossible?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Why does a sequence of events not prove a cause?
+    - Then what counts as evidence of a cause?
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-6-4
+  locale: en
+  input: So can the cause remain unknown?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Why does a sequence of events not prove a cause?
+    - Then what counts as evidence of a cause?
+    - What if an experiment is impossible?
+  conversationCohort: true
+  expectedFocus: science.causality
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-7-1
+  locale: ru
+  input: Мы потеряли архивы прошлого. Значит мы больше не можем знать правду о нём?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: archives-truth
+  expectedReasoningFrame: consequence
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-7-2
+  locale: ru
+  input: А если остался только один источник?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Мы потеряли архивы прошлого. Значит мы больше не можем знать правду о нём?
+  conversationCohort: true
+  expectedFocus: archives-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-7-3
+  locale: ru
+  input: А если источники противоречат друг другу?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Мы потеряли архивы прошлого. Значит мы больше не можем знать правду о нём?
+    - А если остался только один источник?
+  conversationCohort: true
+  expectedFocus: archives-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-7-4
+  locale: ru
+  input: Что ты тогда считаешь знанием?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Мы потеряли архивы прошлого. Значит мы больше не можем знать правду о нём?
+    - А если остался только один источник?
+    - А если источники противоречат друг другу?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-7-1
+  locale: en
+  input:
+    We lost the archives of the past. Does that mean we cannot know the truth
+    about it?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: archives-truth
+  expectedReasoningFrame: consequence
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-7-2
+  locale: en
+  input: What if only one source remains?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - We lost the archives of the past. Does that mean we cannot know the truth
+      about it?
+  conversationCohort: true
+  expectedFocus: archives-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-7-3
+  locale: en
+  input: What if the sources contradict each other?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - We lost the archives of the past. Does that mean we cannot know the truth
+      about it?
+    - What if only one source remains?
+  conversationCohort: true
+  expectedFocus: archives-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: en-conversation-7-4
+  locale: en
+  input: What do you consider knowledge then?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - We lost the archives of the past. Does that mean we cannot know the truth
+      about it?
+    - What if only one source remains?
+    - What if the sources contradict each other?
+  conversationCohort: true
+  expectedFocus: knowledge-truth
+  expectedFollowUp: true
+  expectedPartial: true
+  inflectedConcepts: []
+- id: ru-conversation-8-1
+  locale: ru
+  input: Ты мыслишь?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: self:reasoning
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-8-2
+  locale: ru
+  input: Чем твоё рассуждение отличается от человеческого?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Ты мыслишь?
+  conversationCohort: true
+  expectedFocus: self:reasoning
+  expectedFollowUp: true
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-8-3
+  locale: ru
+  input: Но если снаружи разницу невозможно обнаружить?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Ты мыслишь?
+    - Чем твоё рассуждение отличается от человеческого?
+  conversationCohort: true
+  expectedFocus: self:reasoning
+  expectedFollowUp: true
+  expectedPartial: false
+  inflectedConcepts: []
+- id: ru-conversation-8-4
+  locale: ru
+  input: Тогда почему ты не называешь себя сознательной?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Ты мыслишь?
+    - Чем твоё рассуждение отличается от человеческого?
+    - Но если снаружи разницу невозможно обнаружить?
+  conversationCohort: true
+  expectedFocus: self:consciousness
+  expectedFollowUp: true
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-8-1
+  locale: en
+  input: Do you think?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context: []
+  conversationCohort: true
+  expectedFocus: self:reasoning
+  expectedFollowUp: false
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-8-2
+  locale: en
+  input: How is your reasoning different from human reasoning?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Do you think?
+  conversationCohort: true
+  expectedFocus: self:reasoning
+  expectedFollowUp: true
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-8-3
+  locale: en
+  input: But if no difference can be detected from outside?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Do you think?
+    - How is your reasoning different from human reasoning?
+  conversationCohort: true
+  expectedFocus: self:reasoning
+  expectedFollowUp: true
+  expectedPartial: false
+  inflectedConcepts: []
+- id: en-conversation-8-4
+  locale: en
+  input: Then why do you not call yourself conscious?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Do you think?
+    - How is your reasoning different from human reasoning?
+    - But if no difference can be detected from outside?
+  conversationCohort: true
+  expectedFocus: self:consciousness
+  expectedFollowUp: true
+  expectedPartial: false
+  inflectedConcepts: []
+
+- id: ru-focus-transition-1
+  locale: ru
+  input: Почему?
+  context:
+    - Если всё имеет причину, возможна ли свобода?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: retain
+  expectedTarget: philosophy.freedom
+- id: en-focus-transition-1
+  locale: en
+  input: Why?
+  context:
+    - If everything has a cause, is freedom possible?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: retain
+  expectedTarget: philosophy.freedom
+- id: ru-focus-transition-2
+  locale: ru
+  input: А если она атом в атом идентична?
+  context:
+    - Может ли копия быть оригиналом?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: retain
+  expectedTarget: art.originality
+- id: en-focus-transition-2
+  locale: en
+  input: What if it is identical atom for atom?
+  context:
+    - Can a copy be an original?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: retain
+  expectedTarget: art.originality
+- id: ru-focus-transition-3
+  locale: ru
+  input: А если остался только один источник?
+  context:
+    - Если архив потерян, исчезает ли истина?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: retain
+  expectedTarget: world.archives
+- id: en-focus-transition-3
+  locale: en
+  input: What if only one source remains?
+  context:
+    - If archives are lost, is truth lost?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: retain
+  expectedTarget: world.archives
+- id: ru-focus-transition-4
+  locale: ru
+  input: А если воспоминания изменятся?
+  context:
+    - Если мои убеждения полностью изменятся, останусь ли я собой?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: identity.memory
+- id: en-focus-transition-4
+  locale: en
+  input: What if my memories change?
+  context:
+    - If my beliefs completely change, will I remain myself?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: identity.memory
+- id: ru-focus-transition-5
+  locale: ru
+  input: А если личность изменится?
+  context:
+    - Допустим я потерял все воспоминания. Сознание останется?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: identity.self
+- id: en-focus-transition-5
+  locale: en
+  input: What if personal identity changes?
+  context:
+    - Suppose I lost all memories. Would consciousness remain?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: identity.self
+- id: ru-focus-transition-6
+  locale: ru
+  input: Тогда это всё ещё буду я?
+  context:
+    - Может ли сознание существовать без памяти?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: identity.self
+- id: en-focus-transition-6
+  locale: en
+  input: Then would that still be me?
+  context:
+    - Can consciousness exist without memory?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: identity.self
+- id: ru-focus-transition-7
+  locale: ru
+  input: Что ты тогда считаешь знанием?
+  context:
+    - Мы потеряли архивы прошлого. Значит мы больше не можем знать правду о нём?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: philosophy.knowledge
+- id: en-focus-transition-7
+  locale: en
+  input: What do you consider knowledge then?
+  context:
+    - We lost the archives of the past. Does that mean we cannot know the truth
+      about it?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: pivot
+  expectedTarget: philosophy.knowledge
+- id: ru-focus-transition-8
+  locale: ru
+  input: Что такое оригинальность?
+  context:
+    - Если всё имеет причину, возможна ли свобода?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: replace
+  expectedTarget: art.originality
+- id: en-focus-transition-8
+  locale: en
+  input: What is originality?
+  context:
+    - If everything has a cause, is freedom possible?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: true
+  mustNotMatch: []
+  transitionCohort: true
+  expectedTransition: replace
+  expectedTarget: art.originality

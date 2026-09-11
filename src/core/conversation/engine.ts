@@ -1,3 +1,9 @@
+import { classifyFocusTransition } from '../reasoning/focus.ts';
+import { resolveFollowUp } from '../reasoning/follow-up.ts';
+import { operandEvidence } from '../reasoning/relations.ts';
+import { planReasoning } from '../reasoning/plan.ts';
+import { RelationIndex } from '../reasoning/relations.ts';
+import { authoredRelations, relationTerms } from '../../relations/pack.ts';
 import { createSystemSelfModel } from '../self/model.ts';
 import { planSelfResponse } from '../self/plan.ts';
 import {
@@ -28,11 +34,13 @@ import { type ResponseHistory } from './model.ts';
 export class ConversationEngine {
   private readonly matcher: ConceptMatcher;
   private readonly graph: ConceptGraph;
+  private readonly relations: RelationIndex;
   private readonly provider: IntelligenceProvider;
   constructor(cards: readonly ConceptCard[], provider: IntelligenceProvider) {
     this.matcher = new ConceptMatcher(cards);
     this.graph = new ConceptGraph(cards);
     this.provider = provider;
+    this.relations = new RelationIndex(authoredRelations, this.graph);
   }
   async respond(
     message: string,
@@ -59,6 +67,27 @@ export class ConversationEngine {
         ? memory.lastResponse.plan.selfMaterial?.query.kind
         : undefined;
     const perception = perceive(message, locale, matches, previousSelf);
+    const followUp = resolveFollowUp(
+      message,
+      locale,
+      memory.reasoningFocus,
+      history.turn,
+      [
+        ...matches
+          .filter((m) => m.score >= 85)
+          .map((m) => ({
+            conceptId: m.conceptId,
+            source: 'matcher' as const,
+            term: m.evidence.term,
+          })),
+        ...operandEvidence(message, locale, relationTerms, this.graph),
+      ],
+    );
+    if (
+      followUp.selfQuery &&
+      (!perception.selfQuery || perception.selfQuery.kind === 'unknown_self')
+    )
+      perception.selfQuery = followUp.selfQuery;
     const selfQuery =
       perception.selfQuery ??
       (perception.act === 'system_identity_question'
@@ -97,7 +126,7 @@ export class ConversationEngine {
       history,
       disclosure,
     );
-    const plan = selfQuery
+    let plan = selfQuery
       ? planSelfResponse(
           selfQuery,
           createSystemSelfModel(profile, longTerm?.semantic),
@@ -107,12 +136,25 @@ export class ConversationEngine {
       : planned.plan.userGroundedMaterial
         ? planned.plan
         : contextualPlan(planned.plan, context, memory, this.graph, locale);
+    plan = planReasoning(
+      plan,
+      message,
+      perception,
+      memory,
+      this.graph,
+      this.relations,
+      relationTerms,
+      locale,
+      followUp,
+    );
     if (plan.selfMaterial)
       plan.selfMaterial.supportingConcepts =
         plan.selfMaterial.supportingConcepts.filter(
           (id) => !!this.graph.get(id),
         );
-    const memoryReferenceBlockers: string[] = [];
+    const memoryReferenceBlockers: string[] = plan.reasoning
+      ? ['reasoning_material']
+      : [];
     if (longTerm && !plan.selfMaterial) {
       const relevant = retrieveMemories(message, locale, longTerm.semantic);
       if (relevant.length) plan.longTermContext = relevant;
@@ -152,7 +194,7 @@ export class ConversationEngine {
         plan.acknowledgeMemoryId = reference.id;
     }
     const candidates =
-      plan.selfMaterial || context.kind
+      plan.selfMaterial || plan.reasoning || context.kind
         ? [{ strategy: plan.strategy, weight: 1 }]
         : planned.candidates;
     const material = plan.selectedMaterial
@@ -165,6 +207,12 @@ export class ConversationEngine {
         locale,
         turnIndex: history.turn,
         material,
+        relationMaterial: (plan.reasoning?.required ?? []).flatMap(
+          (reference) => {
+            const text = this.relations.read(reference, locale);
+            return text ? [{ reference, text }] : [];
+          },
+        ),
       },
       plan,
     );
@@ -178,7 +226,20 @@ export class ConversationEngine {
       response,
       locale,
     );
+    const focusTransition = classifyFocusTransition(
+      memory.reasoningFocus,
+      nextMemory.reasoningFocus,
+      followUp.resolved,
+      [
+        ...matches.filter((m) => m.score >= 85).map((m) => m.conceptId),
+        ...(plan.reasoning?.evidence
+          .filter((e) => e.source !== 'working_focus')
+          .map((e) => e.conceptId) ?? []),
+      ],
+    );
     return {
+      focusTransition,
+      followUp,
       memoryInspection: {
         retrieval: inspectMemoryRetrieval(
           message,

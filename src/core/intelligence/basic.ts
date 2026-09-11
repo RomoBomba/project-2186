@@ -1,3 +1,5 @@
+import { partialBoundary } from '../../characters/reasoning.ts';
+import { relationKey } from '../reasoning/model.ts';
 import { realizeSelf } from './self-surface.ts';
 import { disclosureVoices } from '../../characters/disclosure.ts';
 import { memoryVoices } from '../../characters/memory.ts';
@@ -19,6 +21,39 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
   ): Promise<IntelligenceResponse> {
     if (plan.selfMaterial && plan.selfMaterial.query.kind !== 'identity')
       return { text: realizeSelf(plan, context.locale), usedMaterialKeys: [] };
+    if (plan.reasoning?.basis === 'relation') {
+      const parts: string[] = [];
+      const usedMaterialKeys: string[] = [];
+      for (const ref of plan.reasoning.required) {
+        const item = context.relationMaterial?.find(
+          (item) => relationKey(item.reference) === relationKey(ref),
+        );
+        if (!item) continue;
+        const candidate = [
+          ...parts,
+          item.text,
+          ...(plan.reasoning.partial ? [partialBoundary[context.locale]] : []),
+        ].join(' ');
+        if (
+          candidate.length > plan.desiredLength.maxCharacters ||
+          sentenceCount(candidate) > plan.desiredLength.maxSentences
+        )
+          continue;
+        parts.push(item.text);
+        usedMaterialKeys.push(relationKey(ref));
+      }
+      return {
+        text: parts.length
+          ? [
+              ...parts,
+              ...(plan.reasoning.partial
+                ? [partialBoundary[context.locale]]
+                : []),
+            ].join(' ')
+          : contextLimit[context.locale],
+        usedMaterialKeys,
+      };
+    }
     if (plan.userGroundedMaterial) {
       const item = plan.userGroundedMaterial;
       return {
@@ -64,7 +99,14 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
         (item) => materialKey(item.reference) === materialKey(ref),
       );
       if (!item || usedMaterialKeys.includes(materialKey(ref))) continue;
-      const candidate = compose([...parts, item.text], plan);
+      const candidate = compose(
+        [
+          ...parts,
+          item.text,
+          ...(plan.reasoning?.partial ? [partialBoundary[context.locale]] : []),
+        ],
+        plan,
+      );
       if (
         candidate.length > plan.desiredLength.maxCharacters ||
         sentenceCount(candidate) > plan.desiredLength.maxSentences
@@ -74,7 +116,17 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
       usedMaterialKeys.push(materialKey(ref));
     }
     return {
-      text: parts.length ? compose(parts, plan) : select(voice.uncertainty),
+      text: parts.length
+        ? compose(
+            [
+              ...parts,
+              ...(plan.reasoning?.partial
+                ? [partialBoundary[context.locale]]
+                : []),
+            ],
+            plan,
+          )
+        : select(voice.uncertainty),
       usedMaterialKeys,
     };
   }

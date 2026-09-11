@@ -1,3 +1,6 @@
+import { RelationIndex } from '../reasoning/relations.ts';
+import { relationKey } from '../reasoning/model.ts';
+import { authoredRelations } from '../../relations/pack.ts';
 import { describe, expect, it } from 'vitest';
 import { characterVoices } from '../../characters/voices.ts';
 import { canonicalKnowledge } from '../../generated/knowledge.ts';
@@ -11,6 +14,7 @@ import { ConceptGraph } from '../knowledge/graph.ts';
 import { BasicIntelligenceProvider } from './basic.ts';
 
 const graph = new ConceptGraph(canonicalKnowledge);
+const relations = new RelationIndex(authoredRelations, graph);
 const engine = new ConversationEngine(
   canonicalKnowledge,
   new BasicIntelligenceProvider(),
@@ -60,15 +64,21 @@ describe('direct authored surface composition', () => {
             // Whitespace composition only: no hidden new facts, generic questions,
             // invented contrasts, therapeutic advice, or strategy-label prefixes.
             const authored = usedMaterialKeys
-              .map(
-                (key) =>
-                  readMaterial(
-                    graph,
-                    result.plan.selectedMaterial.find(
-                      (ref) => materialKey(ref) === key,
-                    )!,
-                    locale,
-                  )!.text,
+              .map((key) =>
+                key.startsWith('relation:')
+                  ? relations.read(
+                      result.plan.reasoning!.required.find(
+                        (ref) => relationKey(ref) === key,
+                      )!,
+                      locale,
+                    )!
+                  : readMaterial(
+                      graph,
+                      result.plan.selectedMaterial.find(
+                        (ref) => materialKey(ref) === key,
+                      )!,
+                      locale,
+                    )!.text,
               )
               .join(' ');
             expect(text.replace(/\s+/gu, ' ')).toBe(
