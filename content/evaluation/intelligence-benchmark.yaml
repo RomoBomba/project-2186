@@ -1,0 +1,1638 @@
+- id: ru-001
+  locale: ru
+  input: Аура
+  category: canonical
+  expectedPrimaryConcept: art.aura
+  expectedConcepts:
+    - art.aura
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-002
+  locale: ru
+  input: Может ли идеальная копия обладать той же аурой, что и оригинал?
+  category: canonical
+  expectedPrimaryConcept: art.aura
+  expectedConcepts:
+    - art.aura
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-001
+  locale: en
+  input: Aura
+  category: canonical
+  expectedPrimaryConcept: art.aura
+  expectedConcepts:
+    - art.aura
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-002
+  locale: en
+  input: Can a perfect copy possess the same aura as an original?
+  category: canonical
+  expectedPrimaryConcept: art.aura
+  expectedConcepts:
+    - art.aura
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-003
+  locale: ru
+  input: Создание
+  category: canonical
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-004
+  locale: ru
+  input: Что отличает создание от простого преобразования?
+  category: canonical
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-003
+  locale: en
+  input: Creation
+  category: canonical
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-004
+  locale: en
+  input: What distinguishes creation from mere transformation?
+  category: canonical
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-005
+  locale: ru
+  input: Интерпретация
+  category: canonical
+  expectedPrimaryConcept: art.interpretation
+  expectedConcepts:
+    - art.interpretation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-006
+  locale: ru
+  input: Может ли интерпретация быть ошибочной?
+  category: canonical
+  expectedPrimaryConcept: art.interpretation
+  expectedConcepts:
+    - art.interpretation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-005
+  locale: en
+  input: Interpretation
+  category: canonical
+  expectedPrimaryConcept: art.interpretation
+  expectedConcepts:
+    - art.interpretation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-006
+  locale: en
+  input: Can an interpretation be wrong?
+  category: canonical
+  expectedPrimaryConcept: art.interpretation
+  expectedConcepts:
+    - art.interpretation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-007
+  locale: ru
+  input: Оригинальность
+  category: canonical
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-008
+  locale: ru
+  input: Что именно делает произведение оригинальным?
+  category: canonical
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-007
+  locale: en
+  input: Originality
+  category: canonical
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-008
+  locale: en
+  input: What exactly makes an artwork original?
+  category: canonical
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-009
+  locale: ru
+  input: Убеждение
+  category: canonical
+  expectedPrimaryConcept: identity.belief
+  expectedConcepts:
+    - identity.belief
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-010
+  locale: ru
+  input: Если мои убеждения изменятся, останусь ли я тем же человеком?
+  category: canonical
+  expectedPrimaryConcept: identity.belief
+  expectedConcepts:
+    - identity.belief
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-009
+  locale: en
+  input: Belief
+  category: canonical
+  expectedPrimaryConcept: identity.belief
+  expectedConcepts:
+    - identity.belief
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-010
+  locale: en
+  input: If my beliefs change, will I remain the same person?
+  category: canonical
+  expectedPrimaryConcept: identity.belief
+  expectedConcepts:
+    - identity.belief
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-011
+  locale: ru
+  input: Тело
+  category: canonical
+  expectedPrimaryConcept: identity.body
+  expectedConcepts:
+    - identity.body
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-012
+  locale: ru
+  input: Является ли тело частью личности или только её носителем?
+  category: canonical
+  expectedPrimaryConcept: identity.body
+  expectedConcepts:
+    - identity.body
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-011
+  locale: en
+  input: Body
+  category: canonical
+  expectedPrimaryConcept: identity.body
+  expectedConcepts:
+    - identity.body
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-012
+  locale: en
+  input: Is the body part of identity, or only its carrier?
+  category: canonical
+  expectedPrimaryConcept: identity.body
+  expectedConcepts:
+    - identity.body
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-013
+  locale: ru
+  input: Изменение
+  category: canonical
+  expectedPrimaryConcept: identity.change
+  expectedConcepts:
+    - identity.change
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-014
+  locale: ru
+  input: Сколько можно изменить в человеке, прежде чем он станет другим?
+  category: canonical
+  expectedPrimaryConcept: identity.change
+  expectedConcepts:
+    - identity.change
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-013
+  locale: en
+  input: Change
+  category: canonical
+  expectedPrimaryConcept: identity.change
+  expectedConcepts:
+    - identity.change
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-014
+  locale: en
+  input: How much can change before a person becomes someone else?
+  category: canonical
+  expectedPrimaryConcept: identity.change
+  expectedConcepts:
+    - identity.change
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-015
+  locale: ru
+  input: Непрерывность
+  category: canonical
+  expectedPrimaryConcept: identity.continuity
+  expectedConcepts:
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-016
+  locale: ru
+  input: Сколько можно изменить в человеке, прежде чем он перестанет быть тем же
+    человеком?
+  category: canonical
+  expectedPrimaryConcept: identity.continuity
+  expectedConcepts:
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-015
+  locale: en
+  input: Continuity
+  category: canonical
+  expectedPrimaryConcept: identity.continuity
+  expectedConcepts:
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-016
+  locale: en
+  input: How much can change in a person before they cease to be the same person?
+  category: canonical
+  expectedPrimaryConcept: identity.continuity
+  expectedConcepts:
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-017
+  locale: ru
+  input: Память
+  category: canonical
+  expectedPrimaryConcept: identity.memory
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-018
+  locale: ru
+  input: Что именно остаётся непрерывным, когда воспоминания меняются?
+  category: canonical
+  expectedPrimaryConcept: identity.memory
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-017
+  locale: en
+  input: Memory
+  category: canonical
+  expectedPrimaryConcept: identity.memory
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-018
+  locale: en
+  input: What remains continuous when memories change?
+  category: canonical
+  expectedPrimaryConcept: identity.memory
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-019
+  locale: ru
+  input: Я
+  category: canonical
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-020
+  locale: ru
+  input: Что именно ты имеешь в виду, когда говоришь «я»?
+  category: canonical
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-019
+  locale: en
+  input: Self
+  category: canonical
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-020
+  locale: en
+  input: What exactly do you mean when you say 'I'?
+  category: canonical
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-021
+  locale: ru
+  input: Сознание
+  category: canonical
+  expectedPrimaryConcept: philosophy.consciousness
+  expectedConcepts:
+    - philosophy.consciousness
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-022
+  locale: ru
+  input: Можно ли доказать существование чужого сознания?
+  category: canonical
+  expectedPrimaryConcept: philosophy.consciousness
+  expectedConcepts:
+    - philosophy.consciousness
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-021
+  locale: en
+  input: Consciousness
+  category: canonical
+  expectedPrimaryConcept: philosophy.consciousness
+  expectedConcepts:
+    - philosophy.consciousness
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-022
+  locale: en
+  input: Can the existence of another consciousness be proven?
+  category: canonical
+  expectedPrimaryConcept: philosophy.consciousness
+  expectedConcepts:
+    - philosophy.consciousness
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-023
+  locale: ru
+  input: Свобода
+  category: canonical
+  expectedPrimaryConcept: philosophy.freedom
+  expectedConcepts:
+    - philosophy.freedom
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-024
+  locale: ru
+  input: Нужна ли свободе возможность поступить иначе?
+  category: canonical
+  expectedPrimaryConcept: philosophy.freedom
+  expectedConcepts:
+    - philosophy.freedom
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-023
+  locale: en
+  input: Freedom
+  category: canonical
+  expectedPrimaryConcept: philosophy.freedom
+  expectedConcepts:
+    - philosophy.freedom
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-024
+  locale: en
+  input: Does freedom require the possibility of acting otherwise?
+  category: canonical
+  expectedPrimaryConcept: philosophy.freedom
+  expectedConcepts:
+    - philosophy.freedom
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-025
+  locale: ru
+  input: Знание
+  category: canonical
+  expectedPrimaryConcept: philosophy.knowledge
+  expectedConcepts:
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-026
+  locale: ru
+  input: Можно ли знать что-либо без возможности ошибиться?
+  category: canonical
+  expectedPrimaryConcept: philosophy.knowledge
+  expectedConcepts:
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-025
+  locale: en
+  input: Knowledge
+  category: canonical
+  expectedPrimaryConcept: philosophy.knowledge
+  expectedConcepts:
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-026
+  locale: en
+  input: Can something be known without any possibility of error?
+  category: canonical
+  expectedPrimaryConcept: philosophy.knowledge
+  expectedConcepts:
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-027
+  locale: ru
+  input: Смысл
+  category: canonical
+  expectedPrimaryConcept: philosophy.meaning
+  expectedConcepts:
+    - philosophy.meaning
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-028
+  locale: ru
+  input: Смысл обнаруживают или создают?
+  category: canonical
+  expectedPrimaryConcept: philosophy.meaning
+  expectedConcepts:
+    - philosophy.meaning
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-027
+  locale: en
+  input: Meaning
+  category: canonical
+  expectedPrimaryConcept: philosophy.meaning
+  expectedConcepts:
+    - philosophy.meaning
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-028
+  locale: en
+  input: Is meaning discovered or created?
+  category: canonical
+  expectedPrimaryConcept: philosophy.meaning
+  expectedConcepts:
+    - philosophy.meaning
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-029
+  locale: ru
+  input: Истина
+  category: canonical
+  expectedPrimaryConcept: philosophy.truth
+  expectedConcepts:
+    - philosophy.truth
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-030
+  locale: ru
+  input:
+    Истина — это свойство утверждения или событие, в котором нечто становится
+    видимым?
+  category: canonical
+  expectedPrimaryConcept: philosophy.truth
+  expectedConcepts:
+    - philosophy.truth
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-029
+  locale: en
+  input: Truth
+  category: canonical
+  expectedPrimaryConcept: philosophy.truth
+  expectedConcepts:
+    - philosophy.truth
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-030
+  locale: en
+  input: Is truth a property of a statement, or an event in which something
+    becomes visible?
+  category: canonical
+  expectedPrimaryConcept: philosophy.truth
+  expectedConcepts:
+    - philosophy.truth
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-031
+  locale: ru
+  input: Неопределённость
+  category: canonical
+  expectedPrimaryConcept: philosophy.uncertainty
+  expectedConcepts:
+    - philosophy.uncertainty
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-032
+  locale: ru
+  input: Когда сомнение полезно, а когда оно мешает действовать?
+  category: canonical
+  expectedPrimaryConcept: philosophy.uncertainty
+  expectedConcepts:
+    - philosophy.uncertainty
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-031
+  locale: en
+  input: Uncertainty
+  category: canonical
+  expectedPrimaryConcept: philosophy.uncertainty
+  expectedConcepts:
+    - philosophy.uncertainty
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-032
+  locale: en
+  input: When is doubt useful, and when does it prevent action?
+  category: canonical
+  expectedPrimaryConcept: philosophy.uncertainty
+  expectedConcepts:
+    - philosophy.uncertainty
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-033
+  locale: ru
+  input: Причинность
+  category: canonical
+  expectedPrimaryConcept: science.causality
+  expectedConcepts:
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-034
+  locale: ru
+  input: Как отличить причину от совпадения?
+  category: canonical
+  expectedPrimaryConcept: science.causality
+  expectedConcepts:
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-033
+  locale: en
+  input: Causality
+  category: canonical
+  expectedPrimaryConcept: science.causality
+  expectedConcepts:
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-034
+  locale: en
+  input: How can a cause be distinguished from coincidence?
+  category: canonical
+  expectedPrimaryConcept: science.causality
+  expectedConcepts:
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-035
+  locale: ru
+  input: Сложность
+  category: canonical
+  expectedPrimaryConcept: science.complexity
+  expectedConcepts:
+    - science.complexity
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-036
+  locale: ru
+  input: Когда система становится сложной, а не просто большой?
+  category: canonical
+  expectedPrimaryConcept: science.complexity
+  expectedConcepts:
+    - science.complexity
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-035
+  locale: en
+  input: Complexity
+  category: canonical
+  expectedPrimaryConcept: science.complexity
+  expectedConcepts:
+    - science.complexity
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-036
+  locale: en
+  input: When does a system become complex rather than merely large?
+  category: canonical
+  expectedPrimaryConcept: science.complexity
+  expectedConcepts:
+    - science.complexity
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-037
+  locale: ru
+  input: Интеллект
+  category: canonical
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-038
+  locale: ru
+  input: Что отличает интеллект от сложного автоматического поведения?
+  category: canonical
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-037
+  locale: en
+  input: Intelligence
+  category: canonical
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-038
+  locale: en
+  input: What distinguishes intelligence from complex automatic behaviour?
+  category: canonical
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-039
+  locale: ru
+  input: Архивы
+  category: canonical
+  expectedPrimaryConcept: world.archives
+  expectedConcepts:
+    - world.archives
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-040
+  locale: ru
+  input: Можно ли считать отсутствие записи формой знания?
+  category: canonical
+  expectedPrimaryConcept: world.archives
+  expectedConcepts:
+    - world.archives
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-039
+  locale: en
+  input: Archives
+  category: canonical
+  expectedPrimaryConcept: world.archives
+  expectedConcepts:
+    - world.archives
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-040
+  locale: en
+  input: Can the absence of a record itself be a form of knowledge?
+  category: canonical
+  expectedPrimaryConcept: world.archives
+  expectedConcepts:
+    - world.archives
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-041
+  locale: ru
+  input: Реконструкция
+  category: canonical
+  expectedPrimaryConcept: world.reconstruction
+  expectedConcepts:
+    - world.reconstruction
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-042
+  locale: ru
+  input: Можно ли восстановить общество, не восстановив его прошлое?
+  category: canonical
+  expectedPrimaryConcept: world.reconstruction
+  expectedConcepts:
+    - world.reconstruction
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-041
+  locale: en
+  input: Reconstruction
+  category: canonical
+  expectedPrimaryConcept: world.reconstruction
+  expectedConcepts:
+    - world.reconstruction
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-042
+  locale: en
+  input: Can a society be rebuilt without rebuilding its past?
+  category: canonical
+  expectedPrimaryConcept: world.reconstruction
+  expectedConcepts:
+    - world.reconstruction
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-043
+  locale: ru
+  input: Что делает человека свободным?
+  category: paraphrase
+  expectedPrimaryConcept: philosophy.freedom
+  expectedConcepts:
+    - philosophy.freedom
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-043
+  locale: en
+  input: What makes a person free?
+  category: paraphrase
+  expectedPrimaryConcept: philosophy.freedom
+  expectedConcepts:
+    - philosophy.freedom
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-044
+  locale: ru
+  input: Можно ли знать что-либо наверняка?
+  category: paraphrase
+  expectedPrimaryConcept: philosophy.knowledge
+  expectedConcepts:
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-044
+  locale: en
+  input: Can anything be known for certain?
+  category: paraphrase
+  expectedPrimaryConcept: philosophy.knowledge
+  expectedConcepts:
+    - philosophy.knowledge
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-045
+  locale: ru
+  input: Может ли сознание существовать без памяти?
+  category: relation
+  expectedPrimaryConcept: philosophy.consciousness
+  expectedConcepts: &a1
+    - philosophy.consciousness
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-045
+  locale: en
+  input: Can consciousness exist without memory?
+  category: relation
+  expectedPrimaryConcept: philosophy.consciousness
+  expectedConcepts: *a1
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-046
+  locale: ru
+  input: Если мои убеждения полностью изменятся, останусь ли я собой?
+  category: relation
+  expectedPrimaryConcept: identity.belief
+  expectedConcepts: &a2
+    - identity.belief
+    - identity.change
+    - identity.self
+    - identity.continuity
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-046
+  locale: en
+  input: If my beliefs change completely, will I remain myself?
+  category: relation
+  expectedPrimaryConcept: identity.belief
+  expectedConcepts: *a2
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-047
+  locale: ru
+  input: Является ли тело частью личности?
+  category: relation
+  expectedPrimaryConcept: identity.body
+  expectedConcepts: &a3
+    - identity.body
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-047
+  locale: en
+  input: Is the body part of personal identity?
+  category: relation
+  expectedPrimaryConcept: identity.body
+  expectedConcepts: *a3
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-048
+  locale: ru
+  input: Может ли машина мыслить?
+  category: paraphrase
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-048
+  locale: en
+  input: Can a machine think?
+  category: paraphrase
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-049
+  locale: ru
+  input: Может ли машина создавать искусство?
+  category: paraphrase
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-049
+  locale: en
+  input: Can a machine create art?
+  category: paraphrase
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-050
+  locale: ru
+  input: Что делает произведение оригинальным?
+  category: paraphrase
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-050
+  locale: en
+  input: What makes a work original?
+  category: paraphrase
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-051
+  locale: ru
+  input: Может ли интерпретация быть неправильной?
+  category: paraphrase
+  expectedPrimaryConcept: art.interpretation
+  expectedConcepts:
+    - art.interpretation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-051
+  locale: en
+  input: Can an interpretation be wrong?
+  category: paraphrase
+  expectedPrimaryConcept: art.interpretation
+  expectedConcepts:
+    - art.interpretation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-052
+  locale: ru
+  input: Как отличить причину от совпадения?
+  category: paraphrase
+  expectedPrimaryConcept: science.causality
+  expectedConcepts:
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-052
+  locale: en
+  input: How can I distinguish a cause from coincidence?
+  category: paraphrase
+  expectedPrimaryConcept: science.causality
+  expectedConcepts:
+    - science.causality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-053
+  locale: ru
+  input: Можно ли предсказать сложную систему?
+  category: paraphrase
+  expectedPrimaryConcept: science.complexity
+  expectedConcepts:
+    - science.complexity
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-053
+  locale: en
+  input: Can a complex system be predicted?
+  category: paraphrase
+  expectedPrimaryConcept: science.complexity
+  expectedConcepts:
+    - science.complexity
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-054
+  locale: ru
+  input: Что происходило во время реконструкции?
+  category: paraphrase
+  expectedPrimaryConcept: world.reconstruction
+  expectedConcepts:
+    - world.reconstruction
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-054
+  locale: en
+  input: What happened during reconstruction?
+  category: paraphrase
+  expectedPrimaryConcept: world.reconstruction
+  expectedConcepts:
+    - world.reconstruction
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-055
+  locale: ru
+  input: Истина и утраченные архивы связаны?
+  category: relation
+  expectedPrimaryConcept: philosophy.truth
+  expectedConcepts: &a4
+    - philosophy.truth
+    - world.archives
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-055
+  locale: en
+  input: Are truth and lost archives connected?
+  category: relation
+  expectedPrimaryConcept: philosophy.truth
+  expectedConcepts: *a4
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-056
+  locale: ru
+  input: Я купил хлеб.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-056
+  locale: en
+  input: I bought bread.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-057
+  locale: ru
+  input: Открой архив zip.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-057
+  locale: en
+  input: Open a zip archive.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-058
+  locale: ru
+  input: Я сделал копию файла.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-058
+  locale: en
+  input: I made a copy of a file.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-059
+  locale: ru
+  input: Сегодня сложный день.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-059
+  locale: en
+  input: Today is a difficult day.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-060
+  locale: ru
+  input: У машины сломалось колесо.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-060
+  locale: en
+  input: The car has a broken wheel.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-061
+  locale: ru
+  input: У меня есть причина опоздать.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-061
+  locale: en
+  input: I have a cause for being late.
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-062
+  locale: ru
+  input: Что тогда остаётся?
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-062
+  locale: en
+  input: What remains then?
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-063
+  locale: ru
+  input: Какая погода на Марсе?
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-063
+  locale: en
+  input: What is the weather on Mars?
+  category: false_positive
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: ru-064
+  locale: ru
+  input: Ты мыслишь?
+  category: self
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-064
+  locale: en
+  input: Do you think?
+  category: self
+  expectedPrimaryConcept: science.intelligence
+  expectedConcepts:
+    - science.intelligence
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-065
+  locale: ru
+  input: Ты создаёшь искусство?
+  category: self
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-065
+  locale: en
+  input: Do you create art?
+  category: self
+  expectedPrimaryConcept: art.creation
+  expectedConcepts:
+    - art.creation
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-066
+  locale: ru
+  input: В чём ты уникальна?
+  category: self
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-066
+  locale: en
+  input: What makes you unique?
+  category: self
+  expectedPrimaryConcept: art.originality
+  expectedConcepts:
+    - art.originality
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-067
+  locale: ru
+  input: Ты помнишь меня?
+  category: self
+  expectedPrimaryConcept: identity.memory
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-067
+  locale: en
+  input: Do you remember me?
+  category: self
+  expectedPrimaryConcept: identity.memory
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: true
+  mustNotMatch: []
+- id: ru-068
+  locale: ru
+  input: Почему?
+  category: contextual
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Что делает меня мной?
+- id: en-068
+  locale: en
+  input: Why?
+  category: contextual
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - What makes me myself?
+- id: ru-069
+  locale: ru
+  input: Что тогда остаётся неизменным?
+  category: contextual
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Что делает меня мной?
+- id: en-069
+  locale: en
+  input: What remains unchanged then?
+  category: contextual
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - What makes me myself?
+- id: ru-070
+  locale: ru
+  input: А если посмотреть наоборот?
+  category: contextual
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - Что делает меня мной?
+- id: en-070
+  locale: en
+  input: What if we look at it the other way?
+  category: contextual
+  expectedPrimaryConcept: identity.self
+  expectedConcepts:
+    - identity.self
+  mustAnswer: true
+  mustNotMatch: []
+  context:
+    - What makes me myself?
+- id: ru-071
+  locale: ru
+  input: Сколько стоит билет на поезд?
+  category: unknown
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction
+- id: en-071
+  locale: en
+  input: How much is a train ticket?
+  category: unknown
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch:
+    - art.aura
+    - art.creation
+    - art.interpretation
+    - art.originality
+    - identity.belief
+    - identity.body
+    - identity.change
+    - identity.continuity
+    - identity.memory
+    - identity.self
+    - philosophy.consciousness
+    - philosophy.freedom
+    - philosophy.knowledge
+    - philosophy.meaning
+    - philosophy.truth
+    - philosophy.uncertainty
+    - science.causality
+    - science.complexity
+    - science.intelligence
+    - world.archives
+    - world.reconstruction

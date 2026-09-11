@@ -20,7 +20,8 @@
     "knowledge:check": "node src/infrastructure/knowledge/check.ts",
     "knowledge:build": "node src/infrastructure/knowledge/build-command.ts",
     "intelligence:inspect": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts",
-    "memory:inspect": "node src/infrastructure/memory/inspect.ts"
+    "memory:inspect": "node src/infrastructure/memory/inspect.ts",
+    "intelligence:benchmark": "npm run knowledge:build && node src/infrastructure/evaluation/command.ts"
   },
   "dependencies": {
     "svelte": "^5.57.0"

@@ -1170,3 +1170,23 @@ keeps the existing session and closes the menu.
 Identity perception recognizes complete normalized RU/EN phrases, optionally after
 an existing greeting. Short “что ты” must match the complete phrase, not questions
 such as “что ты думаешь о памяти”. No knowledge aliases or provider logic are used.
+
+## Phase 9A0 — evaluation and question retrieval
+
+The dev-only benchmark contract lives in `content/evaluation/README.md`.
+`src/infrastructure/evaluation` labels selected material as current evidence,
+working context or graph-only association without modifying planning.
+
+ConceptMatcher accepts question MatchEvidence alongside alias/title. Exact normalized
+whole-input question equality scores 88; alias 100 and title 90 remain unchanged.
+Partial question evidence requires three distinct meaningful tokens and 75% coverage
+of both question and query token sets. Meaningful tokens retain the existing length
+
+> =4 and RU/EN overlap-neutral rules. Score = 65 + round(4 × question coverage),
+> hence 68–69. Questions never supply score-40 single-token evidence or enter alias
+> document-frequency counts. Threshold, limits, localization and tie-breaking remain
+> unchanged. Summaries and claims are not indexed.
+
+Matching a question does not instruct realization to repeat it. Existing policy
+still selects authored material independently. Attention, character calibration,
+graph traversal and SemanticTransmission remain unchanged.

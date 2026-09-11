@@ -5,7 +5,7 @@ import { compareIds, conceptTokens } from './normalization.ts';
 import { validateConceptCards } from './validation.ts';
 
 export type MatchEvidence = {
-  source: 'alias' | 'title';
+  source: 'alias' | 'title' | 'question';
   kind: 'phrase' | 'overlap' | 'token';
   term: string;
   matchedTokens: string[];
@@ -86,6 +86,10 @@ export class ConceptMatcher {
           source: 'alias' as const,
         })),
         { term: resolved.content.title, source: 'title' as const },
+        ...resolved.content.questions.map((term) => ({
+          term,
+          source: 'question' as const,
+        })),
       ];
       for (const { term, source } of terms) {
         const phrase = conceptTokens(term);
@@ -98,14 +102,34 @@ export class ConceptMatcher {
         const weakOverlap = significant.filter((token) => tokens.has(token));
         let score = 0;
         let kind: MatchEvidence['kind'] = 'overlap';
-        if (containsPhrase(input, phrase)) {
-          score = source === 'alias' ? 100 : 90;
+        const exactQuestion =
+          input.length === phrase.length && containsPhrase(input, phrase);
+        const queryTokens = [
+          ...new Set(
+            input.filter(
+              (token) =>
+                meaningful(token) &&
+                !overlapNeutral[resolved.locale].has(token),
+            ),
+          ),
+        ];
+        if (
+          source === 'question' ? exactQuestion : containsPhrase(input, phrase)
+        ) {
+          score = source === 'alias' ? 100 : source === 'title' ? 90 : 88;
           kind = 'phrase';
         } else if (
-          overlap.length >= 2 &&
-          overlap.length / partialTokens.length >= 2 / 3
+          source === 'question'
+            ? overlap.length >= 3 &&
+              overlap.length / partialTokens.length >= 0.75 &&
+              overlap.length / queryTokens.length >= 0.75
+            : overlap.length >= 2 &&
+              overlap.length / partialTokens.length >= 2 / 3
         ) {
-          score = 60 + Math.round((10 * overlap.length) / partialTokens.length);
+          score =
+            source === 'question'
+              ? 65 + Math.round((4 * overlap.length) / partialTokens.length)
+              : 60 + Math.round((10 * overlap.length) / partialTokens.length);
         } else if (
           source === 'alias' &&
           weakOverlap.length === 1 &&

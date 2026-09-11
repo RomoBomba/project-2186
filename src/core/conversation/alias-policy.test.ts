@@ -51,7 +51,48 @@ it('excludes structural tokens only from partial multi-token evidence', () => {
 
 it('keeps moderate candidates without awarding the strong multi-concept bonus', async () => {
   const result = await respond('Память делает человека тем же человеком?');
-  expect(result.perception.matches.map((m) => m.score)).toEqual([100, 67, 67]);
+  const matches = result.perception.matches;
+  const strongMatches = matches.filter((match) => match.score >= 85);
+  expect(strongMatches).toHaveLength(1);
+  expect(strongMatches[0]).toMatchObject({
+    conceptId: 'identity.memory',
+    score: 100,
+    evidence: { source: 'alias', kind: 'phrase' },
+  });
+  const moderateMatches = matches.filter((match) => match.score < 85);
+  expect(moderateMatches.length).toBeGreaterThanOrEqual(2);
+  expect(moderateMatches).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ conceptId: 'identity.continuity', score: 67 }),
+      expect.objectContaining({ conceptId: 'identity.self', score: 67 }),
+    ]),
+  );
+  // Additional corpus matches may be useful, but cannot erase disposition.
+  for (const [character, strategy] of [
+    ['aletheia', 'ask_follow_up'],
+    ['aura', 'connect'],
+    ['themis', 'contrast'],
+  ] as const) {
+    const disposition = createCharacterRuntime(character, 0).disposition;
+    const response = await engine.respond(
+      'Память делает человека тем же человеком?',
+      characterProfiles[character],
+      disposition,
+      'ru',
+      initialWorkingMemory(),
+    );
+    expect(response.attention.strongMultiConcept).toBe(false);
+    expect(response.plan.strategy).toBe(strategy);
+    const connect = response.candidates.find((c) => c.strategy === 'connect');
+    expect(connect).toBeDefined();
+    // Connect remains possible (Aura), with only its disposition weight, no bonus.
+    expect(connect!.weight).toBeCloseTo(
+      0.2 +
+        disposition.warmth * 1.2 +
+        disposition.questionBias * 0.5 +
+        (1 - disposition.personalDistance),
+    );
+  }
   expect(result.attention.strongMultiConcept).toBe(false);
   expect(result.attention.associationReason).toBe('matched_related');
   expect(result.plan.strategy).toBe('ask_follow_up');
