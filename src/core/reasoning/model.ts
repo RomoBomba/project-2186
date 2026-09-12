@@ -27,7 +27,12 @@ export type ConceptRelation = {
 export type RelationRef = { relationId: string; index: number };
 export type ConceptEvidence = {
   conceptId: ConceptId;
-  source: 'matcher' | 'relation_term' | 'inflection' | 'working_focus';
+  source:
+    | 'matcher'
+    | 'relation_term'
+    | 'inflection'
+    | 'working_focus'
+    | 'proposition_pattern';
   term?: string;
 };
 export type ReasoningPlan = {

@@ -1,3 +1,7 @@
+import {
+  resolveProposition,
+  planProposition,
+} from '../discourse/proposition.ts';
 import { classifyFocusTransition } from '../reasoning/focus.ts';
 import { resolveFollowUp } from '../reasoning/follow-up.ts';
 import { operandEvidence } from '../reasoning/relations.ts';
@@ -67,22 +71,71 @@ export class ConversationEngine {
         ? memory.lastResponse.plan.selfMaterial?.query.kind
         : undefined;
     const perception = perceive(message, locale, matches, previousSelf);
-    const followUp = resolveFollowUp(
+    const explicitEvidence = [
+      ...matches
+        .filter((m) => m.score >= 85)
+        .map((m) => ({
+          conceptId: m.conceptId,
+          source: 'matcher' as const,
+          term: m.evidence.term,
+        })),
+      ...operandEvidence(message, locale, relationTerms, this.graph),
+    ];
+    let followUp = resolveFollowUp(
       message,
       locale,
       memory.reasoningFocus,
       history.turn,
-      [
-        ...matches
-          .filter((m) => m.score >= 85)
-          .map((m) => ({
-            conceptId: m.conceptId,
-            source: 'matcher' as const,
-            term: m.evidence.term,
-          })),
-        ...operandEvidence(message, locale, relationTerms, this.graph),
-      ],
+      explicitEvidence,
     );
+    const proposition = resolveProposition(
+      message,
+      locale,
+      history.turn,
+      memory.propositionFocus,
+      memory.reasoningFocus,
+      explicitEvidence,
+    );
+    if (proposition.selfQuery) perception.selfQuery = proposition.selfQuery;
+    if (
+      proposition.candidate &&
+      !perception.reasoningIntent &&
+      !perception.selfQuery
+    )
+      perception.reasoningIntent = {
+        frame: 'counterpressure',
+        evidence: 'grounded_proposition',
+        contextual: proposition.resolved,
+      };
+    // Stance references add a route only when an actual proposition and its usable focus exist.
+    // Existing explicit-target priority in FollowUpResolver remains authoritative.
+    if (proposition.resolved && !followUp.resolved && memory.reasoningFocus) {
+      followUp = {
+        resolved: true,
+        cue: 'stance',
+        focus: memory.reasoningFocus,
+        ...(proposition.candidate?.scope === 'general'
+          ? {
+              targets: [
+                ...new Set(
+                  [...explicitEvidence, ...(proposition.evidence ?? [])].map(
+                    (e) => e.conceptId,
+                  ),
+                ),
+              ].filter((id) => !memory.reasoningFocus!.concepts.includes(id)),
+            }
+          : {}),
+        ...(memory.propositionFocus?.scope === 'self'
+          ? {
+              selfQuery: {
+                kind: memory.reasoningFocus.selfKind ?? 'consciousness',
+                evidence: 'proposition_reference',
+                contextual: true,
+              },
+            }
+          : {}),
+      };
+    }
     if (
       followUp.selfQuery &&
       (!perception.selfQuery || perception.selfQuery.kind === 'unknown_self')
@@ -146,7 +199,9 @@ export class ConversationEngine {
       relationTerms,
       locale,
       followUp,
+      proposition.evidence,
     );
+    plan = planProposition(plan, proposition, memory.propositionFocus);
     if (plan.selfMaterial)
       plan.selfMaterial.supportingConcepts =
         plan.selfMaterial.supportingConcepts.filter(
@@ -238,6 +293,7 @@ export class ConversationEngine {
       ],
     );
     return {
+      propositionResolution: proposition,
       focusTransition,
       followUp,
       memoryInspection: {

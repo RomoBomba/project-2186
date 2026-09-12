@@ -1,3 +1,4 @@
+import type { PropositionPlan } from '../discourse/proposition.ts';
 import type { BehaviourDisposition } from '../character/behaviour-policy.ts';
 import type { ConceptId } from '../knowledge/model.ts';
 export const responseStrategies = [
@@ -47,6 +48,7 @@ export type UserGroundedMaterial = {
   source: 'current_turn';
 };
 export type ResponsePlan = {
+  proposition?: PropositionPlan;
   reasoning?: import('../reasoning/model.ts').ReasoningPlan;
   selfMaterial?: import('../self/plan.ts').SelfMaterial;
   userGroundedMaterial?: UserGroundedMaterial;

@@ -1,3 +1,4 @@
+import type { UserStance } from '../../core/discourse/proposition.ts';
 import { authoredRelations } from '../../relations/pack.ts';
 import { relationKey } from '../../core/reasoning/model.ts';
 import { materialKey } from '../../core/conversation/model.ts';
@@ -38,6 +39,13 @@ export type BenchmarkCase = {
   mustAnswer: boolean;
   mustNotMatch: string[];
   context?: string[];
+  propositionCohort?: boolean;
+  expectedStance?: UserStance;
+  expectedProposition?: boolean;
+  expectedPropositionReference?: boolean;
+  expectedPropositionContinuity?: boolean;
+  expectedPropositionCleared?: boolean;
+  expectedSelfProposition?: boolean;
   transitionCohort?: boolean;
   expectedTransition?: 'retain' | 'pivot' | 'replace';
   expectedTarget?: string;
@@ -88,6 +96,17 @@ export async function loadBenchmark(
         'false_positive',
       ].includes(c.category) ||
       typeof c.mustAnswer !== 'boolean' ||
+      (c.propositionCohort &&
+        (typeof c.expectedProposition !== 'boolean' ||
+          ![
+            'asserts',
+            'supports',
+            'rejects',
+            'doubts',
+            'revises',
+            'asks_about',
+            'unknown',
+          ].includes(c.expectedStance ?? ''))) ||
       (c.transitionCohort &&
         (!['retain', 'pivot', 'replace'].includes(c.expectedTransition ?? '') ||
           !concepts.has(c.expectedTarget ?? ''))) ||
@@ -168,6 +187,10 @@ export async function runBenchmark(
           self.facts.includes('no_full_transcript')) &&
         !self.facts.includes('retained_user');
       planning.push({
+        proposition: result.plan.proposition ?? null,
+        propositionResolution: result.propositionResolution ?? null,
+        previousProposition: memory.propositionFocus ?? null,
+        propositionFocus: result.nextMemory.propositionFocus ?? null,
         usedMaterialKeys: result.response.usedMaterialKeys,
         previousFocus: memory.reasoningFocus ?? null,
         focusTransition: result.focusTransition ?? null,
@@ -224,7 +247,8 @@ export async function runBenchmark(
       c.category !== 'self' &&
       c.category !== 'contextual' &&
       !c.reasoningCohort &&
-      !c.conversationCohort,
+      !c.conversationCohort &&
+      !c.propositionCohort,
   );
   const primary = ordinary.filter((c) => c.expectedPrimaryConcept);
   const known = ordinary.filter((c) => c.mustAnswer);
@@ -317,7 +341,81 @@ export async function runBenchmark(
   const pivots = transitions.filter(
     ({ c }) => c.expectedTransition !== 'retain',
   );
+  const propositions = rows
+    .filter((c) => c.propositionCohort)
+    .flatMap((c) => c.planning.map((p) => ({ c, p })));
+  const propGrounded = ({ p }: (typeof propositions)[number]) => {
+    const prop = p.proposition;
+    return (
+      !!prop &&
+      prop.focus.groundingKeys.length > 0 &&
+      prop.focus.groundingKeys.every((key) =>
+        key.startsWith('self:')
+          ? !!p.selfMaterial?.facts.some((f) => key === 'self:' + f)
+          : p.usedMaterialKeys.includes(key),
+      )
+    );
+  };
+  const propMetric = (
+    include: (x: (typeof propositions)[number]) => boolean,
+    pass: (x: (typeof propositions)[number]) => boolean,
+  ) => {
+    const cohort = propositions.filter(include);
+    return ratio(cohort.filter(pass).length, cohort.length);
+  };
   return {
+    propositionMetrics: {
+      propositionCaptureRate: propMetric(
+        ({ c }) => !!c.expectedProposition && !c.context?.length,
+        (x) => !!x.p.proposition && propGrounded(x),
+      ),
+      userStanceClassificationAccuracy: propMetric(
+        () => true,
+        ({ c, p }) =>
+          (p.propositionResolution?.userStance ?? 'unknown') ===
+          c.expectedStance,
+      ),
+      systemMoveGroundingRate: propMetric(
+        ({ c }) => !!c.expectedProposition,
+        propGrounded,
+      ),
+      stanceFollowUpResolutionRate: propMetric(
+        ({ c }) => !!c.expectedPropositionReference,
+        (x) => !!x.p.propositionResolution?.resolved && propGrounded(x),
+      ),
+      propositionContinuityRate: propMetric(
+        ({ c }) => !!c.expectedPropositionContinuity,
+        (x) =>
+          propGrounded(x) &&
+          !!x.p.previousProposition &&
+          x.p.propositionFocus?.originTurn ===
+            x.p.previousProposition.originTurn &&
+          x.p.propositionFocus!.lastReferencedTurn >
+            x.p.previousProposition.lastReferencedTurn,
+      ),
+      propositionRevisionAccuracy: propMetric(
+        ({ c }) => c.expectedStance === 'revises',
+        (x) =>
+          x.p.proposition?.userStance === 'revises' &&
+          propGrounded(x) &&
+          x.p.propositionFocus?.originTurn ===
+            x.p.previousProposition?.originTurn,
+      ),
+      falsePropositionCarryoverRate: propMetric(
+        ({ c }) => !c.expectedProposition,
+        ({ c, p }) =>
+          !!p.proposition ||
+          !!p.propositionResolution?.resolved ||
+          (!!c.expectedPropositionCleared && !!p.propositionFocus),
+      ),
+      selfPropositionGroundingRate: propMetric(
+        ({ c }) => !!c.expectedSelfProposition,
+        (x) =>
+          x.p.propositionFocus?.scope === 'self' &&
+          x.p.selfGrounded &&
+          propGrounded(x),
+      ),
+    },
     focusMetrics: {
       focusTransitionAccuracy: ratio(
         transitions.filter(transitionOK).length,
@@ -500,7 +598,8 @@ export async function runBenchmark(
           (c) =>
             c.category === 'contextual' &&
             !c.conversationCohort &&
-            !c.transitionCohort,
+            !c.transitionCohort &&
+            !c.propositionCohort,
         )
         .reduce(
           (n, c) =>
@@ -513,7 +612,8 @@ export async function runBenchmark(
         (c) =>
           c.category === 'contextual' &&
           !c.conversationCohort &&
-          !c.transitionCohort,
+          !c.transitionCohort &&
+          !c.propositionCohort,
       ).length * characterIds.length,
     ),
     rows,

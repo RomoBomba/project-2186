@@ -1,3 +1,4 @@
+import { discourseVoice } from '../../characters/discourse.ts';
 import { partialBoundary } from '../../characters/reasoning.ts';
 import { relationKey } from '../reasoning/model.ts';
 import { realizeSelf } from './self-surface.ts';
@@ -16,6 +17,46 @@ import type {
 } from './provider.ts';
 export class BasicIntelligenceProvider implements IntelligenceProvider {
   async respond(
+    context: IntelligenceContext,
+    plan: ResponsePlan,
+  ): Promise<IntelligenceResponse> {
+    const result = await this.realize(context, plan);
+    const p = plan.proposition;
+    if (!p || (!result.usedMaterialKeys.length && !plan.selfMaterial))
+      return result;
+    const voice = discourseVoice[context.locale];
+    const prefix =
+      p.userStance === 'revises'
+        ? voice.revision
+        : p.justification
+          ? p.previousSystemMove === 'qualifies'
+            ? voice.qualify[
+                plan.disposition.structureBias > 0.75
+                  ? 2
+                  : plan.disposition.warmth > 0.75
+                    ? 1
+                    : 0
+              ]
+            : p.previousSystemMove === 'withholds'
+              ? voice.withhold
+              : p.previousSystemMove === 'distinguishes'
+                ? voice.distinguish
+                : p.previousSystemMove === 'challenges'
+                  ? voice.challenge
+                  : undefined
+          : undefined;
+    if (!prefix) return result;
+    // Replace a generic partial-answer footer only when a specific grounded discourse move exists.
+    const body = plan.reasoning?.partial
+      ? result.text.replace(partialBoundary[context.locale], '').trim()
+      : result.text;
+    const text = prefix + ' ' + body;
+    return text.length <= plan.desiredLength.maxCharacters &&
+      sentenceCount(text) <= plan.desiredLength.maxSentences
+      ? { ...result, text }
+      : result;
+  }
+  private async realize(
     context: IntelligenceContext,
     plan: ResponsePlan,
   ): Promise<IntelligenceResponse> {

@@ -1,4 +1,8 @@
 import {
+  advanceProposition,
+  type PropositionFocus,
+} from '../discourse/proposition.ts';
+import {
   advanceReasoningFocus,
   type ReasoningFocus,
 } from '../reasoning/focus.ts';
@@ -21,6 +25,7 @@ export type RecentTurn = {
   strategy?: ResponseStrategy;
 };
 export type WorkingMemory = {
+  propositionFocus?: PropositionFocus;
   reasoningFocus?: ReasoningFocus;
   history: ResponseHistory;
   recentTurns: RecentTurn[];
@@ -93,7 +98,16 @@ export function completeExchange(
     locale,
     perception.matches.filter((m) => m.score >= 85).map((m) => m.conceptId),
   );
+  const propositionFocus = advanceProposition(
+    previous.propositionFocus,
+    plan,
+    response.usedMaterialKeys,
+    turn,
+    locale,
+    reasoningFocus,
+  );
   return {
+    ...(propositionFocus ? { propositionFocus } : {}),
     ...(reasoningFocus ? { reasoningFocus } : {}),
     history,
     recentTurns: [

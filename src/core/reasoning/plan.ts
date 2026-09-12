@@ -31,6 +31,7 @@ export function planReasoning(
   vocabulary: Partial<Record<ConceptId, Record<Locale, readonly string[]>>>,
   locale: Locale,
   resolution: FollowUpResolution = { resolved: false },
+  propositionEvidence: readonly ConceptEvidence[] = [],
 ): ResponsePlan {
   const intent = perception.reasoningIntent;
   if (base.selfMaterial)
@@ -58,6 +59,12 @@ export function planReasoning(
     .map((m) => ({ conceptId: m.conceptId, source: 'matcher' }));
   for (const item of operandEvidence(text, locale, vocabulary, graph))
     if (!evidence.some((e) => e.conceptId === item.conceptId))
+      evidence.push(item);
+  for (const item of propositionEvidence)
+    if (
+      graph.get(item.conceptId) &&
+      !evidence.some((e) => e.conceptId === item.conceptId)
+    )
       evidence.push(item);
   const follows = resolution.resolved && focus?.scope === 'general';
   if (!intent && !follows) return base;

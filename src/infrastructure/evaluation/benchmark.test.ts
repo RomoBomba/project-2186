@@ -144,3 +144,38 @@ it('measures targeted retain, pivot and replace cases without rewarding stale ma
       }
     }
 });
+
+it('grades proposition capture, stance references and self grounding through real bilingual prefixes', async () => {
+  const cases = (await loadBenchmark(canonicalKnowledge)).filter(
+    (c) => c.propositionCohort,
+  );
+  expect(cases.filter((c) => c.locale === 'ru').length).toBe(
+    cases.filter((c) => c.locale === 'en').length,
+  );
+  const report = await runBenchmark(canonicalKnowledge, cases);
+  for (const [name, value] of Object.entries(report.propositionMetrics)) {
+    expect(value.denominator).toBeGreaterThan(0);
+    expect(value.rate, name).toBe(
+      name === 'falsePropositionCarryoverRate' ? 0 : 1,
+    );
+  }
+  for (const c of report.rows)
+    for (const p of c.planning) {
+      expect(p.propositionResolution?.userStance).toBe(c.expectedStance);
+      if (!c.expectedProposition) {
+        expect(p.proposition).toBeNull();
+        continue;
+      }
+      expect(p.proposition?.focus.groundingKeys.length).toBeGreaterThan(0);
+      expect(p.propositionFocus?.groundingKeys).toEqual(
+        p.proposition?.focus.groundingKeys,
+      );
+      expect(p.response.length).toBeGreaterThan(0);
+      if (c.expectedPropositionContinuity)
+        expect(p.propositionFocus?.originTurn).toBe(
+          p.previousProposition?.originTurn,
+        );
+      if (c.expectedSelfProposition)
+        expect(p.selfMaterial?.facts).toContain('experience_unestablished');
+    }
+});

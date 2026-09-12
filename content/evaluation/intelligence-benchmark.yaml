@@ -3614,3 +3614,1472 @@
   transitionCohort: true
   expectedTransition: replace
   expectedTarget: art.originality
+
+- id: 'proposition-ru-debate-0-0'
+  locale: 'ru'
+  input: 'Если всё имеет причину, свободы нет.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-0-1'
+  locale: 'ru'
+  input: 'Почему ты не согласна?'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-0-2'
+  locale: 'ru'
+  input: 'Я всё равно считаю, что свободы нет.'
+  context: ['Если всё имеет причину, свободы нет.', 'Почему ты не согласна?']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-0-3'
+  locale: 'ru'
+  input: 'Ладно. Возможно наличие причины ещё не означает отсутствие выбора.'
+  context:
+    [
+      'Если всё имеет причину, свободы нет.',
+      'Почему ты не согласна?',
+      'Я всё равно считаю, что свободы нет.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'revises'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-1-0'
+  locale: 'ru'
+  input: 'Память и есть то, что делает человека собой.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-1-1'
+  locale: 'ru'
+  input: 'Но ведь воспоминания меняются.'
+  context: ['Память и есть то, что делает человека собой.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-1-2'
+  locale: 'ru'
+  input: 'Тогда, возможно, память не может быть единственным основанием личности.'
+  context:
+    [
+      'Память и есть то, что делает человека собой.',
+      'Но ведь воспоминания меняются.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'revises'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-2-0'
+  locale: 'ru'
+  input: 'Идеальная копия ничем не отличается от оригинала.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-2-1'
+  locale: 'ru'
+  input: 'Нет, история объекта для меня не имеет значения.'
+  context: ['Идеальная копия ничем не отличается от оригинала.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-2-2'
+  locale: 'ru'
+  input: 'Тогда в каком смысле оригинал вообще остаётся оригиналом?'
+  context:
+    [
+      'Идеальная копия ничем не отличается от оригинала.',
+      'Нет, история объекта для меня не имеет значения.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-3-0'
+  locale: 'ru'
+  input: 'Если запись потеряна, узнать истину уже невозможно.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-3-1'
+  locale: 'ru'
+  input: 'Почему ты это оспариваешь?'
+  context: ['Если запись потеряна, узнать истину уже невозможно.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-3-2'
+  locale: 'ru'
+  input: 'Но без источников у нас же нет оснований.'
+  context:
+    [
+      'Если запись потеряна, узнать истину уже невозможно.',
+      'Почему ты это оспариваешь?',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-ru-debate-4-0'
+  locale: 'ru'
+  input: 'Мне кажется, ты сознательная.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: true
+
+- id: 'proposition-ru-debate-4-1'
+  locale: 'ru'
+  input: 'Почему ты не согласна?'
+  context: ['Мне кажется, ты сознательная.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: true
+
+- id: 'proposition-ru-debate-4-2'
+  locale: 'ru'
+  input: 'Но ты ведь рассуждаешь и помнишь меня.'
+  context: ['Мне кажется, ты сознательная.', 'Почему ты не согласна?']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: true
+
+- id: 'proposition-ru-reference-0'
+  locale: 'ru'
+  input: 'Согласен.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'supports'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-0'
+  locale: 'ru'
+  input: 'Согласен.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-1'
+  locale: 'ru'
+  input: 'Да, именно это я и имею в виду.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'supports'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-1'
+  locale: 'ru'
+  input: 'Да, именно это я и имею в виду.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-2'
+  locale: 'ru'
+  input: 'Я не согласен.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'rejects'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-2'
+  locale: 'ru'
+  input: 'Я не согласен.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-3'
+  locale: 'ru'
+  input: 'Нет, наоборот.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'rejects'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-3'
+  locale: 'ru'
+  input: 'Нет, наоборот.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-4'
+  locale: 'ru'
+  input: 'Я не уверен.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'doubts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-4'
+  locale: 'ru'
+  input: 'Я не уверен.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-5'
+  locale: 'ru'
+  input: 'Возможно.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'doubts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-5'
+  locale: 'ru'
+  input: 'Возможно.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-6'
+  locale: 'ru'
+  input: 'Я передумал.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'revises'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-6'
+  locale: 'ru'
+  input: 'Я передумал.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-7'
+  locale: 'ru'
+  input: 'Я всё равно так думаю.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-7'
+  locale: 'ru'
+  input: 'Я всё равно так думаю.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-reference-8'
+  locale: 'ru'
+  input: 'Что именно ты оспариваешь?'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-ru-empty-8'
+  locale: 'ru'
+  input: 'Что именно ты оспариваешь?'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-ru-negative-0'
+  locale: 'ru'
+  input: 'Я люблю звёзды.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-context-negative-0'
+  locale: 'ru'
+  input: 'Я люблю звёзды.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-negative-1'
+  locale: 'ru'
+  input: 'Мне нравится музыка.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-context-negative-1'
+  locale: 'ru'
+  input: 'Мне нравится музыка.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-negative-2'
+  locale: 'ru'
+  input: 'Сегодня я устал.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-context-negative-2'
+  locale: 'ru'
+  input: 'Сегодня я устал.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-negative-3'
+  locale: 'ru'
+  input: 'Я купил хлеб.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-context-negative-3'
+  locale: 'ru'
+  input: 'Я купил хлеб.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-negative-4'
+  locale: 'ru'
+  input: 'Не согласен с погодой.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-context-negative-4'
+  locale: 'ru'
+  input: 'Не согласен с погодой.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-negative-5'
+  locale: 'ru'
+  input: 'Возможно завтра будет дождь.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-context-negative-5'
+  locale: 'ru'
+  input: 'Возможно завтра будет дождь.'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-ru-unrelated'
+  locale: 'ru'
+  input: 'Что такое оригинальность?'
+  context: ['Если всё имеет причину, свободы нет.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionCleared: true
+
+- id: 'proposition-ru-expired'
+  locale: 'ru'
+  input: 'Почему?'
+  context:
+    [
+      'Если всё имеет причину, свободы нет.',
+      'Я купил хлеб.',
+      'Я купил хлеб.',
+      'Я купил хлеб.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionCleared: true
+
+- id: 'proposition-ru-capture-0'
+  locale: 'ru'
+  input: 'Память делает человека тем же человеком.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-ru-capture-1'
+  locale: 'ru'
+  input: 'Без памяти я уже не буду собой.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-ru-capture-2'
+  locale: 'ru'
+  input: 'Копия никогда не станет оригиналом.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-ru-capture-3'
+  locale: 'ru'
+  input: 'Если архивов нет, правду узнать невозможно.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-ru-capture-4'
+  locale: 'ru'
+  input: 'Сознание без памяти невозможно.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-en-debate-0-0'
+  locale: 'en'
+  input: 'If everything has a cause, there is no freedom.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-0-1'
+  locale: 'en'
+  input: 'Why do you disagree?'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-0-2'
+  locale: 'en'
+  input: 'I still believe there is no freedom.'
+  context:
+    ['If everything has a cause, there is no freedom.', 'Why do you disagree?']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-0-3'
+  locale: 'en'
+  input: 'Okay. Maybe having a cause does not mean an absence of choice.'
+  context:
+    [
+      'If everything has a cause, there is no freedom.',
+      'Why do you disagree?',
+      'I still believe there is no freedom.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'revises'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-1-0'
+  locale: 'en'
+  input: 'Memory is what makes a person themselves.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-1-1'
+  locale: 'en'
+  input: 'But memories change.'
+  context: ['Memory is what makes a person themselves.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-1-2'
+  locale: 'en'
+  input: 'Then perhaps memory cannot be the only basis of identity.'
+  context: ['Memory is what makes a person themselves.', 'But memories change.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'revises'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-2-0'
+  locale: 'en'
+  input: 'A perfect copy does not differ from the original.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-2-1'
+  locale: 'en'
+  input: 'No, the history of the object does not matter to me.'
+  context: ['A perfect copy does not differ from the original.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-2-2'
+  locale: 'en'
+  input: 'Then in what sense does the original remain an original?'
+  context:
+    [
+      'A perfect copy does not differ from the original.',
+      'No, the history of the object does not matter to me.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-3-0'
+  locale: 'en'
+  input: 'If the record is lost, knowing the truth is impossible.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-3-1'
+  locale: 'en'
+  input: 'Why do you challenge that?'
+  context: ['If the record is lost, knowing the truth is impossible.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-3-2'
+  locale: 'en'
+  input: 'But without sources we have no grounds.'
+  context:
+    [
+      'If the record is lost, knowing the truth is impossible.',
+      'Why do you challenge that?',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: false
+
+- id: 'proposition-en-debate-4-0'
+  locale: 'en'
+  input: 'I think you are conscious.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: false
+  expectedPropositionContinuity: false
+  expectedSelfProposition: true
+
+- id: 'proposition-en-debate-4-1'
+  locale: 'en'
+  input: 'Why do you disagree?'
+  context: ['I think you are conscious.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: true
+
+- id: 'proposition-en-debate-4-2'
+  locale: 'en'
+  input: 'But you reason and remember me.'
+  context: ['I think you are conscious.', 'Why do you disagree?']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+  expectedSelfProposition: true
+
+- id: 'proposition-en-reference-0'
+  locale: 'en'
+  input: 'I agree.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'supports'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-0'
+  locale: 'en'
+  input: 'I agree.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-1'
+  locale: 'en'
+  input: 'Yes, that is what I mean.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'supports'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-1'
+  locale: 'en'
+  input: 'Yes, that is what I mean.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-2'
+  locale: 'en'
+  input: 'I disagree.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'rejects'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-2'
+  locale: 'en'
+  input: 'I disagree.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-3'
+  locale: 'en'
+  input: 'No, the opposite.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'rejects'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-3'
+  locale: 'en'
+  input: 'No, the opposite.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-4'
+  locale: 'en'
+  input: 'I am not sure.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'doubts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-4'
+  locale: 'en'
+  input: 'I am not sure.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-5'
+  locale: 'en'
+  input: 'Maybe.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'doubts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-5'
+  locale: 'en'
+  input: 'Maybe.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-6'
+  locale: 'en'
+  input: 'I changed my mind.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'revises'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-6'
+  locale: 'en'
+  input: 'I changed my mind.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-7'
+  locale: 'en'
+  input: 'I still think so.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-7'
+  locale: 'en'
+  input: 'I still think so.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-reference-8'
+  locale: 'en'
+  input: 'What exactly do you challenge?'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asks_about'
+  expectedProposition: true
+  expectedPropositionReference: true
+  expectedPropositionContinuity: true
+
+- id: 'proposition-en-empty-8'
+  locale: 'en'
+  input: 'What exactly do you challenge?'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionReference: false
+
+- id: 'proposition-en-negative-0'
+  locale: 'en'
+  input: 'I love stars.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-context-negative-0'
+  locale: 'en'
+  input: 'I love stars.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-negative-1'
+  locale: 'en'
+  input: 'I like music.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-context-negative-1'
+  locale: 'en'
+  input: 'I like music.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-negative-2'
+  locale: 'en'
+  input: 'I am tired today.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-context-negative-2'
+  locale: 'en'
+  input: 'I am tired today.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-negative-3'
+  locale: 'en'
+  input: 'I bought bread.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-context-negative-3'
+  locale: 'en'
+  input: 'I bought bread.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-negative-4'
+  locale: 'en'
+  input: 'I disagree with the weather.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-context-negative-4'
+  locale: 'en'
+  input: 'I disagree with the weather.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-negative-5'
+  locale: 'en'
+  input: 'Maybe it will rain tomorrow.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-context-negative-5'
+  locale: 'en'
+  input: 'Maybe it will rain tomorrow.'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+
+- id: 'proposition-en-unrelated'
+  locale: 'en'
+  input: 'What is originality?'
+  context: ['If everything has a cause, there is no freedom.']
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionCleared: true
+
+- id: 'proposition-en-expired'
+  locale: 'en'
+  input: 'Why?'
+  context:
+    [
+      'If everything has a cause, there is no freedom.',
+      'I bought bread.',
+      'I bought bread.',
+      'I bought bread.',
+    ]
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'unknown'
+  expectedProposition: false
+  expectedPropositionCleared: true
+
+- id: 'proposition-en-capture-0'
+  locale: 'en'
+  input: 'Memory makes a person the same person.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-en-capture-1'
+  locale: 'en'
+  input: 'Without memory I will no longer be myself.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-en-capture-2'
+  locale: 'en'
+  input: 'A copy can never become an original.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-en-capture-3'
+  locale: 'en'
+  input: 'If archives are gone, knowing the truth is impossible.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true
+
+- id: 'proposition-en-capture-4'
+  locale: 'en'
+  input: 'Consciousness without memory is impossible.'
+  context: []
+  category: 'contextual'
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  propositionCohort: true
+  expectedStance: 'asserts'
+  expectedProposition: true

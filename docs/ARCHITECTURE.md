@@ -1409,3 +1409,94 @@ honest comparison: their unconditional retention score decreases when formerly
 rewarded belief/consciousness focus is correctly replaced by memory/self, or when
 an explicit belief operand refines the knowledge thread. Tests now require retention
 only for pure continuations and require explicit targets to reach the selected focus.
+
+## Phase 9A3 — proposition and stance continuity
+
+`core/discourse/proposition.ts` owns bounded discourse interpretation, separately
+from ReasoningFocus. ReasoningFocus describes the intellectual subject/operation;
+PropositionFocus describes the user's current position about it. Neither is a truth
+engine. The proposition record contains scope (general/self), at most two concept
+IDs, an optional authored relation ID, kind, a small linguistic predicate and
+polarity, optional explicit direction, UserStance, the target of that stance, the last SystemMove, source,
+confidence, locale, originating/reference exchange and at most three realized
+material keys. It contains no rendered sentence or copied transcript. One optional
+previous formulation contains only kind/predicate/polarity/turn, not a belief history.
+
+Kinds are assertion, negation, dependence, equivalence, difference, consequence and
+uncertainty. Polarity is a linguistic qualification of the predicate, not computed
+logical truth. For example, causality excluding freedom is a positive `excludes`
+claim; a revision saying it does not eliminate freedom negates that predicate.
+Direction is recorded only for the bounded cause/freedom, memory/identity and
+without-memory dependency constructions. “Consciousness without memory is impossible”
+asserts dependence; its absence wording is not treated as a denial of dependence.
+Denying that memory is the sole basis does not deny every dependency.
+Explicit uncertainty has unspecified polarity, so “I am not sure” is not mistaken
+for negation. Parsing is intentionally incomplete and does not supply a formal
+premise/conclusion tree or infer quantifier scope.
+
+UserStance distinguishes asserts, supports, rejects, doubts, revises, asks_about and
+unknown. Closed RU/EN acknowledgement/reference forms require a valid current
+proposition. Generic agreement reaffirms a position; explicit disagreement or a
+justification request targets the previous system move, without silently negating
+the user's original proposition. A short rejection alone does not infer an opposite
+belief. Outside the bounded forms, direct accepted concepts and explicit claim
+constructions are required. Ordinary personal disclosures keep their existing path.
+No sentiment inference or long-term preference extraction is added here.
+
+Three narrow claim constructions supplement existing matcher/operand evidence:
+lost record → archive operand, explicit memory-dependent personal identity → self,
+and the English “memory is what makes a person themselves” definition → self.
+Their `proposition_pattern` provenance is visible; they receive no matcher score
+and are not aliases. Graph existence and selected authored card/relation material
+are still required. Recognized grammar never fabricates new relation content.
+A short comment about object history or absent sources resolves only inside the
+matching original/archive proposition. No broad anaphora parser is introduced.
+
+The engine resolves discourse before planning, adds counterpressure only when a
+new grounded assertion lacks an existing requested operation, and bridges missing
+stance follow-ups through the existing ReasoningFocus. Existing explicit new-target
+priority remains authoritative. Compatible contextual refinements can keep the
+originating exchange while recording a changed formulation; unrelated topics clear
+or replace it. Self attributions route to the unchanged SystemSelfModel: a user's
+claim that the intelligence feels does not become a system fact.
+
+ResponsePlan.proposition carries the candidate focus, current user stance, previous
+and current system moves, justification flag and optional local opposition diagnostic.
+Material selection still uses existing reasoning plans, relation/card references
+and anti-repetition history. SystemMove is derived from the actual planned operation:
+counterpressure qualifies, a criterion/distinction distinguishes, an explicit
+challenge challenges, self epistemic qualification withholds, otherwise neutral.
+The type also admits supports/asks for future grounded planning, but these are not
+invented from warmth or disagreement. **System stance is a conversational/argumentative
+move, not a persistent personal ideology.**
+
+BasicIntelligenceProvider receives only that structured plan and selected material.
+A brief authored description of a qualification/withholding/distinction may introduce
+a justification; a revision may be acknowledged without praise. Qualifying language
+uses existing structure/warmth disposition, not a character-specific doctrine.
+These additions fit the original sentence/character limits. When present in a partial
+answer they replace its generic limitation footer, preserving the grounded body.
+Exhausted relation material still falls back to its known boundary; no argument is
+invented to prolong a debate. Local contradiction detection is deliberately limited
+to explicit opposite polarity on the same predicates/concepts (including defining
+identity versus denying any relation). It is diagnostic only, not an accusation or
+mandatory response. It does not change relationship values.
+
+Only a completed, realized grounded response commits PropositionFocus into
+WorkingMemory. Two unrelated exchanges may retain it without refreshing its turn;
+the third expires it. Explicit outside reasoning focus clears/replaces it. Initial
+WorkingMemory, reload, new session and intelligence switching start without it.
+It is never serialized through StorageProvider, SemanticMemory or EpisodicMemory;
+no persistent schema or character calibration changes. Provider code does not read
+raw WorkingMemory. `intelligence:inspect` now exposes resolution and the committed
+focus alongside the existing plan, without UI debug output.
+
+The shared benchmark adds 106 RU/EN prefix cases (53 each), evaluated with all three
+characters. Proposition metrics test capture, expected stance, realized material
+references, reference resolution, originating-turn continuity, revision, false
+carryover and self grounding. Baseline runs the committed 9A2.2 engine against the
+same new fixtures/metrics. Missing proposition metadata counts as absent, not as an
+asserted position; the old engine can already produce topical answers, so zero on
+these new structural contracts does not mean zero prior conversational ability.
+Historical cohorts and denominators are unchanged. These are deterministic contract
+metrics over a curated test set, not an estimate of unrestricted language accuracy.

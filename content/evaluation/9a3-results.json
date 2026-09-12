@@ -1,0 +1,204 @@
+{
+  "propositionMetrics": {
+    "propositionCaptureRate": {
+      "numerator": 60,
+      "denominator": 60,
+      "rate": 1
+    },
+    "userStanceClassificationAccuracy": {
+      "numerator": 318,
+      "denominator": 318,
+      "rate": 1
+    },
+    "systemMoveGroundingRate": {
+      "numerator": 180,
+      "denominator": 180,
+      "rate": 1
+    },
+    "stanceFollowUpResolutionRate": {
+      "numerator": 120,
+      "denominator": 120,
+      "rate": 1
+    },
+    "propositionContinuityRate": {
+      "numerator": 120,
+      "denominator": 120,
+      "rate": 1
+    },
+    "propositionRevisionAccuracy": {
+      "numerator": 18,
+      "denominator": 18,
+      "rate": 1
+    },
+    "falsePropositionCarryoverRate": {
+      "numerator": 0,
+      "denominator": 138,
+      "rate": 0
+    },
+    "selfPropositionGroundingRate": {
+      "numerator": 18,
+      "denominator": 18,
+      "rate": 1
+    }
+  },
+  "focusMetrics": {
+    "focusTransitionAccuracy": {
+      "numerator": 48,
+      "denominator": 48,
+      "rate": 1
+    },
+    "overRetainedFocusRate": {
+      "numerator": 0,
+      "denominator": 30,
+      "rate": 0
+    }
+  },
+  "conversationalMetrics": {
+    "paraphraseFrameAccuracy": {
+      "numerator": 42,
+      "denominator": 42,
+      "rate": 1
+    },
+    "followUpResolutionRate": {
+      "numerator": 144,
+      "denominator": 144,
+      "rate": 1
+    },
+    "reasoningFocusRetentionRate": {
+      "numerator": 132,
+      "denominator": 168,
+      "rate": 0.7857142857142857
+    },
+    "groundedPartialAnswerRate": {
+      "numerator": 126,
+      "denominator": 126,
+      "rate": 1
+    },
+    "selfFocusRetentionRate": {
+      "numerator": 24,
+      "denominator": 24,
+      "rate": 1
+    },
+    "irrelevantOptionalAssociationRate": {
+      "numerator": 0,
+      "denominator": 192,
+      "rate": 0
+    },
+    "RUInflectionOperandRecall": {
+      "numerator": 6,
+      "denominator": 6,
+      "rate": 1
+    }
+  },
+  "reasoningMetrics": {
+    "reasoningFrameAccuracy": {
+      "numerator": 96,
+      "denominator": 96,
+      "rate": 1
+    },
+    "requiredConceptAvailability": {
+      "numerator": 180,
+      "denominator": 180,
+      "rate": 1
+    },
+    "authoredRelationCoverage": {
+      "numerator": 84,
+      "denominator": 84,
+      "rate": 1
+    },
+    "groundedReasoningPlanRate": {
+      "numerator": 96,
+      "denominator": 96,
+      "rate": 1
+    },
+    "associationBeforeAnswerRate": {
+      "numerator": 0,
+      "denominator": 96,
+      "rate": 0
+    }
+  },
+  "selfMetrics": {
+    "original": {
+      "selfQueryClassificationAccuracy": {
+        "numerator": 24,
+        "denominator": 24,
+        "rate": 1
+      },
+      "selfAnswerCoverage": {
+        "numerator": 8,
+        "denominator": 8,
+        "rate": 1
+      },
+      "selfGroundingAccuracy": {
+        "numerator": 24,
+        "denominator": 24,
+        "rate": 1
+      }
+    },
+    "expanded": {
+      "selfQueryClassificationAccuracy": {
+        "numerator": 156,
+        "denominator": 156,
+        "rate": 1
+      },
+      "selfAnswerCoverage": {
+        "numerator": 52,
+        "denominator": 52,
+        "rate": 1
+      },
+      "selfGroundingAccuracy": {
+        "numerator": 156,
+        "denominator": 156,
+        "rate": 1
+      }
+    },
+    "selfFalsePositiveRate": {
+      "numerator": 0,
+      "denominator": 384,
+      "rate": 0
+    }
+  },
+  "corpusCount": 21,
+  "caseCount": 412,
+  "localeCounts": {
+    "ru": 206,
+    "en": 206
+  },
+  "metrics": {
+    "primaryConceptAccuracy": {
+      "numerator": 102,
+      "denominator": 110,
+      "rate": 0.9272727272727272
+    },
+    "expectedConceptRecall": {
+      "numerator": 111,
+      "denominator": 122,
+      "rate": 0.9098360655737705
+    },
+    "knownToUnknownRate": {
+      "numerator": 4,
+      "denominator": 110,
+      "rate": 0.03636363636363636
+    },
+    "falsePositiveRate": {
+      "numerator": 2,
+      "denominator": 18,
+      "rate": 0.1111111111111111
+    },
+    "relationCoverage": {
+      "numerator": 16,
+      "denominator": 24,
+      "rate": 0.6666666666666666
+    }
+  },
+  "selfCoverage": {
+    "numerator": 0,
+    "denominator": 8,
+    "rate": 0
+  },
+  "contextualCoverage": {
+    "numerator": 9,
+    "denominator": 18,
+    "rate": 0.5
+  }
+}

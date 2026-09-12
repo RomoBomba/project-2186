@@ -51,6 +51,8 @@ try {
       JSON.stringify(
         {
           context: result.context,
+          propositionResolution: result.propositionResolution,
+          propositionFocus: result.nextMemory.propositionFocus,
           activeThread: result.nextMemory.currentThread,
           perception: result.perception,
           attention: result.attention,
