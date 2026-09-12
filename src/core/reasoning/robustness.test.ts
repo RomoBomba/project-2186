@@ -4,7 +4,7 @@ import { initialWorkingMemory } from '../memory/working.ts';
 import { characterProfiles } from '../character/profile.ts';
 import { createCharacterRuntime } from '../character/runtime.ts';
 import { inflectionEvidence } from './inflection.ts';
-import { partialBoundary } from '../../characters/reasoning.ts';
+import { limitations } from '../../characters/limitations.ts';
 import { sentenceCount } from '../conversation/material.ts';
 import { resolveFollowUp } from './follow-up.ts';
 import { ConceptMatcher } from '../knowledge/matcher.ts';
@@ -121,8 +121,12 @@ it('uses a known causal boundary before admitting the missing positive criterion
     concepts: ['science.causality'],
   });
   expect(next.plan.selectedMaterial.length).toBeGreaterThan(0);
-  expect(next.response.text).toContain(partialBoundary.ru);
-  expect(next.response.text.indexOf(partialBoundary.ru)).toBeGreaterThan(0);
+  expect(next.response.composition?.limitation).toBe('unresolved_criterion');
+  const limit = next.response.composition!.units.find(
+    (u) => u.role === 'limitation',
+  )!;
+  expect(limitations.ru.unresolved_criterion).toContain(limit.text);
+  expect(next.response.text.indexOf(limit.text)).toBeGreaterThan(0);
   expect(next.response.text.length).toBeLessThanOrEqual(
     next.plan.desiredLength.maxCharacters,
   );

@@ -1,3 +1,4 @@
+import { realizationVariants } from '../../characters/realization.ts';
 import { RelationIndex } from '../reasoning/relations.ts';
 import { relationKey } from '../reasoning/model.ts';
 import { authoredRelations } from '../../relations/pack.ts';
@@ -61,29 +62,38 @@ describe('direct authored surface composition', () => {
               history = result.nextHistory;
               continue;
             }
-            // Whitespace composition only: no hidden new facts, generic questions,
-            // invented contrasts, therapeutic advice, or strategy-label prefixes.
-            const authored = usedMaterialKeys
-              .map((key) =>
-                key.startsWith('relation:')
-                  ? relations.read(
-                      result.plan.reasoning!.required.find(
-                        (ref) => relationKey(ref) === key,
-                      )!,
-                      locale,
-                    )!
-                  : readMaterial(
-                      graph,
-                      result.plan.selectedMaterial.find(
-                        (ref) => materialKey(ref) === key,
-                      )!,
-                      locale,
-                    )!.text,
-              )
-              .join(' ');
-            expect(text.replace(/\s+/gu, ' ')).toBe(
-              authored.replace(/\s+/gu, ' '),
-            );
+            // Every realized unit must be the selected source or its guarded authored alternative.
+            const units = result.response.composition!.units;
+            expect(
+              units
+                .filter((u) => usedMaterialKeys.includes(u.key))
+                .map((u) => u.key)
+                .sort(),
+            ).toEqual([...usedMaterialKeys].sort());
+            for (const unit of units) {
+              const key = unit.key;
+              const source = key.startsWith('relation:')
+                ? relations.read(
+                    result.plan.reasoning!.required.find(
+                      (ref) => relationKey(ref) === key,
+                    )!,
+                    locale,
+                  )!
+                : readMaterial(
+                    graph,
+                    result.plan.selectedMaterial.find(
+                      (ref) => materialKey(ref) === key,
+                    )!,
+                    locale,
+                  )!.text;
+              const entry = realizationVariants[key];
+              expect([
+                source,
+                ...(entry?.source[locale] === source ? entry[locale] : []),
+              ]).toContain(unit.text);
+            }
+            const rendered = units.map((u) => u.text).join(' ');
+            expect(text.replace(/\s+/gu, ' ')).toBe(rendered);
             expect(text).not.toMatch(
               /Возьму одно положение|Попробую поставить|Нужно различить|I will (?:take|place|compare)|We need to distinguish/u,
             );

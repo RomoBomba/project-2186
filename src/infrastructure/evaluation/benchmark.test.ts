@@ -1,6 +1,55 @@
 import { expect, it } from 'vitest';
 import { canonicalKnowledge } from '../../generated/knowledge';
 import { loadBenchmark, runBenchmark } from './benchmark';
+import { surfaceMetrics } from './surface-metrics';
+
+it('measures surface symptoms from actual text rather than trusting composition labels', () => {
+  const text = 'An authored distinction answers this question.';
+  const sample = {
+    response: text,
+    recentSurfaceResponses: [text],
+    surfaceSources: [{ key: 'test', text, kind: 'distinction' }],
+    selfQuery: null,
+    reasoning: null,
+  };
+  const metrics = (response: string) =>
+    surfaceMetrics([{ locale: 'en', planning: [{ ...sample, response }] }]);
+  expect(metrics(text).exactResponseRepeatRate.rate).toBe(1);
+  expect(metrics(text).answerNucleusPresenceRate.rate).toBe(1);
+  expect(
+    metrics('I am selecting a distinction. ' + text).answerNucleusPresenceRate
+      .rate,
+  ).toBe(0);
+  expect(metrics('Why? ' + text).questionBeforeAnswerRate.rate).toBe(1);
+  expect(
+    metrics(text + ' Therefore it must be true.').unsupportedConnectorRate.rate,
+  ).toBe(1);
+  expect(metrics(text).unsupportedConnectorRate.rate).toBe(0);
+});
+
+it('runs the surface cohort through real bilingual prefixes without substituting questions for selected answers', async () => {
+  const cases = (await loadBenchmark(canonicalKnowledge)).filter(
+    (c) => c.surfaceCohort,
+  );
+  expect(cases.filter((c) => c.locale === 'ru').length).toBe(
+    cases.filter((c) => c.locale === 'en').length,
+  );
+  const report = await runBenchmark(canonicalKnowledge, cases);
+  expect(
+    report.surfaceMetrics.answerNucleusPresenceRate.denominator,
+  ).toBeGreaterThan(0);
+  expect(report.surfaceMetrics.answerNucleusPresenceRate.rate).toBe(1);
+  expect(report.surfaceMetrics.questionBeforeAnswerRate.numerator).toBe(0);
+  expect(report.surfaceMetrics.unsupportedConnectorRate.numerator).toBe(0);
+  for (const row of report.rows)
+    for (const p of row.planning) {
+      expect(p.recentSurfaceResponses.length).toBeLessThanOrEqual(4);
+      expect(p.response).not.toMatch(
+        /Конечно!|Хороший вопрос!|Давайте разберёмся|Я рад помочь/u,
+      );
+      if (p.composition) expect(p.composition.units[0]?.role).toBe('nucleus');
+    }
+});
 it('validates fixed bilingual benchmark coverage and reproduces metrics', async () => {
   const cases = await loadBenchmark(canonicalKnowledge);
   expect(cases.length).toBeGreaterThanOrEqual(50);

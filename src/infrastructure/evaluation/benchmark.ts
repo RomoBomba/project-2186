@@ -1,3 +1,7 @@
+import { surfaceMetrics } from './surface-metrics.ts';
+import { selfFactText } from '../../characters/self.ts';
+import { readMaterial } from '../../core/conversation/material.ts';
+import { ConceptGraph } from '../../core/knowledge/graph.ts';
 import type { UserStance } from '../../core/discourse/proposition.ts';
 import { authoredRelations } from '../../relations/pack.ts';
 import { relationKey } from '../../core/reasoning/model.ts';
@@ -39,6 +43,7 @@ export type BenchmarkCase = {
   mustAnswer: boolean;
   mustNotMatch: string[];
   context?: string[];
+  surfaceCohort?: boolean;
   propositionCohort?: boolean;
   expectedStance?: UserStance;
   expectedProposition?: boolean;
@@ -147,6 +152,7 @@ export async function runBenchmark(
   cards: readonly ConceptCard[],
   cases: readonly BenchmarkCase[],
 ) {
+  const graph = new ConceptGraph(cards);
   const matcher = new ConceptMatcher(cards);
   const engine = new ConversationEngine(cards, new BasicIntelligenceProvider());
   const rows = [];
@@ -155,6 +161,7 @@ export async function runBenchmark(
     const planning = [];
     for (const character of characterIds) {
       let memory = initialWorkingMemory();
+      const recentSurfaceResponses: string[] = [];
       const disposition = createCharacterRuntime(character, 0).disposition;
       for (const turn of c.context ?? []) {
         const previous = await engine.respond(
@@ -165,6 +172,7 @@ export async function runBenchmark(
           memory,
         );
         memory = previous.nextMemory;
+        recentSurfaceResponses.push(previous.response.text);
       }
       const result = await engine.respond(
         c.input,
@@ -187,6 +195,45 @@ export async function runBenchmark(
           self.facts.includes('no_full_transcript')) &&
         !self.facts.includes('retained_user');
       planning.push({
+        composition: result.response.composition ?? null,
+        recentSurfaceResponses: recentSurfaceResponses.slice(-4),
+        surfaceSources: [
+          ...result.plan.selectedMaterial
+            .filter((ref) =>
+              result.response.usedMaterialKeys.includes(materialKey(ref)),
+            )
+            .flatMap((ref) => {
+              const m = readMaterial(graph, ref, c.locale);
+              return m
+                ? [{ key: materialKey(ref), text: m.text, kind: ref.kind }]
+                : [];
+            }),
+          ...(result.plan.reasoning?.required ?? [])
+            .filter((ref) =>
+              result.response.usedMaterialKeys.includes(relationKey(ref)),
+            )
+            .flatMap((ref) => {
+              const m = authoredRelations.find((r) => r.id === ref.relationId)
+                ?.material[ref.index];
+              return m
+                ? [
+                    {
+                      key: relationKey(ref),
+                      text: m.text[c.locale],
+                      kind: m.kind,
+                    },
+                  ]
+                : [];
+            }),
+          ...(self?.facts.map((f) => ({
+            key: 'self:' + f,
+            text: selfFactText[c.locale][f],
+            kind:
+              f === 'experience_unestablished' || f === 'art_status_open'
+                ? 'qualification'
+                : 'claim',
+          })) ?? []),
+        ],
         proposition: result.plan.proposition ?? null,
         propositionResolution: result.propositionResolution ?? null,
         previousProposition: memory.propositionFocus ?? null,
@@ -248,7 +295,8 @@ export async function runBenchmark(
       c.category !== 'contextual' &&
       !c.reasoningCohort &&
       !c.conversationCohort &&
-      !c.propositionCohort,
+      !c.propositionCohort &&
+      !c.surfaceCohort,
   );
   const primary = ordinary.filter((c) => c.expectedPrimaryConcept);
   const known = ordinary.filter((c) => c.mustAnswer);
@@ -364,6 +412,7 @@ export async function runBenchmark(
     return ratio(cohort.filter(pass).length, cohort.length);
   };
   return {
+    surfaceMetrics: surfaceMetrics(rows.filter((c) => c.surfaceCohort)),
     propositionMetrics: {
       propositionCaptureRate: propMetric(
         ({ c }) => !!c.expectedProposition && !c.context?.length,
@@ -599,7 +648,8 @@ export async function runBenchmark(
             c.category === 'contextual' &&
             !c.conversationCohort &&
             !c.transitionCohort &&
-            !c.propositionCohort,
+            !c.propositionCohort &&
+            !c.surfaceCohort,
         )
         .reduce(
           (n, c) =>
@@ -613,7 +663,8 @@ export async function runBenchmark(
           c.category === 'contextual' &&
           !c.conversationCohort &&
           !c.transitionCohort &&
-          !c.propositionCohort,
+          !c.propositionCohort &&
+          !c.surfaceCohort,
       ).length * characterIds.length,
     ),
     rows,

@@ -1,3 +1,4 @@
+import { realizationVariants } from '../../characters/realization.ts';
 import { expect, it } from 'vitest';
 import { canonicalKnowledge } from '../../generated/knowledge';
 import { ConversationEngine } from '../../core/conversation/engine';
@@ -118,9 +119,12 @@ it('keeps epistemic limits, differentiates emphasis and follows a bounded self c
       expect(result.plan.selfMaterial).toBeDefined();
       expect(result.plan.selectedMaterial).toEqual([]);
       if (message !== 'Кто ты?')
-        expect(result.response.text).toContain(
-          selfFactText.ru.experience_unestablished,
-        );
+        expect(
+          [
+            selfFactText.ru.experience_unestablished,
+            ...realizationVariants['self:experience_unestablished']!.ru,
+          ].some((text) => result.response.text.includes(text)),
+        ).toBe(true);
       if (message === 'Ты мыслишь?') texts.push(result.response.text);
       expect(result.response.text.length).toBeLessThanOrEqual(
         result.plan.desiredLength.maxCharacters,

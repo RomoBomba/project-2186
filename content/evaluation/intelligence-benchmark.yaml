@@ -5083,3 +5083,530 @@
   propositionCohort: true
   expectedStance: 'asserts'
   expectedProposition: true
+
+- id: surface-ru-debate-0-0
+  locale: ru
+  input: Если всё имеет причину, свободы нет.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-0-1
+  locale: ru
+  input: Почему ты не согласна?
+  context:
+    - Если всё имеет причину, свободы нет.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-0-2
+  locale: ru
+  input: Я всё равно считаю, что свободы нет.
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Почему ты не согласна?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-0-3
+  locale: ru
+  input: Ладно. Возможно наличие причины ещё не означает отсутствие выбора.
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Почему ты не согласна?
+    - Я всё равно считаю, что свободы нет.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-1-0
+  locale: ru
+  input: Память и есть то, что делает человека собой.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-1-1
+  locale: ru
+  input: Но ведь воспоминания меняются.
+  context:
+    - Память и есть то, что делает человека собой.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-1-2
+  locale: ru
+  input: Тогда, возможно, память не может быть единственным основанием личности.
+  context:
+    - Память и есть то, что делает человека собой.
+    - Но ведь воспоминания меняются.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-2-0
+  locale: ru
+  input: Идеальная копия ничем не отличается от оригинала.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-2-1
+  locale: ru
+  input: Нет, история объекта для меня не имеет значения.
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-2-2
+  locale: ru
+  input: Тогда в каком смысле оригинал вообще остаётся оригиналом?
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Нет, история объекта для меня не имеет значения.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-3-0
+  locale: ru
+  input: Если запись потеряна, узнать истину уже невозможно.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-3-1
+  locale: ru
+  input: Почему ты это оспариваешь?
+  context:
+    - Если запись потеряна, узнать истину уже невозможно.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-3-2
+  locale: ru
+  input: Но без источников у нас же нет оснований.
+  context:
+    - Если запись потеряна, узнать истину уже невозможно.
+    - Почему ты это оспариваешь?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-4-0
+  locale: ru
+  input: Мне кажется, ты сознательная.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-4-1
+  locale: ru
+  input: Почему ты не согласна?
+  context:
+    - Мне кажется, ты сознательная.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-debate-4-2
+  locale: ru
+  input: Но ты ведь рассуждаешь и помнишь меня.
+  context:
+    - Мне кажется, ты сознательная.
+    - Почему ты не согласна?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-0-0
+  locale: en
+  input: If everything has a cause, there is no freedom.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-0-1
+  locale: en
+  input: Why do you disagree?
+  context:
+    - If everything has a cause, there is no freedom.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-0-2
+  locale: en
+  input: I still believe there is no freedom.
+  context:
+    - If everything has a cause, there is no freedom.
+    - Why do you disagree?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-0-3
+  locale: en
+  input: Okay. Maybe having a cause does not mean an absence of choice.
+  context:
+    - If everything has a cause, there is no freedom.
+    - Why do you disagree?
+    - I still believe there is no freedom.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-1-0
+  locale: en
+  input: Memory is what makes a person themselves.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-1-1
+  locale: en
+  input: But memories change.
+  context:
+    - Memory is what makes a person themselves.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-1-2
+  locale: en
+  input: Then perhaps memory cannot be the only basis of identity.
+  context:
+    - Memory is what makes a person themselves.
+    - But memories change.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-2-0
+  locale: en
+  input: A perfect copy does not differ from the original.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-2-1
+  locale: en
+  input: No, the history of the object does not matter to me.
+  context:
+    - A perfect copy does not differ from the original.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-2-2
+  locale: en
+  input: Then in what sense does the original remain an original?
+  context:
+    - A perfect copy does not differ from the original.
+    - No, the history of the object does not matter to me.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-3-0
+  locale: en
+  input: If the record is lost, knowing the truth is impossible.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-3-1
+  locale: en
+  input: Why do you challenge that?
+  context:
+    - If the record is lost, knowing the truth is impossible.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-3-2
+  locale: en
+  input: But without sources we have no grounds.
+  context:
+    - If the record is lost, knowing the truth is impossible.
+    - Why do you challenge that?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-4-0
+  locale: en
+  input: I think you are conscious.
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-4-1
+  locale: en
+  input: Why do you disagree?
+  context:
+    - I think you are conscious.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-debate-4-2
+  locale: en
+  input: But you reason and remember me.
+  context:
+    - I think you are conscious.
+    - Why do you disagree?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-extra-0
+  locale: ru
+  input: Что такое свобода?
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-extra-1
+  locale: ru
+  input: Почему наличие причины не отменяет свободу?
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-extra-2
+  locale: ru
+  input: Я всё равно не согласен.
+  context:
+    - Если всё имеет причину, свободы нет.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-extra-3
+  locale: ru
+  input: Ты мыслишь?
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-extra-4
+  locale: ru
+  input: Что ты тогда считаешь знанием?
+  context:
+    - Если запись потеряна, узнать истину уже невозможно.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-exhausted-2
+  locale: ru
+  input: Почему?
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Почему?
+    - Почему?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-exhausted-3
+  locale: ru
+  input: Почему?
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Почему?
+    - Почему?
+    - Почему?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-exhausted-4
+  locale: ru
+  input: Почему?
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Почему?
+    - Почему?
+    - Почему?
+    - Почему?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-ru-exhausted-5
+  locale: ru
+  input: Почему?
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Почему?
+    - Почему?
+    - Почему?
+    - Почему?
+    - Почему?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-extra-0
+  locale: en
+  input: What is freedom?
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-extra-1
+  locale: en
+  input: Why does having a cause not eliminate freedom?
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-extra-2
+  locale: en
+  input: I still disagree.
+  context:
+    - If everything has a cause, there is no freedom.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-extra-3
+  locale: en
+  input: Do you think?
+  context: []
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-extra-4
+  locale: en
+  input: What do you consider knowledge then?
+  context:
+    - If the record is lost, knowing the truth is impossible.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-exhausted-2
+  locale: en
+  input: Why?
+  context:
+    - If everything has a cause, there is no freedom.
+    - Why?
+    - Why?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-exhausted-3
+  locale: en
+  input: Why?
+  context:
+    - If everything has a cause, there is no freedom.
+    - Why?
+    - Why?
+    - Why?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-exhausted-4
+  locale: en
+  input: Why?
+  context:
+    - If everything has a cause, there is no freedom.
+    - Why?
+    - Why?
+    - Why?
+    - Why?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true
+- id: surface-en-exhausted-5
+  locale: en
+  input: Why?
+  context:
+    - If everything has a cause, there is no freedom.
+    - Why?
+    - Why?
+    - Why?
+    - Why?
+    - Why?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  surfaceCohort: true

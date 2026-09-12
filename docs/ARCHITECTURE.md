@@ -1471,11 +1471,10 @@ invented from warmth or disagreement. **System stance is a conversational/argume
 move, not a persistent personal ideology.**
 
 BasicIntelligenceProvider receives only that structured plan and selected material.
-A brief authored description of a qualification/withholding/distinction may introduce
-a justification; a revision may be acknowledged without praise. Qualifying language
-uses existing structure/warmth disposition, not a character-specific doctrine.
-These additions fit the original sentence/character limits. When present in a partial
-answer they replace its generic limitation footer, preserving the grounded body.
+Phase 9B replaces the initial strategy-announcing prefixes with the composition
+boundary described below. Revision remains optional and unaccompanied by praise;
+qualifying language uses existing disposition, not a character-specific doctrine.
+The original sentence/character limits remain authoritative.
 Exhausted relation material still falls back to its known boundary; no argument is
 invented to prolong a debate. Local contradiction detection is deliberately limited
 to explicit opposite polarity on the same predicates/concepts (including defining
@@ -1500,3 +1499,70 @@ asserted position; the old engine can already produce topical answers, so zero o
 these new structural contracts does not mean zero prior conversational ability.
 Historical cohorts and denominators are unchanged. These are deterministic contract
 metrics over a curated test set, not an estimate of unrestricted language accuracy.
+
+## Phase 9B — grounded response composition
+
+`ResponseComposition` is a transient presentation result between the existing
+ResponsePlan/material selection and final response text. Its units retain source
+keys and identify nucleus, support, distinction, qualification, stance acknowledgment,
+limitation or optional follow-up. Shape describes one statement, answer/support,
+answer/boundary, a licensed fused pair, or answer/question. It is returned on
+IntelligenceResponse for inspection, never stored in ResponsePlan or WorkingMemory.
+The existing provider first determines the material that fits the approved budget;
+composition may reorder or re-express those units, but cannot retrieve another fact.
+Used material keys retain their existing order to preserve cognitive anti-repetition.
+
+The first non-question unit is the nucleus. A selected distinction leads a criterion
+or distinction answer; a direct claim normally precedes a qualification. The known
+subjective-experience limit is itself the nucleus of a consciousness answer, whereas
+functional capability leads a reasoning self-answer. If the planner supplies only
+a question or no grounded answer, this layer does not invent an answer nucleus.
+Identity, personal disclosure, remembered-user acknowledgment and unsupported-query
+fallbacks retain their existing paths.
+
+`characters/realization.ts` contains a small reviewed RU/EN repertoire for selected
+freedom/causality, original/aura, archive/truth, memory and self units. Each entry binds
+to both an exact source key and exact current source text. A changed/unreviewed source
+uses its original wording. This is authored paraphrase, not automatic paraphrasing or
+a grammar engine. Structure bias favors concise explicit variants; warmth favors
+gentler connective syntax; otherwise inquiry-oriented variants lead. Character
+identity and calibration remain unchanged. Familiarity affects presentation through
+the existing disposition and desired-length contract, not a second convergence rule.
+
+Limitation meaning comes from existing plan metadata: a partial criterion selects
+`unresolved_criterion`; exhausted partial material selects `boundary_only`; a partial
+two-concept card answer selects `missing_relation`; other partial answers select
+`insufficient_grounds`. Self qualification selects `self_epistemic_limit`, realized
+by its mandatory self fact rather than an extra disclaimer. An already selected
+relation boundary needs no generic footer unless exhaustion must be made explicit.
+Stance acknowledgments distinguish revision, rejection, doubt and reaffirmation;
+they remain subordinate, optional, non-evaluative and bounded by the original budget.
+
+Fusion is deliberately narrow: only the reviewed freedom/causality claim + distinction
+pair can become two parallel clauses joined by a colon. It retains both source keys
+and introduces no causal connective. Other units remain separate concise sentences.
+No generic `therefore`/`because`/`поэтому`/`поскольку` is generated. Optional surface
+additions are trimmed before grounded content; if variants cannot fit, original source
+realization remains the safe fallback. Optional self questions require an already
+selected question, no direct contextual follow-up and no question in recent surface
+history. General question selection remains owned by the approved planner.
+
+Surface history is derived from at most four existing recent intelligence turns:
+response fingerprints, six-word openings, known limitation/stance phrase IDs and a
+question count. There is no second transcript, persistent preference or new memory
+owner. The provider receives these bounded diagnostics, not raw WorkingMemory.
+Variation first prefers an unused opening and then avoids an exact recent response
+where reviewed alternatives exist. It is deterministic; exhaustion can still repeat
+a truthful boundary. Variation never implies that a fresh argument was found.
+
+The existing benchmark adds 50 surface-only RU/EN cases, with every dialogue prefix
+run through the same engine for all characters. Historical cohort denominators are
+unchanged. Surface metrics inspect actual text and authorized source variants, not
+composition labels: exact response and six-word opening repeats within four turns,
+literal limitation recurrence, a source-derived answer prefix, question-first output,
+new causal-connector counts, and lexical differences between character responses.
+These diagnostics do not prove literary quality, semantic equivalence of paraphrases,
+or freedom from hallucination. The reviewed source-bound repertoire and author review
+remain necessary. Full baseline, final measurements and manual responses are in
+`content/evaluation/9b-report.md`. Baseline runs the committed 9A3 engine against the
+same new fixtures and metric code; it does not use the new composition layer.

@@ -1,3 +1,4 @@
+import { realizationVariants } from '../../characters/realization.ts';
 import { describe, it, expect } from 'vitest';
 import { canonicalKnowledge } from '../../generated/knowledge.ts';
 import { authoredRelations, relationTerms } from '../../relations/pack.ts';
@@ -156,7 +157,7 @@ it('same frame is independent of character; disposition only affects emphasis', 
   expect(new Set(answers.map((a) => a.plan.reasoning?.frame)).size).toBe(1);
   expect(new Set(answers.map((a) => a.response.text)).size).toBe(3);
 });
-it('all relation output is exactly selected authored material, never a fabricated negation', async () => {
+it('relation output preserves selected sources through guarded realization, never a fabricated negation', async () => {
   for (const locale of ['ru', 'en'] as const) {
     const text =
       locale === 'ru'
@@ -164,11 +165,16 @@ it('all relation output is exactly selected authored material, never a fabricate
         : 'If everything has a cause, there is no freedom.';
     const r = await ask(text, 'themis', initialWorkingMemory(), locale);
     expect(r.plan.reasoning?.relationId).toBe('freedom-causality');
-    expect(r.response.text).toBe(
-      r.plan
-        .reasoning!.required.map((ref) => index.read(ref, locale))
-        .join(' '),
-    );
+    for (const ref of r.plan.reasoning!.required) {
+      const key = relationKey(ref),
+        source = index.read(ref, locale)!;
+      const unit = r.response.composition!.units.find((u) => u.key === key)!;
+      const entry = realizationVariants[key];
+      expect([
+        source,
+        ...(entry?.source[locale] === source ? entry[locale] : []),
+      ]).toContain(unit.text);
+    }
     expect(r.response.usedMaterialKeys).toEqual(
       r.plan.reasoning!.required.map(relationKey),
     );

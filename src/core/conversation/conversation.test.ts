@@ -1,3 +1,4 @@
+import { realizationVariants } from '../../characters/realization.ts';
 import { expect, it, describe } from 'vitest';
 import { canonicalKnowledge } from '../../generated/knowledge.ts';
 import { characterProfiles } from '../character/profile.ts';
@@ -312,9 +313,17 @@ describe('Basic Intelligence realization', () => {
           const ref = result.plan.selectedMaterial.find(
             (ref) => materialKey(ref) === key,
           )!;
-          expect(result.response.text).toContain(
-            readMaterial(graph, ref, locale)!.text,
+          const source = readMaterial(graph, ref, locale)!.text;
+          const entry = realizationVariants[key];
+          const variants = [
+            source,
+            ...(entry?.source[locale] === source ? entry[locale] : []),
+          ];
+          const realized = result.response.composition?.units.find(
+            (u) => u.key === key,
           );
+          expect(variants).toContain(realized?.text);
+          expect(result.response.text).toContain(realized!.text);
         }
         if (locale === 'en')
           expect(result.response.text).not.toMatch(/[а-яё]/iu);

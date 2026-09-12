@@ -1,3 +1,4 @@
+import { surfaceHistory } from '../intelligence/composition.ts';
 import {
   resolveProposition,
   planProposition,
@@ -261,11 +262,27 @@ export class ConversationEngine {
         disposition: plan.disposition,
         locale,
         turnIndex: history.turn,
+        surfaceHistory: surfaceHistory(
+          memory.recentTurns
+            .filter((t) => t.speaker === 'intelligence')
+            .map((t) => t.text),
+        ),
+        recentMaterialKeys: history.materialKeys,
         material,
         relationMaterial: (plan.reasoning?.required ?? []).flatMap(
           (reference) => {
             const text = this.relations.read(reference, locale);
-            return text ? [{ reference, text }] : [];
+            return text
+              ? [
+                  {
+                    reference,
+                    text,
+                    kind: this.relations.get(reference.relationId)!.material[
+                      reference.index
+                    ]!.kind,
+                  },
+                ]
+              : [];
           },
         ),
       },

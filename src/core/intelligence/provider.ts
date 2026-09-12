@@ -8,16 +8,20 @@ export type IntelligenceContext = {
   disposition: BehaviourDisposition;
   locale: Locale;
   turnIndex: number;
+  surfaceHistory?: import('./composition.ts').SurfaceHistory;
+  recentMaterialKeys?: readonly string[];
   material: readonly SelectedMaterial[];
   relationMaterial?: readonly {
     reference: import('../reasoning/model.ts').RelationRef;
     text: string;
+    kind?: import('../reasoning/model.ts').RelationUnit['kind'];
   }[];
 };
 export type IntelligenceResponse = {
   text: string;
   usedMaterialKeys: string[];
   usedMemoryIds?: string[];
+  composition?: import('./composition.ts').ResponseComposition;
 };
 export interface IntelligenceProvider {
   respond(
