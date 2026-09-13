@@ -84,18 +84,29 @@ function perceiveBase(
     normalized === phrase || normalized.startsWith(phrase + ' ');
   const contains = (phrase: string) =>
     ` ${normalized} `.includes(` ${phrase} `);
-  // A leading salutation must not hide the identity question immediately after it.
+  // A salutation and a closed first-visit preamble may precede a complete identity clause.
   // This is one explicit precedence rule, not general multi-intent parsing.
   const greeting = (patterns[locale].greeting ?? []).find(starts);
-  if (greeting) {
-    const remainder = normalized.slice(greeting.length).trim();
+  const afterGreeting = greeting
+    ? normalized.slice(greeting.length).trim()
+    : normalized;
+  const remainder = afterGreeting.replace(
+    locale === 'ru'
+      ? /^я здесь впервые /u
+      : /^i(?:'m| am) (?:new here|here for the first time) /u,
+    '',
+  );
+  if (greeting || remainder !== afterGreeting) {
     const identity = (patterns[locale].system_identity_question ?? []).find(
       (phrase) => remainder === phrase,
     );
     if (identity)
       return {
         act: 'system_identity_question',
-        evidence: [greeting, identity],
+        evidence: [
+          greeting ?? afterGreeting.slice(0, -remainder.length).trim(),
+          identity,
+        ],
         isQuestion: true,
         matches,
       };

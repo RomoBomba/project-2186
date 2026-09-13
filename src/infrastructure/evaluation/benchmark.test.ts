@@ -228,3 +228,43 @@ it('grades proposition capture, stance references and self grounding through rea
         expect(p.selfMaterial?.facts).toContain('experience_unestablished');
     }
 });
+
+it('measures natural edge coverage with real prefixes, including missing referents and explicit topic overrides', async () => {
+  const cases = (await loadBenchmark(canonicalKnowledge)).filter(
+    (c) => c.naturalEdge,
+  );
+  expect(new Set(cases.map((c) => c.locale))).toEqual(new Set(['ru', 'en']));
+  const report = await runBenchmark(canonicalKnowledge, cases);
+  for (const [name, metric] of Object.entries(report.naturalMetrics)) {
+    expect(metric.denominator).toBeGreaterThan(0);
+    expect(metric.rate, name).toBe(
+      name.includes('FalsePositive') || name.includes('Carryover') ? 0 : 1,
+    );
+  }
+  for (const c of report.rows)
+    for (const p of c.planning) {
+      if (c.naturalEdge === 'identity') {
+        expect(p.strategy).toBe('identify_self');
+        expect(p.response).toContain(p.character.toUpperCase());
+      }
+      if (c.naturalEdge === 'context_control') {
+        expect(p.followUp?.resolved).toBe(false);
+        expect(p.proposition).toBeNull();
+        expect(p.reasoning?.relationId).toBeUndefined();
+        expect(p.strategy).not.toBe('identify_self');
+        if (!c.context?.length) expect(p.previousFocus).toBeNull();
+      }
+      if (c.naturalEdge === 'stance') {
+        expect(p.propositionFocus?.originTurn).toBe(
+          p.previousProposition!.originTurn,
+        );
+        expect(p.proposition?.userStance).toBe(c.expectedStance);
+        expect(p.usedMaterialKeys.length).toBeGreaterThan(0);
+      }
+      if (c.naturalEdge === 'no_referent') {
+        expect(p.proposition).toBeNull();
+        expect(p.reasoning).toBeNull();
+        expect(p.usedMaterialKeys).toEqual([]);
+      }
+    }
+});

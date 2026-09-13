@@ -1,3 +1,4 @@
+import { isDeicticExplanation } from '../reasoning/follow-up.ts';
 import type { ConceptId } from '../knowledge/model.ts';
 import { normalizeConceptText } from '../knowledge/normalization.ts';
 import type { Locale } from '../language/locale.ts';
@@ -60,6 +61,7 @@ export type PropositionFocus = {
 };
 export type PropositionResolution = {
   userStance: UserStance;
+  stanceOnly?: boolean;
   resolved: boolean;
   candidate?: PropositionFocus;
   justification?: boolean;
@@ -85,7 +87,14 @@ export function resolveProposition(
   reasoning: ReasoningFocus | undefined,
   evidence: readonly ConceptEvidence[],
 ): PropositionResolution {
-  const s = normalizeConceptText(text);
+  const normalized = normalizeConceptText(text);
+  // An explicit rejected proposition is a new operand-bearing clause, not a bare stance.
+  const rejectedClause = (
+    locale === 'ru'
+      ? /^(?:я )?не соглас(?:ен|на) с тем что (.+)$/u
+      : /^i (?:don't|do not) agree that (.+)$/u
+  ).exec(normalized)?.[1];
+  const s = rejectedClause ?? normalized;
   const old =
     previous &&
     previous.locale === locale &&
@@ -101,22 +110,26 @@ export function resolveProposition(
         ],
         [
           'supports',
-          /^(?:согласен|согласна|я согласен|я согласна|да именно|да именно это я и имею в виду|ну да)$/u,
+          /^(?:согласен|согласна|я согласен|я согласна|да именно|да именно это я и имею в виду|ну да|я подумал(?:а)? и решил(?:а)? что ты прав(?:а)?)$/u,
         ],
         [
           'rejects',
-          /^(?:нет )?(?:я (?:с этим |с тобой )?)?не соглас(?:ен|на)$/u,
+          /^(?:нет )?(?:я (?:с этим |с тобой )?)?(?:все равно )?не соглас(?:ен|на)$/u,
         ],
-        ['rejects', /^нет наоборот$/u],
+        ['rejects', /^(?:нет наоборот|(?:но )?я все равно считаю иначе)$/u],
         [
           'doubts',
-          /^(?:я )?(?:не уверен|не уверена|возможно|может быть|не знаю)$/u,
+          /^(?:нет )?(?:я )?(?:все[ -]таки )?(?:не уверен(?:а)?(?: что соглас(?:ен|на))?|возможно(?: ты прав(?:а)?)?|может быть|не знаю)$/u,
         ],
         [
           'revises',
           /^(?:ладно )?(?:возможно )?я (?:передумал|передумала|был неправ|была неправа)$/u,
         ],
-        ['asserts', /^я все равно так думаю$/u],
+        [
+          'revises',
+          /^(?:нет я имел(?:а)? в виду другое|наверное я слишком быстро сделал(?:а)? вывод)$/u,
+        ],
+        ['asserts', /^я (?:все равно так думаю|все еще так считаю)$/u],
         ['asks_about', /^а если все таки$/u],
       ]
     : [
@@ -126,28 +139,45 @@ export function resolveProposition(
         ],
         [
           'supports',
-          /^(?:i agree|agreed|yes exactly|yes that is what i mean)$/u,
+          /^(?:i agree|agreed|yes exactly|yes that is what i mean|i thought about it and decided (?:you are|you're) right)$/u,
         ],
         [
           'rejects',
-          /^(?:no )?i disagree(?: with (?:that|you))?$|^no the opposite$/u,
+          /^(?:no )?i (?:still )?disagree(?: with (?:that|you))?$|^i (?:don't|do not) agree with you$|^no the opposite$/u,
         ],
         [
           'doubts',
-          /^(?:i am not sure|i'm not sure|maybe|perhaps|i don't know)$/u,
+          /^(?:(?:i am|i'm) not sure(?: i agree)?|maybe(?: (?:you're|you are) right)?|perhaps|i don't know)$/u,
         ],
         ['revises', /^(?:okay )?(?:maybe )?i (?:changed my mind|was wrong)$/u],
-        ['asserts', /^i still think so$/u],
+        ['revises', /^perhaps i drew the conclusion too quickly$/u],
+        ['asserts', /^i still (?:think so|believe that)$/u],
         ['asks_about', /^what if after all$/u],
       ];
-  const brief = short.find(([, p]) => p.test(s));
+  // Closed evaluation of the historical dimension, only in an already grounded copy debate.
+  // Neither an isolated history/matter word nor an unrelated explicit operand is sufficient.
+  const evaluation =
+    old?.relationId === 'originality-aura' &&
+    old.groundingKeys.some((k) => k.startsWith('relation:originality-aura:')) &&
+    !evidence.some((e) => !old.concepts.includes(e.conceptId)) &&
+    (ru
+      ? /^(?:для меня история объекта (?:вообще )?не важна|история (?:объекта |здесь )?не имеет значения)$/u
+      : /^(?:i don't think the object's history matters|the (?:object's )?history does not matter to me)$/u
+    ).test(s);
+  const brief: [UserStance, RegExp] | undefined = evaluation
+    ? ['rejects', /./u]
+    : old && isDeicticExplanation(text, locale)
+      ? ['asks_about', /./u]
+      : short.find(([, p]) => p.test(s));
   if (brief) {
-    if (!old) return { userStance: 'unknown', resolved: false };
+    if (!old)
+      return { userStance: 'unknown', stanceOnly: true, resolved: false };
     const stance = brief[0];
     const justification =
       stance === 'asks_about' && /почему|оспариваешь|why|challenge/u.test(s);
     return {
       resolved: true,
+      stanceOnly: true,
       userStance: stance,
       justification,
       candidate: {
@@ -258,8 +288,10 @@ export function resolveProposition(
       term: 'personal_dependence_claim',
     });
   if (
-    !ru &&
-    /memory is what makes a person (?:themselves|who they are)/u.test(s)
+    (ru
+      ? /(?:^| )делает человека собой(?: |$)/u
+      : /memory is what makes a person (?:themselves|who they are)/u
+    ).test(s)
   )
     claimEvidence.push({
       conceptId: 'identity.self',
@@ -370,8 +402,13 @@ export function resolveProposition(
   )
     return { userStance: 'unknown', resolved: false };
   const same = !!compatible;
-  const stance: UserStance =
-    same && revises ? 'revises' : doubtful ? 'doubts' : 'asserts';
+  const stance: UserStance = rejectedClause
+    ? 'rejects'
+    : same && revises
+      ? 'revises'
+      : doubtful
+        ? 'doubts'
+        : 'asserts';
   const concepts =
     same && ids.every((id) => old!.concepts.includes(id))
       ? old!.concepts

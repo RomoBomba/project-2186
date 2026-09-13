@@ -1566,3 +1566,86 @@ or freedom from hallucination. The reviewed source-bound repertoire and author r
 remain necessary. Full baseline, final measurements and manual responses are in
 `content/evaluation/9b-report.md`. Baseline runs the committed 9A3 engine against the
 same new fixtures and metric code; it does not use the new composition layer.
+
+## Phase 9B.1 — natural explanation and stance coverage
+
+This is a bounded calibration of existing intent/operand/proposition routes; it adds
+no frame, relation, knowledge card, surface wording or persistence field.
+
+Standalone RU/EN why-questions with a closed relational predicate (for example
+“не отменяет”, “не гарантирует”, “does not eliminate”, “does not mean”) can request
+RELATE. The cue supplies an operation, not concepts or a causal proof. Existing
+matcher evidence and restricted operand paradigms must still ground the plan.
+A directly authored relation is used when available; without one, a direct card
+tension/summary can state a boundary. Existing criterion/proof questions keep their
+precedence. Bare “Почему?” still needs usable focus; weather why-questions do not
+inherit a philosophical referent. No positive scientific criterion is invented.
+The closed `копи` noun paradigm adds copy inflections to the existing art/aura
+operand mapping; it does not give them alias scores or equate copying with aura.
+
+Proposition resolution recognizes complete, anchored RU/EN stance idioms: rejection,
+reaffirmation, doubt and revision. “Maybe you're right” is tentative doubt, not a
+claim of established agreement. A same-locale, unexpired PropositionFocus is required
+for resolution. The ephemeral `stanceOnly` diagnostic identifies these complete
+idioms even when no referent exists. An incidental lexical alias inside one (notably
+“not sure”) remains visible in raw perception, but is excluded from planning matches,
+attention and outside-target hints. This prevents both an unsolicited uncertainty
+lecture on a fresh turn and an unnecessary topic pivot during disagreement.
+Raw ConceptMatcher behavior and scores are unchanged. Provider/composition remain
+unchanged and receive the corrected grounded plan.
+
+The idiom rule does not match arbitrary trailing content. Explicit “I don't agree
+that …” / “Я не согласен с тем, что …” clauses supply their own proposition and
+operands; rejection is recorded as stance, separately from the clause's polarity.
+New explicit topics retain priority over inherited stance. Disagreement with the
+weather neither names a philosophical proposition nor refreshes the old one.
+The RU “делает человека собой” construction now supplies its explicit self operand,
+matching the existing EN personal-identity construction. This permits the exact
+memory → doubt → explanation acceptance sequence without inventing a memory/self
+ConceptRelation. Existing memory card material supplies the bounded answer.
+
+The same benchmark adds a `naturalEdge` cohort: explanations, stance prefixes,
+missing referents, explicit overrides and unrelated disagreement. It uses real engine
+prefixes, never synthetic focus objects. Coverage checks realized keys as well as
+concept/relation/stance metadata; false-positive checks count invented planning topics,
+not merely raw lexical matches. The source corpus and all historical fixtures remain
+unchanged. Historical cognition metrics are retained. Some surface denominators grow
+because formerly ungrounded requests now receive an answer; compare counts as well as
+rates. Baseline is the committed 9B engine on the identical new cohort/evaluator.
+Exact results and acceptance responses are in `content/evaluation/9b1-report.md`.
+
+### Final 9B.1 calibration
+
+A closed RU/EN deictic explanation family (“Почему это важно?”, “Why does that
+matter?”) refers first to a live, same-locale grounded reasoning/proposition focus.
+The matching meaning alias remains visible, with score 100, in raw perception.
+This is a narrow contextual priority exception, not a global weakening of aliases:
+a fresh deictic request can still match meaning, and a named new topic still pivots.
+The existing turn-expiry guard applies. A short stance can also refer to a recent
+grounded system answer without inventing a preceding user proposition.
+
+Standalone negative why constructions admit “уничтожают”, “из … не следует …”
+and “нельзя … считать …”, with bounded English equivalents. Existing restricted
+operand paradigms already cover all four required concept pairs; this final pass
+adds no noun forms, global morphology, aliases or relations. RELATE still needs
+independent concept evidence and authored grounding.
+
+A closed evaluation of an object's history can reject the current argument's
+historical dimension only when a live originality/aura PropositionFocus has authored
+relation keys and no outside operand. It preserves originTurn, polarity and the
+existing system-move target; it does not create a new art proposition. Complete
+reflective agreement idioms reuse the existing supports stance. Arbitrary history
+mentions and weather disagreement do not resolve that reference.
+
+Identity perception removes only an optional greeting and a closed first-visit
+preamble before comparing a complete identity clause. It never searches arbitrary
+reported speech for “кто ты”. Existing identity-over-greeting policy is unchanged.
+
+The same naturalEdge cohort adds 60 RU/EN cases, including real engine prefixes and
+fresh controls. Three additional diagnostics measure deictic follow-up coverage,
+standalone why-variant coverage and evaluative-thread continuity. The first and third
+also cover their subsequent stance/criterion turns, so their denominators are broader
+than just the first repaired phrase. Identity and negative controls are asserted
+without extra metrics. The final baseline uses the immediately preceding uncommitted
+9B.1 runtime with the same new fixtures/evaluator, not committed 9B. Full results and
+literal manual engine transcripts are in `content/evaluation/9b1-final-report.md`.

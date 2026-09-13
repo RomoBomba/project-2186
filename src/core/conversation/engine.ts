@@ -108,9 +108,16 @@ export class ConversationEngine {
         evidence: 'grounded_proposition',
         contextual: proposition.resolved,
       };
-    // Stance references add a route only when an actual proposition and its usable focus exist.
+    // Closed stance idioms may refer to a recent grounded answer even without a user proposition.
+    // This route never creates a proposition from a preceding question.
     // Existing explicit-target priority in FollowUpResolver remains authoritative.
-    if (proposition.resolved && !followUp.resolved && memory.reasoningFocus) {
+    if (
+      (proposition.resolved || proposition.stanceOnly) &&
+      !followUp.resolved &&
+      memory.reasoningFocus &&
+      memory.reasoningFocus.locale === locale &&
+      history.turn - memory.reasoningFocus.lastUsedTurn < 3
+    ) {
       followUp = {
         resolved: true,
         cue: 'stance',
@@ -119,9 +126,10 @@ export class ConversationEngine {
           ? {
               targets: [
                 ...new Set(
-                  [...explicitEvidence, ...(proposition.evidence ?? [])].map(
-                    (e) => e.conceptId,
-                  ),
+                  [
+                    ...(proposition.stanceOnly ? [] : explicitEvidence),
+                    ...(proposition.evidence ?? []),
+                  ].map((e) => e.conceptId),
                 ),
               ].filter((id) => !memory.reasoningFocus!.concepts.includes(id)),
             }
@@ -152,9 +160,14 @@ export class ConversationEngine {
           }
         : undefined);
     if (selfQuery) perception.selfQuery = selfQuery;
-    const context = resolveContext(message, perception, memory, locale);
+    // Closed stance idioms can contain lexical aliases ("not sure") without naming
+    // a new philosophical topic. Preserve raw perception; suppress only planning evidence.
+    const planningPerception = proposition.stanceOnly
+      ? { ...perception, matches: [] }
+      : perception;
+    const context = resolveContext(message, planningPerception, memory, locale);
     const attention = selectAttention(
-      matches,
+      planningPerception.matches,
       this.graph,
       profile.id,
       locale,
@@ -172,7 +185,7 @@ export class ConversationEngine {
           }
         : undefined;
     const planned = planResponse(
-      perception,
+      planningPerception,
       attention,
       disposition,
       this.graph,
@@ -193,7 +206,7 @@ export class ConversationEngine {
     plan = planReasoning(
       plan,
       message,
-      perception,
+      planningPerception,
       memory,
       this.graph,
       this.relations,

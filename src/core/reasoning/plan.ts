@@ -208,7 +208,8 @@ export function planReasoning(
       (nounOperands.length === 1 ? nounOperands[0]?.conceptId : undefined));
   if (!primary) return base;
   const kinds =
-    target && resolution.cue === 'conditional'
+    (target && resolution.cue === 'conditional') ||
+    (intent?.frame === 'relate' && /^(?:почему|why) /u.test(intent.evidence))
       ? (['tension', 'summary', 'claim'] as const)
       : frame === 'define'
         ? (['summary', 'claim'] as const)

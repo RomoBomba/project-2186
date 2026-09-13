@@ -17,6 +17,14 @@ export type FollowUpResolution = {
   focus?: ReasoningFocus;
   selfQuery?: SelfQuery;
 };
+/** Complete deictic idioms only: lexical meaning aliases remain authoritative without context. */
+export function isDeicticExplanation(text: string, locale: Locale): boolean {
+  return (
+    locale === 'ru'
+      ? /^(?:и )?почему это (?:важно|имеет значение)$/u
+      : /^why (?:does (?:that|this) matter|is that important)$/u
+  ).test(normalizeConceptText(text));
+}
 export function resolveFollowUp(
   text: string,
   locale: Locale,
@@ -27,6 +35,7 @@ export function resolveFollowUp(
   if (!focus || focus.locale !== locale || turn - focus.lastUsedTurn >= 3)
     return { resolved: false };
   const s = normalizeConceptText(text);
+  const deictic = isDeicticExplanation(text, locale);
   const strongOutside = evidence.some(
     (e) => e.source === 'matcher' && !focus.concepts.includes(e.conceptId),
   );
@@ -70,7 +79,7 @@ export function resolveFollowUp(
     ).test(s)
   )
     patterns.unshift(['reference', /.+/u]);
-  const cue = patterns.find(([, p]) => p.test(s))?.[0];
+  const cue = deictic ? 'reason' : patterns.find(([, p]) => p.test(s))?.[0];
   if (!cue) return { resolved: false };
   const reasonReference =
     locale === 'ru'
@@ -78,6 +87,7 @@ export function resolveFollowUp(
       : /^(?:why|why is that|why do you (?:think that|say that|disagree))$/u;
   if (
     cue === 'reason' &&
+    !deictic &&
     !reasonReference.test(s) &&
     !evidence.some((e) => focus.concepts.includes(e.conceptId)) &&
     !strongOutside
@@ -91,7 +101,9 @@ export function resolveFollowUp(
         ? 'consciousness'
         : focus.selfKind
       : undefined;
-  const outside = evidence.filter((e) => !focus.concepts.includes(e.conceptId));
+  const outside = deictic
+    ? []
+    : evidence.filter((e) => !focus.concepts.includes(e.conceptId));
   const direct = outside.filter((e) => e.source === 'matcher');
   const candidates = (direct.length ? direct : outside).slice().sort((a, b) => {
     const position = (e: ConceptEvidence) =>

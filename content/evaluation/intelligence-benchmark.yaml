@@ -5610,3 +5610,1346 @@
   mustAnswer: false
   mustNotMatch: []
   surfaceCohort: true
+- id: natural-ru-0
+  locale: ru
+  input: Почему наличие причины не отменяет свободу?
+  category: contextual
+  expectedConcepts: &a1
+    - philosophy.freedom
+    - science.causality
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: freedom-causality
+- id: natural-en-1
+  locale: en
+  input: Why does having a cause not eliminate freedom?
+  category: contextual
+  expectedConcepts: *a1
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: freedom-causality
+- id: natural-ru-2
+  locale: ru
+  input: Почему причина не исключает свободу?
+  category: contextual
+  expectedConcepts: &a2
+    - philosophy.freedom
+    - science.causality
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: freedom-causality
+- id: natural-en-3
+  locale: en
+  input: Why doesn't a cause rule out freedom?
+  category: contextual
+  expectedConcepts: *a2
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: freedom-causality
+- id: natural-ru-4
+  locale: ru
+  input: Почему память не гарантирует личность?
+  category: contextual
+  expectedConcepts: &a3
+    - identity.memory
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+- id: natural-en-5
+  locale: en
+  input: Why does memory not guarantee personal identity?
+  category: contextual
+  expectedConcepts: *a3
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+- id: natural-ru-6
+  locale: ru
+  input: Почему потеря архива не уничтожает истину?
+  category: contextual
+  expectedConcepts: &a4
+    - world.archives
+    - philosophy.truth
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: archives-truth
+- id: natural-en-7
+  locale: en
+  input: Why does losing an archive not destroy truth?
+  category: contextual
+  expectedConcepts: *a4
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: archives-truth
+- id: natural-ru-8
+  locale: ru
+  input: Почему копия не становится оригиналом?
+  category: contextual
+  expectedConcepts: &a5
+    - art.originality
+    - art.aura
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: originality-aura
+- id: natural-en-9
+  locale: en
+  input: Why doesn't a copy become an original?
+  category: contextual
+  expectedConcepts: *a5
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: originality-aura
+- id: natural-ru-10
+  locale: ru
+  input: Почему отсутствие памяти не означает отсутствие сознания?
+  category: contextual
+  expectedConcepts: &a6
+    - philosophy.consciousness
+    - identity.memory
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: consciousness-memory
+- id: natural-en-11
+  locale: en
+  input: Why does an absence of memory not mean an absence of consciousness?
+  category: contextual
+  expectedConcepts: *a6
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: explanation
+  expectedRelation: consciousness-memory
+- id: natural-ru-12
+  locale: ru
+  input: Я всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-ru-13
+  locale: ru
+  input: Я всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-14
+  locale: ru
+  input: Я всё равно не согласна.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-ru-15
+  locale: ru
+  input: Я всё равно не согласна.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-16
+  locale: ru
+  input: Всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-ru-17
+  locale: ru
+  input: Всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-18
+  locale: ru
+  input: Нет, я не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-ru-19
+  locale: ru
+  input: Нет, я не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-20
+  locale: ru
+  input: Я с тобой не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-ru-21
+  locale: ru
+  input: Я с тобой не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-22
+  locale: ru
+  input: Я всё равно так думаю.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: asserts
+  expectedRelation: freedom-causality
+- id: natural-ru-23
+  locale: ru
+  input: Я всё равно так думаю.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-24
+  locale: ru
+  input: Я всё ещё так считаю.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: asserts
+  expectedRelation: freedom-causality
+- id: natural-ru-25
+  locale: ru
+  input: Я всё ещё так считаю.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-26
+  locale: ru
+  input: Но я всё равно считаю иначе.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-ru-27
+  locale: ru
+  input: Но я всё равно считаю иначе.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-28
+  locale: ru
+  input: Нет, я имел в виду другое.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: revises
+  expectedRelation: freedom-causality
+- id: natural-ru-29
+  locale: ru
+  input: Нет, я имел в виду другое.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-30
+  locale: ru
+  input: Не уверен, что согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: doubts
+  expectedRelation: freedom-causality
+- id: natural-ru-31
+  locale: ru
+  input: Не уверен, что согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-32
+  locale: ru
+  input: Возможно, ты права.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: doubts
+  expectedRelation: freedom-causality
+- id: natural-ru-33
+  locale: ru
+  input: Возможно, ты права.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-34
+  locale: ru
+  input: Возможно, ты прав.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: doubts
+  expectedRelation: freedom-causality
+- id: natural-ru-35
+  locale: ru
+  input: Возможно, ты прав.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-36
+  locale: ru
+  input: Наверное, я слишком быстро сделал вывод.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: revises
+  expectedRelation: freedom-causality
+- id: natural-ru-37
+  locale: ru
+  input: Наверное, я слишком быстро сделал вывод.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-38
+  locale: ru
+  input: Нет, я всё-таки не уверен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: doubts
+  expectedRelation: freedom-causality
+- id: natural-ru-39
+  locale: ru
+  input: Нет, я всё-таки не уверен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-40
+  locale: en
+  input: I still disagree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-en-41
+  locale: en
+  input: I still disagree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-42
+  locale: en
+  input: I don't agree with you.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: rejects
+  expectedRelation: freedom-causality
+- id: natural-en-43
+  locale: en
+  input: I don't agree with you.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-44
+  locale: en
+  input: I still think so.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: asserts
+  expectedRelation: freedom-causality
+- id: natural-en-45
+  locale: en
+  input: I still think so.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-46
+  locale: en
+  input: I still believe that.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: asserts
+  expectedRelation: freedom-causality
+- id: natural-en-47
+  locale: en
+  input: I still believe that.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-48
+  locale: en
+  input: I am not sure I agree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: doubts
+  expectedRelation: freedom-causality
+- id: natural-en-49
+  locale: en
+  input: I am not sure I agree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-50
+  locale: en
+  input: Maybe you're right.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: doubts
+  expectedRelation: freedom-causality
+- id: natural-en-51
+  locale: en
+  input: Maybe you're right.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-52
+  locale: en
+  input: Perhaps I drew the conclusion too quickly.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: revises
+  expectedRelation: freedom-causality
+- id: natural-en-53
+  locale: en
+  input: Perhaps I drew the conclusion too quickly.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-54
+  locale: ru
+  input: Почему?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-55
+  locale: ru
+  input: Почему сегодня дождь?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: unrelated
+  context:
+    - Если всё имеет причину, свободы нет.
+- id: natural-ru-56
+  locale: ru
+  input: Почему сегодня дождь?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-57
+  locale: ru
+  input: Я не согласен с погодой.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: unrelated
+  context:
+    - Если всё имеет причину, свободы нет.
+- id: natural-ru-58
+  locale: ru
+  input: Я не согласен с погодой.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-ru-59
+  locale: ru
+  input: Я не согласен с тем, что память определяет личность.
+  category: contextual
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: override
+  context:
+    - Если всё имеет причину, свободы нет.
+  expectedStance: rejects
+- id: natural-ru-60
+  locale: ru
+  input: Я всё равно не согласен. Что такое оригинальность?
+  category: contextual
+  expectedConcepts:
+    - art.originality
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: override
+  context:
+    - Если всё имеет причину, свободы нет.
+- id: natural-ru-61
+  locale: ru
+  input: Почему?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - Если всё имеет причину, свободы нет.
+    - Я всё равно не согласен.
+  expectedStance: asks_about
+  expectedRelation: freedom-causality
+- id: natural-en-62
+  locale: en
+  input: Why?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-63
+  locale: en
+  input: Why is it raining today?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: unrelated
+  context:
+    - If everything has a cause, there is no freedom.
+- id: natural-en-64
+  locale: en
+  input: Why is it raining today?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-65
+  locale: en
+  input: I disagree with the weather.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: unrelated
+  context:
+    - If everything has a cause, there is no freedom.
+- id: natural-en-66
+  locale: en
+  input: I disagree with the weather.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: no_referent
+- id: natural-en-67
+  locale: en
+  input: I don't agree that memory defines personal identity.
+  category: contextual
+  expectedConcepts:
+    - identity.memory
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: override
+  context:
+    - If everything has a cause, there is no freedom.
+  expectedStance: rejects
+- id: natural-en-68
+  locale: en
+  input: I still disagree. What is originality?
+  category: contextual
+  expectedConcepts:
+    - art.originality
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: override
+  context:
+    - If everything has a cause, there is no freedom.
+- id: natural-en-69
+  locale: en
+  input: Why?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  context:
+    - If everything has a cause, there is no freedom.
+    - I still disagree.
+  expectedStance: asks_about
+  expectedRelation: freedom-causality
+- id: natural-ru-memory-doubt
+  locale: ru
+  input: Нет, я всё-таки не уверен.
+  context:
+    - Память делает человека собой.
+  category: contextual
+  expectedConcepts: [identity.memory]
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  expectedStance: doubts
+- id: natural-ru-memory-explanation
+  locale: ru
+  input: Почему ты считаешь память недостаточным основанием?
+  context:
+    - Память делает человека собой.
+    - Нет, я всё-таки не уверен.
+  category: contextual
+  expectedConcepts: [identity.memory]
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: stance
+  expectedStance: asks_about
+- id: final-natural-ru-0
+  locale: ru
+  input: Почему причины не обязательно уничтожают свободу?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: freedom-causality
+- id: final-natural-ru-1
+  locale: ru
+  input: Почему из утраты памяти не следует утрата сознания?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: consciousness-memory
+- id: final-natural-ru-2
+  locale: ru
+  input: Почему потеря архивов не уничтожает истину?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: archives-truth
+- id: final-natural-ru-3
+  locale: ru
+  input: Почему копию нельзя автоматически считать оригиналом?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: originality-aura
+- id: final-natural-ru-4
+  locale: ru
+  input: Почему это важно?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Почему наличие причины не отменяет свободу?
+    - А если у выбора вообще не было альтернатив?
+  expectedRelation: freedom-causality
+- id: final-natural-ru-5
+  locale: ru
+  input: Почему это важно?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-6
+  locale: ru
+  input: Почему это имеет значение?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Почему наличие причины не отменяет свободу?
+    - А если у выбора вообще не было альтернатив?
+  expectedRelation: freedom-causality
+- id: final-natural-ru-7
+  locale: ru
+  input: Почему это имеет значение?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-8
+  locale: ru
+  input: И почему это важно?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Почему наличие причины не отменяет свободу?
+    - А если у выбора вообще не было альтернатив?
+  expectedRelation: freedom-causality
+- id: final-natural-ru-9
+  locale: ru
+  input: И почему это важно?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-10
+  locale: ru
+  input: Я всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Почему наличие причины не отменяет свободу?
+    - А если у выбора вообще не было альтернатив?
+    - Почему это важно?
+  expectedRelation: freedom-causality
+- id: final-natural-ru-11
+  locale: ru
+  input: Тогда что именно ты оспариваешь в моей позиции?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Почему наличие причины не отменяет свободу?
+    - А если у выбора вообще не было альтернатив?
+    - Почему это важно?
+    - Я всё равно не согласен.
+  expectedRelation: freedom-causality
+- id: final-natural-ru-12
+  locale: ru
+  input: Для меня история объекта вообще не важна.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-ru-13
+  locale: ru
+  input: Для меня история объекта вообще не важна.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-14
+  locale: ru
+  input: Для меня история объекта не важна.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-ru-15
+  locale: ru
+  input: Для меня история объекта не важна.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-16
+  locale: ru
+  input: История здесь не имеет значения.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-ru-17
+  locale: ru
+  input: История здесь не имеет значения.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-18
+  locale: ru
+  input: Что тогда делает оригинал оригиналом?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+    - Для меня история объекта вообще не важна.
+  expectedRelation: originality-aura
+- id: final-natural-ru-19
+  locale: ru
+  input: Я всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+    - Для меня история объекта вообще не важна.
+    - Что тогда делает оригинал оригиналом?
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-ru-20
+  locale: ru
+  input: Не уверен что согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+    - Для меня история объекта вообще не важна.
+    - Что тогда делает оригинал оригиналом?
+    - Я всё равно не согласен.
+  expectedRelation: originality-aura
+  expectedStance: doubts
+- id: final-natural-ru-21
+  locale: ru
+  input: Я подумал и решил что ты права.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+    - Для меня история объекта вообще не важна.
+    - Что тогда делает оригинал оригиналом?
+    - Я всё равно не согласен.
+    - Не уверен что согласен.
+  expectedRelation: originality-aura
+  expectedStance: supports
+- id: final-natural-ru-22
+  locale: ru
+  input: Привет, я здесь впервые, кто ты?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: identity
+- id: final-natural-ru-23
+  locale: ru
+  input: Привет, а ты кто?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: identity
+- id: final-natural-ru-24
+  locale: ru
+  input: Я здесь впервые. Кто ты?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: identity
+- id: final-natural-ru-25
+  locale: ru
+  input: Я всё равно не согласен.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-26
+  locale: ru
+  input: Я не согласен с прогнозом погоды.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-27
+  locale: ru
+  input: Я сделал копию файла.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-28
+  locale: ru
+  input: 'Он спросил: кто ты?'
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-29
+  locale: ru
+  input: Привет, он спросил кто ты.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-ru-30
+  locale: ru
+  input: Я не согласен с прогнозом погоды.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+  context:
+    - Идеальная копия ничем не отличается от оригинала.
+    - Я с тобой не согласен.
+- id: final-natural-en-31
+  locale: en
+  input: Why do causes not necessarily destroy freedom?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: freedom-causality
+- id: final-natural-en-32
+  locale: en
+  input: Why does loss of consciousness not follow from loss of memory?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: consciousness-memory
+- id: final-natural-en-33
+  locale: en
+  input: Why does losing archives not destroy truth?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: archives-truth
+- id: final-natural-en-34
+  locale: en
+  input: Why can't a copy be automatically considered an original?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: why_variant
+  expectedRelation: originality-aura
+- id: final-natural-en-35
+  locale: en
+  input: Why does that matter?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Why does having a cause not eliminate freedom?
+    - What if there were no alternatives to the choice?
+  expectedRelation: freedom-causality
+- id: final-natural-en-36
+  locale: en
+  input: Why does that matter?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-37
+  locale: en
+  input: Why is that important?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Why does having a cause not eliminate freedom?
+    - What if there were no alternatives to the choice?
+  expectedRelation: freedom-causality
+- id: final-natural-en-38
+  locale: en
+  input: Why is that important?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-39
+  locale: en
+  input: Why does this matter?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Why does having a cause not eliminate freedom?
+    - What if there were no alternatives to the choice?
+  expectedRelation: freedom-causality
+- id: final-natural-en-40
+  locale: en
+  input: Why does this matter?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-41
+  locale: en
+  input: I still disagree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Why does having a cause not eliminate freedom?
+    - What if there were no alternatives to the choice?
+    - Why does that matter?
+  expectedRelation: freedom-causality
+- id: final-natural-en-42
+  locale: en
+  input: Then what exactly do you challenge in my position?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: deictic
+  context:
+    - Why does having a cause not eliminate freedom?
+    - What if there were no alternatives to the choice?
+    - Why does that matter?
+    - I still disagree.
+  expectedRelation: freedom-causality
+- id: final-natural-en-43
+  locale: en
+  input: I don't think the object's history matters.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-en-44
+  locale: en
+  input: I don't think the object's history matters.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-45
+  locale: en
+  input: The history does not matter to me.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-en-46
+  locale: en
+  input: The history does not matter to me.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-47
+  locale: en
+  input: Then what makes an original an original?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.
+    - I don't think the object's history matters.
+  expectedRelation: originality-aura
+- id: final-natural-en-48
+  locale: en
+  input: I still disagree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.
+    - I don't think the object's history matters.
+    - Then what makes an original an original?
+  expectedRelation: originality-aura
+  expectedStance: rejects
+- id: final-natural-en-49
+  locale: en
+  input: I am not sure I agree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.
+    - I don't think the object's history matters.
+    - Then what makes an original an original?
+    - I still disagree.
+  expectedRelation: originality-aura
+  expectedStance: doubts
+- id: final-natural-en-50
+  locale: en
+  input: I thought about it and decided you're right.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: evaluative
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.
+    - I don't think the object's history matters.
+    - Then what makes an original an original?
+    - I still disagree.
+    - I am not sure I agree.
+  expectedRelation: originality-aura
+  expectedStance: supports
+- id: final-natural-en-51
+  locale: en
+  input: Hi, I'm new here, who are you?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: identity
+- id: final-natural-en-52
+  locale: en
+  input: Hello, who are you?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: identity
+- id: final-natural-en-53
+  locale: en
+  input: I'm new here. Who are you?
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: identity
+- id: final-natural-en-54
+  locale: en
+  input: I still disagree.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-55
+  locale: en
+  input: I disagree with the weather forecast.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-56
+  locale: en
+  input: I made a copy of a file.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-57
+  locale: en
+  input: 'He asked: who are you?'
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-58
+  locale: en
+  input: Hello, he asked who you are.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+- id: final-natural-en-59
+  locale: en
+  input: I disagree with the weather forecast.
+  category: contextual
+  expectedConcepts: []
+  mustAnswer: false
+  mustNotMatch: []
+  naturalEdge: context_control
+  context:
+    - A perfect copy does not differ from the original.
+    - I disagree with you.

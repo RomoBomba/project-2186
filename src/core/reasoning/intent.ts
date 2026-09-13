@@ -14,6 +14,19 @@ export function reasoningIntent(
   if (locale === 'ru') {
     if (/^почему .+ (?:доказывает|доказывают|доказательств)/u.test(s))
       return choose('criterion');
+    // A bounded explanatory relation construction; operands are still required by planning.
+    if (
+      /^почему .+ (?:не )?(?:отменяет|исключает|гарантирует|уничтожает|уничтожают|становится|означает) .+$/u.test(
+        s,
+      )
+    )
+      return choose('relate');
+    if (
+      /^почему (?:из .+ не следует .+|.+ нельзя (?:автоматически )?считать .+)$/u.test(
+        s,
+      )
+    )
+      return choose('relate');
     if (/^допустим .+(?:останется|сохранится)/u.test(s))
       return choose('relate');
     if (/(?:^| )значит .+/u.test(s)) return choose('consequence');
@@ -36,6 +49,18 @@ export function reasoningIntent(
     if (/^(?:я считаю|я думаю) .+/u.test(s)) return choose('counterpressure');
   } else {
     if (/^why .+ (?:prove|establish)/u.test(s)) return choose('criterion');
+    if (
+      /^why .+ (?:eliminate|exclude|rule out|guarantee|destroy|become|mean|imply) .+$/u.test(
+        s,
+      )
+    )
+      return choose('relate');
+    if (
+      /^why (?:does .+ not follow from .+|(?:can't|cannot|can not) .+ (?:be )?(?:automatically )?(?:considered|count as) .+)$/u.test(
+        s,
+      )
+    )
+      return choose('relate');
     if (/^suppose .+(?:remain|survive)/u.test(s)) return choose('relate');
     if (/(?:^| )does that mean .+/u.test(s)) return choose('consequence');
 

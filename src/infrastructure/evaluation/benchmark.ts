@@ -43,6 +43,17 @@ export type BenchmarkCase = {
   mustAnswer: boolean;
   mustNotMatch: string[];
   context?: string[];
+  naturalEdge?:
+    | 'explanation'
+    | 'stance'
+    | 'no_referent'
+    | 'override'
+    | 'unrelated'
+    | 'deictic'
+    | 'why_variant'
+    | 'evaluative'
+    | 'identity'
+    | 'context_control';
   surfaceCohort?: boolean;
   propositionCohort?: boolean;
   expectedStance?: UserStance;
@@ -101,6 +112,19 @@ export async function loadBenchmark(
         'false_positive',
       ].includes(c.category) ||
       typeof c.mustAnswer !== 'boolean' ||
+      (c.naturalEdge !== undefined &&
+        ![
+          'explanation',
+          'stance',
+          'no_referent',
+          'override',
+          'unrelated',
+          'deictic',
+          'why_variant',
+          'evaluative',
+          'identity',
+          'context_control',
+        ].includes(c.naturalEdge)) ||
       (c.propositionCohort &&
         (typeof c.expectedProposition !== 'boolean' ||
           ![
@@ -296,7 +320,8 @@ export async function runBenchmark(
       !c.reasoningCohort &&
       !c.conversationCohort &&
       !c.propositionCohort &&
-      !c.surfaceCohort,
+      !c.surfaceCohort &&
+      !c.naturalEdge,
   );
   const primary = ordinary.filter((c) => c.expectedPrimaryConcept);
   const known = ordinary.filter((c) => c.mustAnswer);
@@ -411,7 +436,87 @@ export async function runBenchmark(
     const cohort = propositions.filter(include);
     return ratio(cohort.filter(pass).length, cohort.length);
   };
+  const natural = rows
+    .filter((c) => c.naturalEdge)
+    .flatMap((c) => c.planning.map((p) => ({ c, p })));
+  const edgeMetric = (
+    kind: BenchmarkCase['naturalEdge'],
+    pass: (x: (typeof natural)[number]) => boolean,
+  ) => {
+    const subset = natural.filter((x) => x.c.naturalEdge === kind);
+    return ratio(subset.filter(pass).length, subset.length);
+  };
+  const edgeGrounded = ({ c, p }: (typeof natural)[number]) =>
+    p.usedMaterialKeys.length > 0 &&
+    c.expectedConcepts.every(
+      (id) =>
+        p.reasoning?.concepts.some((concept) => concept === id) ||
+        p.primary === id,
+    ) &&
+    (!c.expectedRelation ||
+      (p.reasoning?.relationId === c.expectedRelation &&
+        p.usedMaterialKeys.some((k) =>
+          k.startsWith('relation:' + c.expectedRelation + ':'),
+        )));
   return {
+    naturalMetrics: {
+      contextualDeicticResolutionRate: edgeMetric(
+        'deictic',
+        (x) =>
+          edgeGrounded(x) &&
+          x.p.followUp.resolved &&
+          x.p.focus?.relationId === x.p.previousFocus?.relationId,
+      ),
+      relationalWhyVariantCoverage: edgeMetric('why_variant', edgeGrounded),
+      evaluativeStanceContinuationRate: edgeMetric(
+        'evaluative',
+        (x) =>
+          edgeGrounded(x) &&
+          !!x.p.propositionFocus &&
+          x.p.propositionFocus.originTurn ===
+            x.p.previousProposition?.originTurn &&
+          (!x.c.expectedStance ||
+            x.p.proposition?.userStance === x.c.expectedStance),
+      ),
+
+      standaloneRelationExplanationCoverage: edgeMetric(
+        'explanation',
+        edgeGrounded,
+      ),
+      shortStanceResolutionRate: edgeMetric(
+        'stance',
+        (x) =>
+          edgeGrounded(x) &&
+          x.p.propositionResolution?.resolved === true &&
+          x.p.proposition?.userStance === x.c.expectedStance &&
+          x.p.propositionFocus?.originTurn ===
+            x.p.previousProposition?.originTurn &&
+          x.p.focus?.relationId === x.c.expectedRelation,
+      ),
+      stanceWithoutReferentFalsePositiveRate: edgeMetric(
+        'no_referent',
+        ({ p }) =>
+          !!p.proposition ||
+          !!p.reasoning ||
+          !!p.primary ||
+          p.usedMaterialKeys.length > 0,
+      ),
+      explicitTopicOverrideRate: edgeMetric(
+        'override',
+        (x) =>
+          edgeGrounded(x) &&
+          x.p.reasoning?.relationId !== x.p.previousFocus?.relationId &&
+          (!x.c.expectedStance ||
+            x.p.proposition?.userStance === x.c.expectedStance),
+      ),
+      unrelatedStanceCarryoverRate: edgeMetric(
+        'unrelated',
+        ({ p }) =>
+          !!p.propositionResolution?.resolved ||
+          !!p.reasoning ||
+          p.usedMaterialKeys.length > 0,
+      ),
+    },
     surfaceMetrics: surfaceMetrics(rows.filter((c) => c.surfaceCohort)),
     propositionMetrics: {
       propositionCaptureRate: propMetric(
@@ -649,7 +754,8 @@ export async function runBenchmark(
             !c.conversationCohort &&
             !c.transitionCohort &&
             !c.propositionCohort &&
-            !c.surfaceCohort,
+            !c.surfaceCohort &&
+            !c.naturalEdge,
         )
         .reduce(
           (n, c) =>
@@ -664,7 +770,8 @@ export async function runBenchmark(
           !c.conversationCohort &&
           !c.transitionCohort &&
           !c.propositionCohort &&
-          !c.surfaceCohort,
+          !c.surfaceCohort &&
+          !c.naturalEdge,
       ).length * characterIds.length,
     ),
     rows,

@@ -22,6 +22,7 @@ const paradigms: readonly [ConceptId, string, readonly string[]][] = [
     'оригинал',
     ['а', 'ы', 'у', 'е', 'ом', 'ов', 'ами', 'ах'],
   ],
+  ['art.aura', 'копи', ['я', 'и', 'ю', 'ей', 'ею', 'ям', 'ями', 'ях']],
   ['philosophy.consciousness', 'сознани', ['е', 'я', 'ю', 'ем', 'и']],
 ];
 export function inflectionEvidence(text: string): ConceptEvidence[] {
