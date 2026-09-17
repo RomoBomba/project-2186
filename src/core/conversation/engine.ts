@@ -1,3 +1,12 @@
+import {
+  semanticEligibility,
+  semanticCatalog,
+  liveFocus,
+  validateSemanticCandidate,
+  mergeSemanticCandidate,
+  type SemanticResolver,
+  type SemanticInspection,
+} from '../semantic/resolver.ts';
 import { surfaceHistory } from '../intelligence/composition.ts';
 import {
   resolveProposition,
@@ -41,7 +50,15 @@ export class ConversationEngine {
   private readonly graph: ConceptGraph;
   private readonly relations: RelationIndex;
   private readonly provider: IntelligenceProvider;
-  constructor(cards: readonly ConceptCard[], provider: IntelligenceProvider) {
+  private readonly cards: readonly ConceptCard[];
+  private readonly resolver: SemanticResolver | undefined;
+  constructor(
+    cards: readonly ConceptCard[],
+    provider: IntelligenceProvider,
+    resolver?: SemanticResolver,
+  ) {
+    this.cards = cards;
+    this.resolver = resolver;
     this.matcher = new ConceptMatcher(cards);
     this.graph = new ConceptGraph(cards);
     this.provider = provider;
@@ -221,6 +238,120 @@ export class ConversationEngine {
         plan.selfMaterial.supportingConcepts.filter(
           (id) => !!this.graph.get(id),
         );
+    let semanticInspection: SemanticInspection | undefined;
+    if (this.resolver) {
+      semanticInspection = {
+        deterministic: { perception, plan },
+        eligibility: semanticEligibility(
+          message,
+          perception,
+          plan,
+          followUp.resolved || proposition.resolved,
+        ),
+      };
+      if (semanticInspection.eligibility.eligible) {
+        const focus = liveFocus(memory.reasoningFocus, locale, history.turn);
+        const request = {
+          text: message,
+          locale,
+          catalog: semanticCatalog(this.cards, locale),
+          ...(focus
+            ? {
+                focus: {
+                  concepts: focus.concepts.slice(0, 2),
+                  frame: focus.frame,
+                  ...(focus.relationId ? { relationId: focus.relationId } : {}),
+                },
+              }
+            : {}),
+        };
+        semanticInspection.request = request;
+        try {
+          const result = await this.resolver.resolve(request);
+          Object.assign(semanticInspection, result);
+          const validation = validateSemanticCandidate(
+            result.candidate,
+            request,
+          );
+          semanticInspection.validation = validation.reason;
+          const hint =
+            validation.candidate &&
+            mergeSemanticCandidate(validation.candidate, perception);
+          semanticInspection.merge = hint
+            ? 'no_usable_material'
+            : validation.candidate
+              ? 'strong_conflict'
+              : 'rejected';
+          if (hint) {
+            const enriched = {
+              ...planningPerception,
+              ...(hint.frame
+                ? {
+                    reasoningIntent: {
+                      frame: hint.frame,
+                      evidence: 'validated_semantic_hint',
+                      contextual: hint.continuation === true,
+                    },
+                  }
+                : {}),
+            };
+            const continuation =
+              hint.continuation === true && focus
+                ? { resolved: true, focus, cue: 'reference' as const }
+                : followUp;
+            const proposed = planReasoning(
+              planned.plan,
+              message,
+              enriched,
+              memory,
+              this.graph,
+              this.relations,
+              relationTerms,
+              locale,
+              continuation,
+              proposition.evidence,
+              hint.concepts.map((conceptId) => ({
+                conceptId,
+                source: 'semantic_hint' as const,
+              })),
+            );
+            if (
+              proposed.reasoning &&
+              hint.concepts.every((id) =>
+                proposed.reasoning!.concepts.includes(id),
+              ) &&
+              (proposed.selectedMaterial.length ||
+                proposed.reasoning.required.length)
+            ) {
+              plan = proposed;
+              followUp = continuation;
+              semanticInspection.merge = 'accepted';
+            } else if (
+              proposed.reasoning &&
+              !hint.concepts.every((id) =>
+                proposed.reasoning!.concepts.includes(id),
+              )
+            ) {
+              semanticInspection.merge = 'incomplete_hint_grounding';
+            }
+          }
+        } catch (error) {
+          if (error && typeof error === 'object') {
+            for (const key of ['latencyMs', 'generatedTokens'] as const) {
+              const value = (error as Record<string, unknown>)[key];
+              if (
+                typeof value === 'number' &&
+                Number.isFinite(value) &&
+                value >= 0
+              )
+                semanticInspection[key] = value;
+            }
+          }
+          semanticInspection.validation = 'resolver_failure';
+          semanticInspection.merge = 'original_deterministic';
+        }
+      }
+    }
     const memoryReferenceBlockers: string[] = plan.reasoning
       ? ['reasoning_material']
       : [];
@@ -329,6 +460,7 @@ export class ConversationEngine {
       ],
     );
     return {
+      ...(semanticInspection ? { semanticInspection } : {}),
       propositionResolution: proposition,
       focusTransition,
       followUp,

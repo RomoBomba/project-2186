@@ -101,3 +101,40 @@ user experience, mechanical wording and omitted answer nuclei even with valid ke
 Local is not automatically better or approved for unrestricted use. The model and
 temperature do not guarantee byte-identical prose across runs. Event audio and
 SemanticTransmission remain unchanged; this phase introduces no streaming or UI.
+
+## Phase 11C: classify language, keep Basic as the speaker
+
+This is a separate opt-in experiment; the realizer above is not used for its
+acceptance evaluation. For browser development:
+
+```sh
+VITE_SEMANTIC_RESOLVER=local-fallback VITE_INTELLIGENCE_PROVIDER=basic npm run dev
+```
+
+For one inspected turn or a sequence, use `--resolver local-fallback --provider
+basic` with `intelligence:inspect`. The default resolver is `deterministic`.
+Production/test application builds leave the fallback disabled. No preference is
+persisted. Terminal geometry, wording and transmission are unchanged.
+
+The semantic fallback uses only `qwen3:4b-instruct`, temperature 0, context 2048,
+maximum 64 generated tokens, keep-alive 2m and a 10-second timeout. It sees the
+current message, a compact concept catalog and a live focus summary. It receives
+no personal memory or transcript. It returns IDs/frame/continuation, never an
+answer. Failed or rejected classification leaves the original deterministic plan.
+
+```sh
+npm run intelligence:semantic-evaluate -- --all-characters --output=/tmp/semantic-baseline.json
+npm run intelligence:semantic-evaluate -- --live --all-characters --output=/tmp/semantic-live.json
+```
+
+The second command deliberately runs sustained local inference on the eligible
+subset of the frozen cohort. It does not call a local realizer or retry failures.
+Detailed output includes all responses and candidate diagnostics; these are local
+development artifacts. See [Phase 11C evaluation](../content/evaluation/11c-report.md)
+for rates, false positives, fixed corpus hash and acceptance limitations.
+
+Saved evaluation output can be audited without inference:
+`npm run intelligence:semantic-evaluate -- --replay=/tmp/semantic-live.json`.
+Replay verifies the frozen cohort SHA-256 and recomputes aggregate diagnostics from
+the recorded rows. It makes no Ollama requests. Reported call counts describe the
+recorded run, not the replay operation.

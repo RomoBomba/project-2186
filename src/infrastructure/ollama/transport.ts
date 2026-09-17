@@ -1,4 +1,4 @@
-import { localEndpoint, type OllamaRequest } from './serializer.ts';
+import { localEndpoint } from './serializer.ts';
 
 export class OllamaError extends Error {
   readonly code: 'http' | 'envelope' | 'content_json' | 'body_limit';
@@ -71,7 +71,15 @@ export class OllamaTransport {
     this.fetcher = fetcher;
   }
   async chat(
-    body: OllamaRequest,
+    body: {
+      model: string;
+      stream: false;
+      think: false;
+      options: { temperature: number; num_ctx: number; num_predict: number };
+      keep_alive: string;
+      format: object;
+      messages: { role: 'system' | 'user'; content: string }[];
+    },
     signal: AbortSignal,
   ): Promise<SafeOllamaEnvelope> {
     signal.throwIfAborted();

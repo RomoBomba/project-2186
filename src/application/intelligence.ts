@@ -1,3 +1,4 @@
+import { createSemanticResolver } from './resolver-selection.ts';
 import { canonicalKnowledge } from '../generated/knowledge.ts';
 import { ConversationEngine } from '../core/conversation/engine.ts';
 import {
@@ -40,4 +41,10 @@ export const conversationEngine = new ConversationEngine(
         : {}),
     },
   ),
+  import.meta.env?.DEV && import.meta.env?.MODE !== 'test'
+    ? createSemanticResolver(
+        import.meta.env?.VITE_SEMANTIC_RESOLVER,
+        import.meta.env?.VITE_OLLAMA_ENDPOINT,
+      )
+    : undefined,
 );

@@ -23,7 +23,8 @@
     "intelligence:compare": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts --compare true",
     "intelligence:inspect": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts",
     "memory:inspect": "node src/infrastructure/memory/inspect.ts",
-    "intelligence:benchmark": "npm run knowledge:build && node src/infrastructure/evaluation/command.ts"
+    "intelligence:benchmark": "npm run knowledge:build && node src/infrastructure/evaluation/command.ts",
+    "intelligence:semantic-evaluate": "npm run knowledge:build && node src/infrastructure/evaluation/semantic-command.ts"
   },
   "dependencies": {
     "svelte": "^5.57.0"

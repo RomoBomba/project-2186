@@ -1922,3 +1922,61 @@ slots project the same approved Basic composition. The live reviewer now runs 60
 fixed-setting generations. Previous 11B violations are preserved in a test-only
 corpus with A–F failure classes; original outputs are not erased. See the
 [11B.1 report](../content/evaluation/11b1-report.md) for acceptance results and limits.
+
+### Phase 11C: optional semantic resolver fallback
+
+`core/semantic/resolver.ts` defines a separate `SemanticResolver` boundary. It
+classifies language; it does not implement `IntelligenceProvider`. The engine first
+builds its unchanged deterministic perception and plan. A closed eligibility gate
+rejects known system/self/stance/context handling, already grounded material,
+oversized or empty input, explicit unavailable factual requests and ordinary
+file/device/archive uses. It does not call a model merely because a match is
+moderate. These guards are conservative examples, not a general content-gap detector.
+Existing deterministic false positives remain visible in the evaluation.
+
+An eligible request contains current text (maximum 600 characters), locale, the
+sorted localized catalog (ID, title, first 72 authored summary characters), and
+only a live same-locale general focus: concepts, frame and optional relation ID.
+The wire catalog uses compact [id, title, descriptor] tuples and places untrusted
+current text last.
+No transcript, user memories, claims, questions, character data or response text is
+sent. Catalog locale fallback is disabled. The current 21-card catalog is bounded
+at 100 records; growing the corpus requires reviewing the 2048-token budget.
+
+The strict candidate has exactly `locale`, at most two unique known `concepts`,
+existing `frame` or null, `continuation` (true/false/uncertain), and
+`confidenceClass` (high/low). Extra fields, prose, unknown IDs, low confidence and
+unusable continuation are rejected. Without focus the wire schema permits only
+continuation=false. Confidence concerns topic mapping, not philosophical truth.
+Continuation must refer exclusively to a live
+focus (under three turns old). Strong deterministic concepts (score >=85) must all
+remain present; an existing frame wins. Hints enter planning as `semantic_hint`,
+never as fabricated matcher scores, aliases or proposition evidence. The planner
+alone looks up authored relations/material. Every hinted ID must remain in the
+resulting reasoning concepts: an unsupported pair cannot silently become an answer
+about just its first operand. No usable material means the original
+plan. No speculative stance, self facts or relations are introduced.
+
+The provider is called once, after this decision; `completeExchange` is called
+once. Failed resolution leaves the original deterministic response and memory
+update intact. Interpretation diagnostics are returned for dev inspection, not
+stored in WorkingMemory or persistence.
+
+`infrastructure/ollama/semantic-resolver.ts` uses the shared loopback HTTP transport
+but separate serializer/settings: qwen3:4b-instruct, think=false, stream=false,
+temperature=0, num_ctx=2048, num_predict=64, keep_alive=2m, 10-second abort, no
+retries. LocalLLMProvider and its realizer settings remain separate and unchanged.
+Vite development may opt in with `VITE_SEMANTIC_RESOLVER=local-fallback`; absent or
+`deterministic` selects the original path. Production/test application builds do
+not activate it. Realizer selection remains independent; Phase 11C evaluation
+always uses Basic. Nothing is added to IndexedDB configuration or the artwork.
+
+`intelligence:inspect -- --resolver local-fallback --provider basic --locale ru
+--text "…"` exposes deterministic plan/perception, eligibility, compact request,
+candidate, validation/merge result and timing alongside the final plan/Basic text.
+`intelligence:semantic-evaluate` runs the frozen test-only YAML cohort;
+`-- --live --all-characters --output=/tmp/semantic-results.json` enables actual
+Ollama calls. The same inputs and deterministic prefix exchanges are compared
+within each run. This is a development evaluation in the existing evaluation
+area, not application content. Metrics are exact fixture comparisons, not proof of
+semantic truth; an accepted topic hint still requires author review.

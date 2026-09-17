@@ -1,3 +1,4 @@
+import { createSemanticResolver } from '../../application/resolver-selection.ts';
 import process from 'node:process';
 import { characterIds } from '../../core/character/id.ts';
 import { characterProfiles } from '../../core/character/profile.ts';
@@ -32,6 +33,7 @@ try {
         '--turn',
         '--provider',
         '--compare',
+        '--resolver',
       ].includes(args[i]!) ||
       args[i + 1] === undefined
     )
@@ -71,6 +73,10 @@ try {
   const conversationEngine = new ConversationEngine(
     canonicalKnowledge,
     provider,
+    createSemanticResolver(
+      options.get('--resolver'),
+      process.env.VITE_OLLAMA_ENDPOINT,
+    ),
   );
   let runtime = createCharacterRuntime(character, 0);
   let memory = initialWorkingMemory();
@@ -103,6 +109,7 @@ try {
                 totalLatencyMs: performance.now() - started,
                 localInspection: trace,
               }),
+          semanticInspection: result.semanticInspection,
           context: result.context,
           propositionResolution: result.propositionResolution,
           propositionFocus: result.nextMemory.propositionFocus,
