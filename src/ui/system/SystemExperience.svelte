@@ -1,5 +1,13 @@
 <script lang="ts">
-  import { onDestroy, untrack } from 'svelte';
+  import { onDestroy, untrack, getContext } from 'svelte';
+  import {
+    audioContextKey,
+    audioCues,
+    silentAudio,
+    type AudioEngine,
+  } from '../../infrastructure/audio/model';
+  const audio = getContext<AudioEngine>(audioContextKey) ?? silentAudio;
+  import { toggleAudio } from '../audio/routing';
   import type { Persistence } from '../../application/persistence';
   import type {
     SavedConfiguration,
@@ -79,6 +87,8 @@
   function action(value: SystemAction) {
     if (!active || phase !== 'hold' || !['gate', 'terminal'].includes(screen))
       return;
+    audio.cancel();
+    audio.play({ type: audioCues.systemConfirm });
     const destination = routeForAction(value);
     if (value === 'return') {
       terminalMounted = true;
@@ -107,6 +117,7 @@
     if (screen !== 'setup' && screen !== 'edit') return;
     const destination = routeAfterConfiguration(screen, returnTo);
     configuration = { ...value };
+    audio.setEnabled(value.audioEnabled);
     onstandardchange(value.displayStandard);
     if (screen === 'edit') {
       persist();
@@ -158,6 +169,10 @@
             }}
             bind:systemOpen
             onsystemaction={action}
+            onaudiotoggle={() => {
+              toggleAudio(configuration, audio);
+              persist();
+            }}
             systemConfiguration={saved}
           />
         {/key}
@@ -179,6 +194,8 @@
         oncomplete={configured}
         oncancel={initial || terminalMounted
           ? () => {
+              audio.cancel();
+              audio.setEnabled(configuration.audioEnabled);
               onstandardchange(configuration.displayStandard);
               screen = terminalMounted ? 'terminal' : 'gate';
             }

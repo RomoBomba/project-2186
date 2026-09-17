@@ -86,11 +86,11 @@ These associations guide later art review; they do not authorize assets or effec
 
 ## Audio direction
 
-Later use Web Audio API through AudioEngine, without a large sound library.
-Oscillators, gain envelopes, filters and noise form a small procedural vocabulary:
-boot, key, confirm, error, receive, transition and character motifs. Store motifs
-as data. A future constrained synth instruction may specify waveform, frequencies,
-durations and envelope; no generative audio AI is required.
+Phase 10 uses native Web Audio through AudioEngine, with a finite data-driven
+vocabulary of short sine/triangle tones, gain envelopes and low-pass filters.
+The acoustic direction is a quiet civic/scientific terminal: sparse, deliberate,
+informational, synthetic with restrained warmth. Silence is part of its design.
+No continuous sound, alarm/error motif, downloaded samples or generative audio.
 
 ## Restrictions
 
@@ -288,9 +288,9 @@ right; C integrates a smaller visual region. They are abstract compositions, not
 rendered terminal previews or alternative terminal implementations. Choosing a
 layout records its identifier only; the approved Layout A source is untouched.
 
-Audio choices record enabled/muted only. Sparse copy states that this is signal
-configuration and sound is not yet available. There is no sound generation or
-AudioEngine implementation. The final screen explicitly requires intelligence
+In the original Phase 3 setup, audio choices recorded enabled/muted only.
+Phase 10 now activates that same preference and replaces the obsolete unavailable
+note with “SHORT SYSTEM SIGNALS / NO VOICE” and its Russian equivalent. The final screen explicitly requires intelligence
 configuration and labels its selection channel as not yet available. It deliberately
 stops there, with revision available, instead of opening the terminal.
 
@@ -478,13 +478,13 @@ The visible `>` marker and brighter text share one selected row; menu rows have
 no underline. Up/Down navigate vertically; Left/Right are convenience aliases.
 The help remains ↑ ↓. Keyboard focus follows the same selected index.
 
-The active terminal has exactly two metadata controls stacked at its upper right:
-DISPLAY / X (F2) and SYSTEM / MENU (F1). F2 keeps the existing geometry quick path.
+The active terminal has three metadata controls stacked at its upper right:
+DISPLAY / X (F2), AUDIO / ON–OFF, and SYSTEM / MENU (F1). F2 keeps the existing geometry quick path.
 F1 replaces the visible surface with the same restrained ruled system language;
 its first action is RETURN rather than CONTINUE. Escape/RETURN closes it safely,
 restoring access to the underlying live terminal. There is no blur, rounded modal,
 icon, statistics panel or new visual-effects system. Browser-reserved shortcuts may
-not be delivered; both controls remain clickable and reachable by Tab.
+not be delivered; all controls remain clickable and reachable by Tab.
 
 Configuration reuses the existing four setup stages with current values preselected.
 Escape/back moves through stages; on the language stage it cancels editing and
@@ -496,3 +496,53 @@ those geometric delays. Boot is never replayed for navigation.
 
 CONTINUE does not restore the transcript. NEW SESSION does not erase persistent
 memory. These actions operate on working sessions, not stored character history.
+
+## Phase 10 — acoustic vocabulary
+
+Sound follows visible operation; it never carries exclusive information. Muted operation
+is complete. The palette and geometry do not change the sound engine: CIVIC, PHOSPHOR
+and AMBER share one mix. Character identity has a small timbral gesture of its own.
+
+| Event              | Authored gesture (seconds/Hz in source; milliseconds here)                     |
+| ------------------ | ------------------------------------------------------------------------------ |
+| Wake               | 110 ms sine pulse resolving 190 → 150 Hz                                       |
+| Channels           | 660/690 Hz narrow pair, 65/70 ms envelopes, second onset at 90 ms              |
+| Command key        | dry filtered triangle, 18 ms; text 580 Hz, space 510 Hz, erase 430 Hz          |
+| Submit             | 65 ms resolving pulse, 390 → 260 Hz; distinct from a key, no notification ding |
+| Forming            | one low 285 Hz breath-length tone, 110 ms after a 70 ms onset offset           |
+| Transmission start | quiet 610/640 Hz opening pair, total 85 ms; no phrase/token ticks              |
+| System open        | 90 ms low-mid 320 → 360 Hz signal                                              |
+| System confirm     | 30 ms filtered 430 Hz triangle impulse; 2 ms attack, no pitch sweep            |
+
+There is no audio-driven delay: the small forming offset is inside its sound envelope,
+not a change to SemanticTransmission. In reduced motion these short cues may overlap;
+there is no extra wait to make them finish. No loop, drone, per-line boot sound or sound
+on each transcript chunk. Held keys, modifier keys, shortcuts, composing input and IME
+commit do not produce a stream of key sounds. Accepted typing is softly rate-limited.
+
+ALETHEIA: two close 820/865 Hz sines, narrow and precise, total 240 ms. AURA: filtered
+340/425 Hz pair with slower attack/decay, total 330 ms. THEMIS: dry low-mid 290/435 Hz
+impulses, total 145 ms. These are identification gestures, not melodies: no arpeggio,
+reverb, mystical shimmer, sentimental chime or ringtone. A motif marks a newly active
+connection only, never each response, menu return or layout change.
+
+All amplitudes start low; hardware listening must determine their final balance.
+No loud mechanical keyboard, arcade bleeps, cyberpunk scanner, aggressive CRT noise,
+spaceship alarm, mobile notification, cinematic swell, music, speech or ambient track.
+Cancel is quiet, not an error. Browser unlock restrictions are accepted as silence;
+a silent boot is preferable to replaying missed activation sounds after setup.
+
+Author review remains necessary with headphones AND laptop speakers: comfort over
+20–30 seconds of typing, submit/key separation, cumulative forming/transmission
+fatigue, motif distinction and absence of ringing/clipping. Automated routing tests
+cannot establish these artistic or physical listening qualities. No new control,
+visualizer, permanent debug label or volume UI is introduced.
+
+The active AUDIO / ON–OFF control (ЗВУК / ВКЛ–ВЫКЛ) uses the existing saved
+audio preference. Its native button exposes the pressed state to assistive
+technology; Tab and Enter/Space work without an extra shortcut. Muting stops
+sounding and scheduled events immediately. Both toggle directions are silent;
+enabling permits future cues only. Conversation state remains untouched.
+
+Phase 10 implements no ambient bed. A possible future optional AMBIENT layer
+would be separate from these event/system cues; silence remains part of the interface.

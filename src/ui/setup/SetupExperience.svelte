@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { onDestroy, tick, untrack, type Snippet } from 'svelte';
+  import { onDestroy, tick, untrack, getContext, type Snippet } from 'svelte';
+  import {
+    audioContextKey,
+    audioCues,
+    silentAudio,
+    type AudioEngine,
+  } from '../../infrastructure/audio/model';
+  const audio = getContext<AudioEngine>(audioContextKey) ?? silentAudio;
   import { languageChoices, setupMessages } from '../../locales/setup';
   import DisplayTransition from '../display/DisplayTransition.svelte';
   import { displayStandards, type DisplayStandard } from '../display/standards';
@@ -134,6 +141,13 @@
   function apply(action: SetupAction) {
     if (!active || phase !== 'hold') return;
     const next = updateSetup(model, action);
+    if (next === model) return;
+    audio.cancel('system');
+    if (action.type === 'audio') {
+      audio.setEnabled(action.value);
+      audio.unlock();
+    }
+    if (action.type !== 'back') audio.play({ type: audioCues.systemConfirm });
     if (action.type === 'standard')
       onstandardchange(next.configuration.displayStandard);
     const transition = action.type === 'language' || action.type === 'audio';

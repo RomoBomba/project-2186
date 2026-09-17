@@ -1,10 +1,19 @@
 <script lang="ts">
-  import { onMount, type Snippet } from 'svelte';
+  import { onMount, getContext, type Snippet } from 'svelte';
   import { defaultLocale } from '../../core/language/locale';
   import DisplayTransition from '../display/DisplayTransition.svelte';
   import BootScreen from './BootScreen.svelte';
   import { firstBootStep, startBoot, type BootStep } from './sequence';
 
+  import {
+    audioContextKey,
+    silentAudio,
+    type AudioEngine,
+  } from '../../infrastructure/audio/model';
+  import { bootAudio } from '../audio/routing';
+  const sound = bootAudio(
+    getContext<AudioEngine>(audioContextKey) ?? silentAudio,
+  );
   let { children }: { children: Snippet<[boolean, boolean]> } = $props();
   let step = $state<BootStep>(firstBootStep);
   let reducedMotion = $state(false);
@@ -31,14 +40,19 @@
     reducedMotion = forceReduced || preference.matches;
     const playback = startBoot((next) => {
       step = next;
+      sound.step(next);
     }, reducedMotion);
-    skip = playback.skip;
+    skip = () => {
+      sound.cancel();
+      playback.skip();
+    };
     const onPreferenceChange = () => {
       reducedMotion = forceReduced || preference.matches;
       if (reducedMotion) playback.reduceMotion();
     };
     preference.addEventListener('change', onPreferenceChange);
     return () => {
+      sound.cancel();
       playback.cancel();
       preference.removeEventListener('change', onPreferenceChange);
     };

@@ -11,6 +11,9 @@ type SystemMessages = {
   noImage: string;
   inactive: string;
   display: string;
+  audio: string;
+  audioOn: string;
+  audioOff: string;
 };
 
 // Phase 1 composition copy, not canonical lore or live system state.
@@ -26,6 +29,9 @@ export const systemMessages = {
     noImage: 'ИЗОБРАЖЕНИЕ НЕ ЗАДАНО',
     inactive: 'НЕАКТИВЕН',
     display: 'ЭКРАН',
+    audio: 'ЗВУК',
+    audioOn: 'ВКЛ',
+    audioOff: 'ВЫКЛ',
   },
   en: {
     terminal: 'PERSONAL INTELLIGENCE TERMINAL',
@@ -38,5 +44,8 @@ export const systemMessages = {
     noImage: 'IMAGE NOT ASSIGNED',
     inactive: 'INACTIVE',
     display: 'DISPLAY',
+    audio: 'AUDIO',
+    audioOn: 'ON',
+    audioOff: 'OFF',
   },
 } satisfies Record<Locale, SystemMessages>;

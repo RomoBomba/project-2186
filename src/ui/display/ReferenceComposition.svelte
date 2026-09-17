@@ -2,7 +2,15 @@
   import SystemGate from '../system/SystemGate.svelte';
   import type { SystemAction } from '../system/menu';
   import type { SavedConfiguration } from '../../core/storage/model';
-  import { tick } from 'svelte';
+  import { tick, getContext } from 'svelte';
+  import {
+    audioContextKey,
+    audioCues,
+    silentAudio,
+    type AudioEngine,
+  } from '../../infrastructure/audio/model';
+  const audio = getContext<AudioEngine>(audioContextKey) ?? silentAudio;
+  import { openSystemAudio } from '../audio/routing';
   import GeometryOverlay from './GeometryOverlay.svelte';
   import type { Layout } from '../setup/model';
   import NeutralPortrait from '../portrait/NeutralPortrait.svelte';
@@ -16,6 +24,7 @@
     locale = defaultLocale,
     layout = 'A',
     onlayoutchange,
+    onaudiotoggle,
     character,
     active,
     reducedMotion,
@@ -23,6 +32,7 @@
     systemConfiguration,
     systemOpen = $bindable(false),
   }: {
+    onaudiotoggle?: () => void;
     systemOpen?: boolean;
     onsystemaction?: (action: SystemAction) => void;
     systemConfiguration?: SavedConfiguration;
@@ -38,19 +48,26 @@
   function openGeometry() {
     if (!active || geometryOpen || systemOpen) return;
     returnFocus = document.activeElement as HTMLElement | null;
+    openSystemAudio(audio);
     geometryOpen = true;
   }
   function closeGeometry(value?: Layout) {
-    if (value) onlayoutchange?.(value);
+    audio.cancel('system');
+    if (value) {
+      onlayoutchange?.(value);
+      audio.play({ type: audioCues.systemConfirm });
+    }
     geometryOpen = false;
     void tick().then(() => returnFocus?.focus({ preventScroll: true }));
   }
   function openSystem() {
     if (!active || geometryOpen || systemOpen) return;
     returnFocus = document.activeElement as HTMLElement | null;
+    openSystemAudio(audio);
     systemOpen = true;
   }
   function systemAction(action: SystemAction) {
+    audio.cancel('system');
     if (action !== 'intelligence') systemOpen = false;
     if (action === 'return')
       void tick().then(() => returnFocus?.focus({ preventScroll: true }));
@@ -91,6 +108,17 @@
           aria-keyshortcuts="F2"
           onclick={openGeometry}>{labels.display} / {layout}</button
         >
+        {#if systemConfiguration && onaudiotoggle}
+          <button
+            type="button"
+            aria-label={labels.audio}
+            aria-pressed={systemConfiguration.audioEnabled}
+            onclick={onaudiotoggle}
+            >{labels.audio} / {systemConfiguration.audioEnabled
+              ? labels.audioOn
+              : labels.audioOff}</button
+          >
+        {/if}
         {#if onsystemaction}<button
             type="button"
             aria-haspopup="dialog"

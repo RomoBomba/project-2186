@@ -1,6 +1,13 @@
 <script lang="ts">
   import NeutralPortrait from '../portrait/NeutralPortrait.svelte';
-  import { onDestroy, tick } from 'svelte';
+  import { onDestroy, tick, getContext } from 'svelte';
+  import {
+    audioContextKey,
+    audioCues,
+    silentAudio,
+    type AudioEngine,
+  } from '../../infrastructure/audio/model';
+  const audio = getContext<AudioEngine>(audioContextKey) ?? silentAudio;
   import { characterIds, type CharacterId } from '../../core/character/id';
   import { intelligenceMessages } from '../../locales/intelligence';
   import type { Layout, SystemConfiguration } from '../setup/model';
@@ -97,6 +104,8 @@
   }
   function confirm(character: CharacterId) {
     if (!active || phase !== 'hold' || model.stage !== 'selection') return;
+    audio.cancel('system');
+    audio.play({ type: audioCues.systemConfirm });
     transition(updateSelection(model, { type: 'confirm', character }));
   }
   function focus(character: CharacterId) {
@@ -113,7 +122,10 @@
       return;
     if (event.key === 'Escape' && oncancel) {
       event.preventDefault();
-      if (!event.repeat) oncancel();
+      if (!event.repeat) {
+        audio.cancel('system');
+        oncancel();
+      }
     } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
       model = updateSelection(model, {

@@ -4,6 +4,15 @@
     type Persistence,
   } from '../../application/persistence';
   import { tick, untrack, getContext } from 'svelte';
+  import {
+    audioContextKey,
+    silentAudio,
+    type AudioEngine,
+  } from '../../infrastructure/audio/model';
+  import { terminalAudio } from '../audio/routing';
+  const audio = getContext<AudioEngine>(audioContextKey) ?? silentAudio;
+  const sound = terminalAudio(audio);
+  let composing = false;
   import { conversationEngine } from '../../application/intelligence';
   import type { CharacterId } from '../../core/character/id';
   import type { Locale } from '../../core/language/locale';
@@ -46,6 +55,7 @@
       untrack(() => locale),
       (next) => {
         session = next;
+        sound.observe(next.state);
       },
       (record) => {
         announcement = `${record.speaker.toUpperCase()} / ${record.text}`;
@@ -60,7 +70,14 @@
         : undefined,
     );
     controller = current;
-    return () => current.cancel();
+    return () => {
+      sound.cancel();
+      current.cancel();
+    };
+  });
+  $effect(() => {
+    sound.setActive(active);
+    if (active) sound.connect(character);
   });
   $effect(() => {
     controller?.setLocale(locale);
@@ -157,7 +174,14 @@
       autocomplete="off"
       spellcheck={false}
       enterkeyhint="send"
+      oncompositionstart={() => {
+        composing = true;
+      }}
+      oncompositionend={() => {
+        composing = false;
+      }}
       onkeydown={(event) => {
+        sound.key(event, composing);
         if (event.key === 'Enter' && (event.isComposing || event.repeat))
           event.preventDefault();
       }}

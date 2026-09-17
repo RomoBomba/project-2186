@@ -89,10 +89,10 @@ authentication or account system. No storage adapter exists in Phase 0.
 
 ## Other explicit boundaries
 
-**AudioEngine** will translate semantic audio events into Web Audio synthesis in
-infrastructure. UI/domain callers should not manipulate oscillators or audio
-contexts. Character motifs and possible future synth instructions are data.
-No audio implementation is included now.
+**AudioEngine** translates typed semantic presentation cues into procedural Web Audio
+in infrastructure as of Phase 10. Components never manipulate oscillators or audio
+contexts; cognition does not invoke audio. Motifs and envelopes are small authored
+data records. See the Phase 10 lifecycle and routing contract below.
 
 **Tool** is a future extension boundary, conceptually `id`, `description`,
 `execute(input)`. Tools such as notes, calculator, archive search, drawing, sound,
@@ -1649,3 +1649,78 @@ than just the first repaired phrase. Identity and negative controls are asserted
 without extra metrics. The final baseline uses the immediately preceding uncommitted
 9B.1 runtime with the same new fixtures/evaluator, not committed 9B. Full results and
 literal manual engine transcripts are in `content/evaluation/9b1-final-report.md`.
+
+## Phase 10 — procedural audio
+
+`infrastructure/audio/model.ts` owns the small AudioEngine interface and typed cues.
+`presets.ts` owns finite tone/envelope data; `web-audio.ts` is the only Web Audio
+adapter. `ui/audio/routing.ts` observes existing presentation events. Core cognition,
+WorkingMemory, ResponseComposition, persistent schemas and SemanticTransmission are
+unchanged. No audio library, samples, generated media assets, worker or new provider
+is introduced. A silent fallback lets component/SSR tests run without an audio device.
+
+App creates one inert engine and passes it through Svelte context. It does not create
+an AudioContext on construction, restoration or enable alone. Capture listeners call
+unlock synchronously on trusted pointerdown/keydown. Confirming ENABLED also requests
+unlock within that choice's user gesture, since the capture listener may have seen
+MUTED. A suspended context is resumed; pending resume calls are coalesced. Rejected
+resume is silent and can be retried by another gesture. Unsupported construction or
+synthesis failure disables this adapter for the session while conversation continues.
+No missed cue is queued while locked, muted, suspended or hidden. Consequently a
+fresh default-muted boot, or a returning boot before any gesture, can be entirely
+silent. Autoplay never changes the visual boot or forces an unlock screen.
+This follows the browser gesture boundary described in
+[Web Audio best practices](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices).
+
+The existing `configuration.audioEnabled` remains the sole persisted preference.
+Restoration and configuration completion synchronize the engine's derived enabled
+state. The audio choice takes effect immediately; disabling cancels active and future
+scheduled notes before returning to the terminal. Enabling uses the same context.
+No transcript, draft, working focus or character runtime is reconstructed. There is
+no volume preference or slider: the master gain is a bounded internal calibration.
+
+| Cue                             | Presentation source                                                |
+| ------------------------------- | ------------------------------------------------------------------ |
+| BOOT_WAKE                       | first power step of the existing boot scheduler                    |
+| BOOT_CHANNEL                    | first initializing step only, not each boot line                   |
+| COMMAND_KEY                     | editable command keydown, excluding shortcuts/modifiers/IME/repeat |
+| COMMAND_SUBMIT                  | accepted ready → forming publication, never rejected/empty input   |
+| INTELLIGENCE_FORMING            | once on that forming transition, no loop                           |
+| TRANSMISSION_START              | first forming → transmitting publication, never each chunk         |
+| SYSTEM_OPEN                     | common F1/F2 or clickable opening path                             |
+| SYSTEM_CONFIRM                  | accepted setup/selection/system action or geometry application     |
+| CHARACTER_CONNECT + CharacterId | first active entry of a mounted working terminal                   |
+
+Terminal audio reads each publication synchronously, so even a short reduced-motion
+transmission cannot lose its start through reactive batching. Hidden/inert terminal
+publications update the audio observer's state silently, without changing the real
+session. Returning from a menu never replays missed cues or the connection motif.
+Character switching/new working session creates a fresh observer. Selecting the same
+already-mounted character does not repeat its motif. Escape/cancel is silent.
+
+Oscillators use the audio clock, with short start/stop envelopes and per-note filters.
+There are no audio setTimeout loops. A scope-tagged set tracks at most six live or
+scheduled voices; excess cues are dropped instead of stealing voices. onended removes
+and disconnects each source, filter and gain. Boot skip/unmount stops its scope before
+cancelling the visual scheduler. Menu opening cancels terminal/motif tails; route
+changes cancel current voices. Component teardown, document hiding and pagehide cancel
+relevant resources; hidden documents cannot start new cues. App teardown closes the
+one context and removes gesture/visibility listeners. Async resume completion does
+not play or recreate anything after mute/disposal.
+
+The amplitude hierarchy is master 0.22 (internal maximum 0.35), UI 0.32, terminal
+0.24, character 0.30, then note envelopes no higher than 0.28. With six bounded voices
+the conservative summed linear peak is below 0.2 even at the maximum master setting.
+This is headroom, not a claim about perceived loudness on arbitrary hardware.
+Key sounds have a 65 ms admission interval based on audio time. Category-based pitch
+(text/space/erase) is deterministic; no random generator, compressor or normalization.
+
+Development only: after enabling audio and interacting normally, the browser console
+can call `window.project2186Audio.inspect()` for status, live voice count, master level
+and the last 16 scheduled cue types (no message content). `preview({ type:
+'CHARACTER_CONNECT', character: 'aura' })` on the same helper previews an authored cue
+through the same enabled/unlocked gate. It does not override mute or autoplay. Nothing
+is rendered inside the artwork and this window helper is absent from production.
+Adapter tests use a fake AudioContext; real boot and communication scheduler tests
+verify cue counts, cancellation, hidden routes, failure fallback and complete responses.
+Physical listening in headphones and on laptop speakers remains author review.
