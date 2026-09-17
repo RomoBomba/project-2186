@@ -1825,3 +1825,100 @@ normal UI displays none of it. Invalid provider text is not logged wholesale.
 The existing benchmark fixtures/metrics remain unchanged. Additional tests run
 every benchmark input and prefix through both original Basic and the adapter for
 all three characters, comparing complete legacy outputs and next WorkingMemory.
+
+## Phase 11B — local language realization
+
+The application provider factory selects `basic` (default) or `local` from
+development configuration. Vite environment access stays in the application
+composition root; provider selection never enters user configuration or IndexedDB.
+Tests use Basic regardless of a local Vite environment override.
+
+`infrastructure/ollama/LocalLLMProvider` implements Phase 11A's RealizationProvider.
+It receives only IntelligenceRequest, not repositories, character runtime or full
+history. An Ollama-specific serializer maps compact voice hints, selected grounds
+and constraints into system authority, with current/recent input in a separate
+untrusted-data message. Memory grounds not permitted for reference are omitted.
+No new cognition, memory decisions or canonical material are delegated to Qwen.
+
+`OllamaTransport` uses native fetch and a loopback-only `/api/chat` endpoint.
+Redirects are rejected. No SDK, backend, cloud endpoint or new runtime dependency
+is introduced. Request settings are fixed to `qwen3:4b-instruct`, `stream:false`,
+`think:false`, temperature 0.25, context 4096, prediction budget 160, keep_alive 10m.
+Replacing transport/serializer later does not change core request/response types.
+
+Request-specific JSON Schema constrains locale, object shape, allowed key enum,
+sentence-array size and optional follow-up availability. Cross-field total length,
+mandatory self qualifications and semantic permission remain subject to Phase 11A
+validation. The path is complete HTTP envelope → verified assistant message.content
+→ JSON.parse → unknown candidate → existing validator → complete accepted response.
+There is no fence repair, regex extraction, token streaming or automatic retry.
+
+The existing application adapter gives Local a 20-second deadline and AbortSignal.
+Connection, model/HTTP, envelope, JSON, validation and timeout failures select Basic
+exactly once. A late model result cannot complete the turn again. Basic's text,
+working-history ownership and SemanticTransmission remain unchanged.
+
+Development inspection captures only the current minimized packet and a whitelisted
+envelope (no thinking/tool/context payload). Browser dev logging is status-only;
+explicit CLI inspection includes the selected text. No telemetry is added.
+`intelligence:compare` runs both realizers on one plan and identical packet contents,
+then advances only the Basic history. `intelligence:local-evaluate` is an opt-in
+live review, separate from deterministic benchmarks/tests. A valid citation remains
+provenance, not proof of semantic entailment: live semantic violations are recorded
+in the review report and do not justify changing cognition or weakening validation.
+
+See [local development](LOCAL_LLM.md) and the [Phase 11B review](../content/evaluation/11b-report.md).
+
+## Phase 11B.1 — bounded grounded realization
+
+Local declares `requiresRealizationSlots`. The application obtains Basic's approved
+ResponseComposition once and memoizes that Basic result for fallback. This is a
+presentation projection, not a second cognition pass; no state transition happens
+inside either realization. Ordinary Basic and Phase 11A injected providers retain
+their original path. Basic wording and cognitive usage remain unchanged.
+
+`RealizationSlot` is plain transient data: stable per-response id, semantic role,
+allowedGroundingKeys, sourceTexts, mayFuse, required, mode and optional memorySource.
+`application/realization-slots.ts` preserves the actual composition order and nucleus.
+Source texts are the already-reviewed composition wording. Multi-sentence units are
+split into sentence slots with the same provenance. Only composition.fusion=parallel
+licenses one two-ground slot; Local cannot decide to fuse other units. Required units
+cannot disappear, move behind a qualification or be replaced by a different ground.
+Questions come only from the approved composition/reply; they are optional copy slots.
+
+Truth/knowledge grounds, policy-only replies, identity/disclosure paths, limitations,
+stance acknowledgements and semantic-memory acknowledgements use copy-only slots.
+For undecomposed replies, Basic's authored sentences are the allowed realization of
+the existing speech-act or memory permission; enum labels are never sentence sources.
+This deliberately trades variation for containment. Current packets carry semantic
+memories only; memorySource=semantic never implies an episode or shared experience.
+No episodic lookup, persistence schema or memory ownership changes are introduced.
+
+The Local wire schema adds required `slotId` to each sentence. Infrastructure strips
+only that field before the unchanged Phase 11A structural validator. After that check,
+the Local guard verifies known/unique/ordered slots, exact per-slot key sets, required
+slots and pre-approved question/fusion boundaries. It returns the neutral response
+only after guard acceptance; otherwise the application reuses the memoized Basic
+answer exactly once. Slot metadata never reaches dialogue or WorkingMemory.
+
+The semantic-risk guard is a small explicit lexical check, **not entailment**:
+
+- new RU/EN strengthening markers absent from the cited slot source are rejected;
+- selected recurring negation/modal/epistemic families must remain present;
+- unsupplied experience patterns and first-person listening/watching experiences
+  are rejected; semantic memories additionally require the authored acknowledgement;
+- internal implementation terms are rejected even if they appear in input;
+- copy-only slots must retain the approved sentence (case/Unicode/spacing normalized).
+
+Marker checks are slot-local. A strong word elsewhere in the packet cannot license
+it here. Explicitly supplied experience wording is not globally banned, but current
+semantic records cannot authorize an episode. The guard can reject safe paraphrases
+and miss inversions or new claims without known markers. It does not solve arbitrary
+negation scope, Russian morphology, world truth or general language understanding.
+
+Inspection separates structural validation, riskValidation and final provider.
+Comparison still checks identical base GroundingPacket/constraints; Local's added
+slots project the same approved Basic composition. The live reviewer now runs 60
+fixed-setting generations. Previous 11B violations are preserved in a test-only
+corpus with A–F failure classes; original outputs are not erased. See the
+[11B.1 report](../content/evaluation/11b1-report.md) for acceptance results and limits.

@@ -19,6 +19,8 @@
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
     "knowledge:check": "node src/infrastructure/knowledge/check.ts",
     "knowledge:build": "node src/infrastructure/knowledge/build-command.ts",
+    "intelligence:local-evaluate": "npm run knowledge:build && node src/infrastructure/intelligence/live-evaluation.ts",
+    "intelligence:compare": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts --compare true",
     "intelligence:inspect": "npm run knowledge:build && node src/infrastructure/intelligence/inspect.ts",
     "memory:inspect": "node src/infrastructure/memory/inspect.ts",
     "intelligence:benchmark": "npm run knowledge:build && node src/infrastructure/evaluation/command.ts"

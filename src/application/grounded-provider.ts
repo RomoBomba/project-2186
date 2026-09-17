@@ -1,4 +1,5 @@
 import type { ProviderInspection } from '../core/intelligence/grounding.ts';
+import { realizationSlots } from './realization-slots.ts';
 import { BasicIntelligenceProvider } from '../core/intelligence/basic.ts';
 import type {
   IntelligenceContext,
@@ -25,7 +26,7 @@ function freeze<T>(value: T): T {
   }
   return value;
 }
-/** Application adapter. No remote implementation exists; injection is dev/test-only today. */
+/** Application adapter: canonical Basic by default; optional contained realization provider. */
 export class GroundedIntelligenceProvider implements IntelligenceProvider {
   private readonly basic = new BasicIntelligenceProvider();
   private readonly timeoutMs: number;
@@ -41,7 +42,13 @@ export class GroundedIntelligenceProvider implements IntelligenceProvider {
     plan: Parameters<IntelligenceProvider['respond']>[1],
     input?: RealizationInput,
   ): Promise<IntelligenceResponse> {
-    const request = freeze(buildIntelligenceRequest(context, plan, input));
+    const draft = buildIntelligenceRequest(context, plan, input);
+    let preparedBasic: IntelligenceResponse | undefined;
+    if (this.provider?.requiresRealizationSlots) {
+      preparedBasic = await this.basic.respond(context, plan);
+      draft.realizationSlots = realizationSlots(draft, preparedBasic);
+    }
+    const request = freeze(draft);
     let fallback: ProviderInspection['fallback'];
     let attemptedValidation: ResponseValidation | undefined;
     if (this.provider) {
@@ -103,7 +110,7 @@ export class GroundedIntelligenceProvider implements IntelligenceProvider {
       }
     }
     // Exactly one canonical realization; late provider completion never reaches the engine.
-    const basic = await this.basic.respond(context, plan);
+    const basic = preparedBasic ?? (await this.basic.respond(context, plan));
     // Legacy Basic has no per-sentence citations. Use a conservative union of its
     // approved grounds, not guessed clause-level attribution. Preserve text/formatting exactly.
     const groundingKeys = request.grounding.material

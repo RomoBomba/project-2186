@@ -58,6 +58,7 @@ export type GroundingPacket = {
   };
 };
 export type IntelligenceRequest = {
+  realizationSlots?: import('./realization-slots.ts').RealizationSlot[];
   grounding: GroundingPacket;
   constraints: {
     maxCharacters: number;
@@ -76,6 +77,7 @@ export type GroundedIntelligenceResponse = {
 };
 /** Future implementations see only the one-response snapshot, not a plan/runtime/store. */
 export interface RealizationProvider {
+  readonly requiresRealizationSlots?: boolean;
   realize(request: IntelligenceRequest, signal: AbortSignal): Promise<unknown>;
 }
 export type RealizationInput = GroundingPacket['untrustedInput'];
