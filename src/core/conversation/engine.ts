@@ -300,6 +300,12 @@ export class ConversationEngine {
         ),
       },
       plan,
+      {
+        currentTurn: message,
+        recentTurns: memory.recentTurns
+          .slice(-2)
+          .map(({ speaker, text }) => ({ speaker, text })),
+      },
     );
     if (!response.text.trim())
       throw new Error('IntelligenceProvider returned no response');

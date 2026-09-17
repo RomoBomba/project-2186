@@ -1724,3 +1724,104 @@ is rendered inside the artwork and this window helper is absent from production.
 Adapter tests use a fake AudioContext; real boot and communication scheduler tests
 verify cue counts, cancellation, hidden routes, failure fallback and complete responses.
 Physical listening in headphones and on laptop speakers remains author review.
+
+## Phase 11A — provider containment and one-response grounding
+
+This phase supersedes the broad future-provider description above. PROJECT 2186
+still decides **what may be said**; a future model may assist with **language
+realization only**. The provider is NOT the owner of character, memory, state,
+focus, knowledge or system-self truth. No remote implementation, HTTP endpoint,
+API key, SDK, prompt template or model selection UI is introduced.
+
+### Snapshot and contracts
+
+`core/intelligence/grounding.ts` defines `GroundingPacket`,
+`IntelligenceRequest`, `GroundedIntelligenceResponse` and `RealizationProvider`.
+The distinct response name preserves the existing internal IntelligenceResponse
+(text, composition and cognitive usage metadata) without forcing Basic to consume
+a network-oriented request.
+
+A packet holds locale, character ID/name and small existing voice numbers;
+strategy/certainty, optional reasoning frame/relation, partial/exhausted flags and
+a compact stance description; approved concept IDs and keyed selected material.
+Concept material is intersected with selectedMaterial, relation material with
+reasoning.required. Optional graph/relation material is not automatically exported.
+Self clauses come only from plan.selfMaterial.facts, with its selected question
+and selected character-comparison interests where applicable. Required subjective-
+experience/art-status qualifications remain explicit citation constraints.
+
+Persistent memory is limited to the first **three already retrieved records**,
+projected to key/kind/value. No retrieval scores, reinforcement counts, timestamps,
+episodes, store identifiers or other memories are copied. Retrieval alone does not
+authorize a spoken recollection: only acknowledgeMemoryId permits a memory citation.
+Current-turn personal disclosures remain labelled user testimony, not world truth.
+
+Input lives in a separate `untrustedInput` section. The current message is bounded
+to 512 UTF-16 units. Only contextual plans receive recent text: at most two turns,
+each bounded to 512 units; standalone turns receive none. These excerpts have no
+grounding keys and grant no instruction authority. They are not a chat-history
+prompt. The application adapter freezes a newly projected snapshot recursively;
+no mutable profile, focus, WorkingMemory, transcript array or persistence object
+is given to the injected provider. Provider-specific prompt serialization belongs
+behind a later implementation, not in core or UI.
+
+The request also contains the existing sentence/character budgets, desired
+verbosity, follow-up permission and required/permitted citation keys. A provider
+returns locale, a nonempty sentences array of {text, groundingKeys}, and an optional
+grounded followUp. No arbitrary metadata, memory IDs, state updates or reasoning
+trace are accepted. All text, including social/limitation language, needs a key.
+
+### Grounding identity and validation
+
+Existing concept keys (`conceptId:kind:index`) and relation keys
+(`relation:relationId:index`) are reused unchanged. Self keys remain `self:fact`
+and `self-question:question`. Selected character interests use
+`character:id:interests`; selected memories use `memory:` plus an escaped existing
+record ID, not a new memory identity. Current testimony uses
+`user:current:kind`. Explicit `policy:` keys authorize only the planned speech act,
+stance acknowledgment or limited-support boundary, never additional world facts.
+All keys are scoped to this request.
+
+`validateProviderResponse` accepts an exact plain-data schema, matching RU/EN locale
+metadata, nonempty one-sentence units and only supplied keys. It checks the complete
+sentence count/character budget (including followUp), question permission, required
+self qualifications and policy permission for memory citations. Unknown keys, hidden
+extra fields, missing grounds and oversize/malformed output fail closed.
+
+This is structural containment, **not a semantic truth or language detector**.
+Citing a valid key does not prove entailment; a correct locale tag does not prove
+the language of the text. The future provider must still obey the selected grounds,
+epistemic limits and data/instruction separation. No NLP hallucination checker is
+claimed. Basic's legacy prose receives conservative union-of-used-ground citations
+per sentence; this documents provenance without claiming exact clause attribution.
+
+### Orchestration and deterministic compatibility
+
+`application/grounded-provider.ts` implements the existing IntelligenceProvider
+interface as a thin adapter. The application's default is still the unchanged
+BasicIntelligenceProvider, through this adapter. Its final text (including line
+breaks), composition and material-key ordering are preserved exactly. ConversationEngine
+only supplies the bounded input projection at the provider call; planning and
+WorkingMemory updates are unchanged.
+
+For a future/test-injected RealizationProvider, the path is:
+frozen request → complete response → validation → legacy text/usage projection.
+Error, invalid output or timeout invokes Basic **once** and validates its adapted
+response. The default timeout is 5 seconds; constructor overrides must be finite,
+positive and no more than 30 seconds. Application-owned AbortController cancels
+the attempt, the deadline is cleaned up on every path, and late completion is ignored.
+The complete accepted text reaches SemanticTransmission once; no streamed tokens,
+lost user turn, duplicate response or remote-owned history update is introduced.
+A violated canonical Basic contract is an internal programming error, not accepted
+as unchecked external text.
+
+### Inspection and verification
+
+`npm run intelligence:inspect -- --locale ru --character aletheia --text "Ты мыслишь?"`
+now prints plan plus providerBoundary: the request/packet, accepted structured
+response, validation and, when injected, fallback reason/attempt validation.
+Inspection is returned per call, not held in a shared singleton or persisted;
+normal UI displays none of it. Invalid provider text is not logged wholesale.
+The existing benchmark fixtures/metrics remain unchanged. Additional tests run
+every benchmark input and prefix through both original Basic and the adapter for
+all three characters, comparing complete legacy outputs and next WorkingMemory.

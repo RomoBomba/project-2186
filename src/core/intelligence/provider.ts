@@ -18,6 +18,7 @@ export type IntelligenceContext = {
   }[];
 };
 export type IntelligenceResponse = {
+  providerInspection?: import('./grounding.ts').ProviderInspection;
   text: string;
   usedMaterialKeys: string[];
   usedMemoryIds?: string[];
@@ -27,5 +28,6 @@ export interface IntelligenceProvider {
   respond(
     context: IntelligenceContext,
     plan: ResponsePlan,
+    input?: import('./grounding.ts').RealizationInput,
   ): Promise<IntelligenceResponse>;
 }
