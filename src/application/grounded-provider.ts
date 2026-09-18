@@ -1,4 +1,6 @@
 import type { ProviderInspection } from '../core/intelligence/grounding.ts';
+import type { PresenceRealizer } from '../core/presence/model.ts';
+import { presenceRequest, validatePresence } from '../core/presence/surface.ts';
 import { realizationSlots } from './realization-slots.ts';
 import { BasicIntelligenceProvider } from '../core/intelligence/basic.ts';
 import type {
@@ -31,7 +33,13 @@ export class GroundedIntelligenceProvider implements IntelligenceProvider {
   private readonly basic = new BasicIntelligenceProvider();
   private readonly timeoutMs: number;
   private readonly provider: RealizationProvider | undefined;
-  constructor(provider?: RealizationProvider, timeoutMs = 5000) {
+  private readonly presence: PresenceRealizer | undefined;
+  constructor(
+    provider?: RealizationProvider,
+    timeoutMs = 5000,
+    presence?: PresenceRealizer,
+  ) {
+    this.presence = presence;
     this.provider = provider;
     if (!Number.isFinite(timeoutMs) || timeoutMs <= 0 || timeoutMs > 30000)
       throw new Error('Provider timeout must be in (0, 30000] ms');
@@ -42,6 +50,44 @@ export class GroundedIntelligenceProvider implements IntelligenceProvider {
     plan: Parameters<IntelligenceProvider['respond']>[1],
     input?: RealizationInput,
   ): Promise<IntelligenceResponse> {
+    if (plan.presence) {
+      const basic = await this.basic.respond(context, plan);
+      if (!this.presence) return basic;
+      const request = freeze(presenceRequest(plan, context));
+      const abort = new AbortController();
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      let validation = 'error';
+      try {
+        const raw = await Promise.race([
+          Promise.resolve().then(() =>
+            this.presence!.realize(request, abort.signal),
+          ),
+          new Promise<never>((_, reject) => {
+            timer = setTimeout(() => {
+              validation = 'timeout';
+              abort.abort();
+              reject(new Error('Presence timeout'));
+            }, 10_000);
+          }),
+        ]);
+        if (validatePresence(raw, request))
+          return {
+            ...basic,
+            text: raw.text,
+            presenceInspection: { provider: 'local', validation: 'accepted' },
+          };
+        validation = 'rejected';
+      } catch {
+        /* Presence is optional; retain the complete deterministic response. */
+      } finally {
+        clearTimeout(timer);
+        abort.abort();
+      }
+      return {
+        ...basic,
+        presenceInspection: { provider: 'deterministic', validation },
+      };
+    }
     const draft = buildIntelligenceRequest(context, plan, input);
     let preparedBasic: IntelligenceResponse | undefined;
     if (this.provider?.requiresRealizationSlots) {

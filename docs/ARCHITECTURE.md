@@ -1980,3 +1980,148 @@ Ollama calls. The same inputs and deterministic prefix exchanges are compared
 within each run. This is a development evaluation in the existing evaluation
 area, not application content. Metrics are exact fixture comparisons, not proof of
 semantic truth; an accepted topic hint still requires author review.
+
+## Phase 11D — conversational presence and temporal self
+
+`ConversationScopeModel` (`core/presence`) derives available localized canonical
+cards, domains, preferred, recent and unused topics. Stable ranking is affinity
+plus 0.15 for a matching profile interest/domain, plus 0.08 for current reasoning
+or proposition focus, minus 0.65 for recent discussion/suggestion and another 0.2
+for the most recent suggestion. Ties use ID.
+An offer selects three actual cards, one primary and two alternatives. It is not
+an encyclopedia catalog and exposes no scores. Broad overview recognition has a
+small restricted operand table; it does not change global matching/morphology.
+An overview uses a core authored claim (summary fallback) and an optional authored
+question. It does not require DEFINE.
+
+`PresencePlan` is separate from concept reasoning and provider prose. Its moves
+are offer_topic, topic_overview, boundary_and_redirect, boundary_and_question,
+temporal_distance, clarify_ambiguity and session_presence. `KnowledgeBoundaryPlan`
+selects missing_knowledge, temporal_distance, archive_gap, ambiguous_question,
+current_external_fact or unsupported_self_claim. Explicit guidance/time intents
+and grounded external-boundary classification precede generic UNKNOWN realization.
+Existing self, disclosure and permitted personal-memory acknowledgments retain
+precedence over a coincidental boundary word. Ordinary grounded reasoning remains
+on its existing path. Known presence intents do not invoke LocalSemanticResolver.
+
+The world constraints live in `world/temporal.ts`, independently of localized
+surface wording. Archive incompleteness does not establish historical nonexistence.
+Temporal distance does not establish that countries or institutions disappeared.
+Absolute historical chronology after the rupture is less reliable than local
+ordering and measurable intervals. The only new general card is philosophy.time;
+three authored relations connect it to change, continuity and memory. Its title
+is “Time and duration” / “Время и длительность”: avoiding the isolated Russian
+preposition-like occurrence “во время” keeps reconstruction queries from drifting.
+The matcher itself is unchanged.
+
+`SystemSelfModel.temporalPresence` receives `SessionObservation` from the terminal
+controller: current connection start, observation time and optional previous
+persisted interaction timestamp. Core reads no clocks. It derives elapsed minutes,
+optional prior interval and exchange order; invalid/backwards observations produce
+no duration claim. The runtime start resets with a new controller/reload, not a
+configuration change. No new timestamps, autobiography or surface preferences are
+persisted. Duration wording is less than a minute, a few minutes (1–4), or about N
+minutes. Ambiguous presence questions distinguish this measurable connection from
+an unknown definitive origin. Measurement does not establish subjective experience.
+
+Deterministic realization lives in `characters/presence.ts` and `core/presence/surface`.
+WorkingMemory holds at most four presence move/style/topic records. Existing bounded
+recent response text prevents immediate realized-text repetition; no second transcript
+is introduced. Nine bounded combinations of three boundary clauses and three question
+forms permit variation, with topic rotation and character-specific redirect language.
+Exhaustion may repeat rather than invent. Temporal factual sentences deliberately
+remain stable. The entire response is complete before SemanticTransmission.
+
+Optional development flag `VITE_PRESENCE_REALIZER=local` enables a separate
+`LocalPresenceRealizer`, independently of factual realization and semantic resolution.
+Production never enables it through this flag. It receives only a PresencePlan,
+selected world constraints and a bounded authored wording lattice, never raw user
+text, transcript or the unknown question. Qwen3 4B Instruct uses think=false,
+stream=false, temperature 0.35, num_ctx=2048, num_predict=96, keep_alive=2m, with
+an application deadline of 10 seconds. The local role can select another permitted
+wording combination; this implementation deliberately does not accept unrestricted
+paraphrases. Exact move, topic IDs, world-frame IDs and membership of the authored
+lattice are validated. Invented facts or identifiers, malformed output, connection
+errors and timeout fall back to deterministic presence. A late result cannot create
+a second exchange. `presenceInspection` reports the path/rejection without UI output.
+This stricter bounded variation is a safety tradeoff, not a claim to validate the
+truth of arbitrary generated language.
+
+The existing `intelligence:benchmark` now also runs the development-only bilingual
+presence cohort (`content/evaluation/presence-cases.ts`); `--details` includes exact
+responses. Metrics measure classification, actual card selection, supplied duration,
+legacy UNKNOWN wording and repetition. The invented-world-fact metric is explicitly
+only a lexical red-flag proxy. Neither it nor classification coverage proves natural
+presence, empathy, subjective experience or literary quality. Phase 11D's comparison
+and all-character review output are recorded in `content/evaluation/phase-11d-report.md`.
+
+## Phase 11D.1 — continuity of conversational moves
+
+`ConversationMoveFocus` (`core/presence/move-focus.ts`) records the system's recent
+conversational action separately from ReasoningFocus (conceptual operation) and
+PropositionFocus (position/stance). It owns a primary suggested concept, up to two
+alternatives, the actual choice ground (profile interest, affinity, current focus
+or available authored material), boundary kind/world-frame IDs, or the reported
+temporal observation. Origin/reference turn and locale bound its interpretation.
+There is no finished response text in this model. It advances only after a completed
+exchange and stays exclusively inside session WorkingMemory.
+
+Closed RU/EN reactions resolve against an actual compatible move: explaining a
+choice, declining it, requesting another, explaining the preceding boundary, or
+asking about experiencing a previously measured interval. This does not create a
+new general semantic interpreter. Strong explicit current concepts take priority;
+explicit guide/self/time intents and proposition reactions retain their existing
+paths. Short compatible move reactions can precede generic reasoning inheritance,
+since “why?” after an offer asks about the offer rather than a prior argument.
+Grounded new reasoning, self answers and greetings clear the old move anchor.
+Unreferenced anchors expire after three completed exchanges. An anchor is local to
+its recorded locale; cross-locale deictic resolution is not added in this pass.
+
+Declining a topic, or asking for another, excludes that primary ID for six completed
+exchanges. At most four rejected IDs are kept; all expire and reset on a new session
+or intelligence switch. Explicit questions about such a concept still use normal
+knowledge retrieval. This is not a dislike, user trait, character change, extraction
+signal or persistent memory. The optional local model cannot select/update these IDs.
+
+`discourseLens` exposes a bounded recognition body and the original discourse markers
+(up to four). Markers are not globally removed: raw text, matcher evidence, proposition
+and context resolution still see the original message. Presence intent/reaction
+recognition uses the lens; a complete explicit DEFINE intent and a bare prefixed
+“why?” also have bounded recognition fallbacks. This handles conversational openings
+without aliases or broad morphology. Reported speech is not peeled. The typo “огда”
+is deliberately not corrected. Temporal subjective follow-ups carry the _previously
+reported_ duration as a reference distinct from the current clock observation.
+
+Offers now speak about one subject using a small grammatical topic-mention resource
+and an actual claim/summary. Alternatives remain structured context, not a list read
+aloud. Only spoken primary suggestions incur recent-suggestion penalties. Explaining
+an offer uses its recorded reason and the selected card, preferring an unused claim
+when available. Rejection can be a single short acknowledgment. Character posture
+comes from the existing profiles and restrained localized resources.
+
+Redirect is optional. Historical/archive frames may legitimately point to archives
+or truth; other boundaries may refer to an actual active/recent thread, not an
+arbitrary favorite. Current external facts such as weather receive a boundary without
+an unrelated topic. Boundary explanations preserve the exact prior kind and allowed
+frames and introduce no new history.
+
+`npm run intelligence:benchmark -- --continuity` runs the author's exact 17-turn
+sequence as one evolving session for each character in RU and EN, plus negative
+controls. The ordinary benchmark also reports its compact metrics without adding
+these rows to historical cognition denominators. Success requires actual referents,
+selected/rejected IDs, grounded card material and temporal observations, not just
+matching a move label. See `content/evaluation/phase-11d1-report.md` for full outputs.
+
+### Optional local presence startup
+
+For author testing, `.env.local` may contain `VITE_PRESENCE_REALIZER=local`; a full
+Vite restart is needed after changing environment settings. The app sends its first
+HTTP `/api/chat` request with `model: qwen3:4b-instruct`. With the Ollama service
+running and that model already installed, loading is the service's responsibility;
+there is no need to run `ollama run` before each PROJECT 2186 session. No shell
+process management or server auto-launch was added. Missing service/model or a cold
+load exceeding the existing 10-second limit yields the deterministic fallback.
+`keep_alive: 2m` retains the model briefly after use. API loading and retention are
+specified in the [Ollama FAQ](https://docs.ollama.com/faq#how-can-i-preload-a-model-into-ollama-to-get-faster-response-times).
+The HTTP contract is tested with a fake transport; it does not prove a real local
+service loaded the model. Phase 11D.1's live-model comparison remains optional.

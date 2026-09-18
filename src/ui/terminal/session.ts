@@ -45,6 +45,9 @@ export function createCommunicationSession(
     save: (value: PersistentCharacter) => void;
   },
 ) {
+  const sessionStartedAt = Date.now();
+  const previousInteractionAt =
+    persistence?.initial.runtime.characterState.lastInteraction;
   let session: CommunicationSession = { state: 'ready', records: [] };
   let characterRuntime =
     persistence?.initial.runtime ??
@@ -126,6 +129,13 @@ export function createCommunicationSession(
           exchangeLocale,
           workingMemory,
           { semantic: priorSemantic, referencedIds, lastReferenceTurn },
+          {
+            startedAt: sessionStartedAt,
+            now: Date.now(),
+            ...(typeof previousInteractionAt === 'number'
+              ? { previousInteractionAt }
+              : {}),
+          },
         )
         .then((result) => {
           if (disposed) return;

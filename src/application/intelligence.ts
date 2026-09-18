@@ -16,6 +16,12 @@ export const conversationEngine = new ConversationEngine(
     ),
     {
       endpoint: import.meta.env?.VITE_OLLAMA_ENDPOINT,
+      presence:
+        import.meta.env?.DEV &&
+        import.meta.env?.MODE !== 'test' &&
+        import.meta.env?.VITE_PRESENCE_REALIZER === 'local'
+          ? 'local'
+          : undefined,
       ...(import.meta.env?.DEV && import.meta.env?.MODE !== 'test'
         ? {
             inspect: (

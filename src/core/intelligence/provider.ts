@@ -4,6 +4,11 @@ import type { Locale } from '../language/locale.ts';
 import type { ResponsePlan } from '../conversation/model.ts';
 import type { SelectedMaterial } from '../conversation/material.ts';
 export type IntelligenceContext = {
+  recentPresenceTexts?: readonly string[];
+  presenceTopics?: readonly {
+    id: import('../knowledge/model.ts').ConceptId;
+    title: string;
+  }[];
   profile: CharacterProfile;
   disposition: BehaviourDisposition;
   locale: Locale;
@@ -18,6 +23,7 @@ export type IntelligenceContext = {
   }[];
 };
 export type IntelligenceResponse = {
+  presenceInspection?: import('../presence/model.ts').PresenceInspection;
   providerInspection?: import('./grounding.ts').ProviderInspection;
   text: string;
   usedMaterialKeys: string[];

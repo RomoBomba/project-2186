@@ -1,3 +1,4 @@
+import { boundaryWords } from '../../characters/presence.ts';
 import { realizationVariants } from '../../characters/realization.ts';
 import { RelationIndex } from '../reasoning/relations.ts';
 import { relationKey } from '../reasoning/model.ts';
@@ -56,9 +57,20 @@ describe('direct authored surface composition', () => {
             if (!usedMaterialKeys.length) {
               expect(result.plan.selectedMaterial).toEqual([]);
               const voice = characterVoices[id][locale];
-              expect([...voice.uncertainty, ...voice.clarification]).toContain(
-                text,
-              );
+              if (result.plan.presence?.boundary) {
+                expect(
+                  boundaryWords[locale][
+                    result.plan.presence.boundary.kind
+                  ].some((phrase) => text.startsWith(phrase)),
+                ).toBe(true);
+                expect(result.response.presenceInspection?.validation).toBe(
+                  'authored',
+                );
+              } else
+                expect([
+                  ...voice.uncertainty,
+                  ...voice.clarification,
+                ]).toContain(text);
               history = result.nextHistory;
               continue;
             }

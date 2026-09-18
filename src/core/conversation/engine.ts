@@ -1,3 +1,8 @@
+import { discourseLens } from '../presence/discourse.ts';
+import { resolveConversationMove } from '../presence/move-focus.ts';
+import { planPresence } from '../presence/plan.ts';
+import { presenceIntent, boundaryKind } from '../presence/intent.ts';
+import type { SessionObservation } from '../self/temporal.ts';
 import {
   semanticEligibility,
   semanticCatalog,
@@ -75,6 +80,7 @@ export class ConversationEngine {
       referencedIds: readonly string[];
       lastReferenceTurn: number;
     },
+    sessionObservation?: SessionObservation,
   ) {
     const memory =
       'history' in workspace
@@ -106,6 +112,21 @@ export class ConversationEngine {
       history.turn,
       explicitEvidence,
     );
+    const discourse = discourseLens(message);
+    if (
+      !followUp.resolved &&
+      discourse.markers.length &&
+      /^(?:почему|why)$/u.test(discourse.body) &&
+      !resolveConversationMove(message, memory, perception, locale)
+    ) {
+      followUp = resolveFollowUp(
+        discourse.body,
+        locale,
+        memory.reasoningFocus,
+        history.turn,
+        explicitEvidence,
+      );
+    }
     const proposition = resolveProposition(
       message,
       locale,
@@ -239,7 +260,12 @@ export class ConversationEngine {
           (id) => !!this.graph.get(id),
         );
     let semanticInspection: SemanticInspection | undefined;
-    if (this.resolver) {
+    if (
+      this.resolver &&
+      !presenceIntent(message) &&
+      !resolveConversationMove(message, memory, perception, locale) &&
+      !boundaryKind(message)
+    ) {
       semanticInspection = {
         deterministic: { perception, plan },
         eligibility: semanticEligibility(
@@ -393,6 +419,21 @@ export class ConversationEngine {
       if (!memoryReferenceBlockers.length && reference)
         plan.acknowledgeMemoryId = reference.id;
     }
+    plan = planPresence(
+      message,
+      plan,
+      perception,
+      this.cards,
+      profile,
+      locale,
+      memory,
+      createSystemSelfModel(
+        profile,
+        longTerm?.semantic,
+        sessionObservation,
+        history.turn,
+      ).temporalPresence,
+    );
     const candidates =
       plan.selfMaterial || plan.reasoning || context.kind
         ? [{ strategy: plan.strategy, weight: 1 }]
@@ -402,6 +443,18 @@ export class ConversationEngine {
       .filter((item) => item !== undefined);
     const response = await this.provider.respond(
       {
+        ...(plan.presence
+          ? {
+              recentPresenceTexts: memory.recentTurns
+                .filter((t) => t.speaker === 'intelligence')
+                .slice(-4)
+                .map((t) => t.text),
+              presenceTopics: plan.presence.selectedTopicIds.flatMap((id) => {
+                const c = this.graph.get(id)?.content[locale];
+                return c ? [{ id, title: c.title }] : [];
+              }),
+            }
+          : {}),
         profile,
         disposition: plan.disposition,
         locale,

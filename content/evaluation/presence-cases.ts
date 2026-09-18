@@ -1,0 +1,81 @@
+/** Development-only Phase 11D cohort; no application imports this file. */
+export const presenceCases = [
+  ['scope', 'О чем ты можешь говорить?', 'What can you talk about?'],
+  ['scope', 'Что тебе известно?', 'What do you know?'],
+  ['offer', 'Предложи тему.', 'Suggest a topic.'],
+  ['offer', 'Что тебе интересно?', 'What interests you?'],
+  ['offer', 'Я не знаю, о чем говорить.', "I don't know what to talk about."],
+  [
+    'overview',
+    'Что ты расскажешь про знания?',
+    'Tell me about knowledge.',
+    'philosophy.knowledge',
+  ],
+  [
+    'overview',
+    'Расскажи о памяти.',
+    'Tell me about memory.',
+    'identity.memory',
+  ],
+  [
+    'overview',
+    'Что можешь сказать о сознании?',
+    'What can you say about consciousness?',
+    'philosophy.consciousness',
+  ],
+  [
+    'overview',
+    'Поговорим о свободе.',
+    "Let's talk about freedom.",
+    'philosophy.freedom',
+  ],
+  [
+    'duration',
+    'Сколько длится наш разговор?',
+    'How long have we been talking?',
+  ],
+  ['ambiguous_duration', 'Сколько ты тут?', 'How long have you been here?'],
+  ['ambiguous_duration', 'Как давно ты здесь?', 'How long have you been here?'],
+  ['origin', 'Когда ты появилась?', 'When were you created?'],
+  ['origin', 'Сколько тебе лет?', 'How old are you?'],
+  [
+    'subjective_time',
+    'Что время значит для тебя?',
+    'What does time mean to you?',
+  ],
+  [
+    'temporal_distance',
+    'Какая столица у Франции?',
+    'What is the capital of France?',
+  ],
+  [
+    'current_external_fact',
+    'Какая сегодня погода?',
+    'What is the weather today?',
+  ],
+  [
+    'archive_gap',
+    'Как звали основателя реконструкции?',
+    'Who started the reconstruction?',
+  ],
+  [
+    'missing_knowledge',
+    'Что такое трансфинитная апперцепция?',
+    'What is transfinite apperception?',
+  ],
+] as const;
+export const manualPresenceInputs = [
+  'Что ты расскажешь про знания?',
+  'О чем ты можешь говорить?',
+  'Предложи тему.',
+  'Что тебе интересно?',
+  'Сколько ты тут?',
+  'Как давно ты здесь?',
+  'Сколько длится наш разговор?',
+  'Когда ты появилась?',
+  'Что такое время?',
+  'Что время значит для тебя?',
+  'Какая столица у Франции?',
+  'Какая сегодня погода?',
+  'Я не знаю, о чем говорить.',
+] as const;

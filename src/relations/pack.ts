@@ -23,6 +23,57 @@ function relation(
 }
 export const authoredRelations: readonly ConceptRelation[] = [
   relation(
+    'time-change',
+    'philosophy.time',
+    'identity.change',
+    [
+      'Изменения позволяют различать события во времени.',
+      'Changes allow events to be distinguished in time.',
+    ],
+    [
+      'Изменение и измерение длительности — не один и тот же процесс.',
+      'Change and the measurement of duration are not the same process.',
+    ],
+    [
+      'Одно наблюдаемое изменение не даёт полной теории времени.',
+      'One observed change does not supply a complete theory of time.',
+    ],
+  ),
+  relation(
+    'time-continuity',
+    'philosophy.time',
+    'identity.continuity',
+    [
+      'Непрерывность связывает разные моменты, не требуя отсутствия изменений.',
+      'Continuity links different moments without requiring an absence of change.',
+    ],
+    [
+      'Порядок моментов и критерий сохранения личности отвечают на разные вопросы.',
+      'The order of moments and the criterion of personal persistence answer different questions.',
+    ],
+    [
+      'Одна длительность не устанавливает личную непрерывность.',
+      'Duration alone does not establish personal continuity.',
+    ],
+  ),
+  relation(
+    'time-memory',
+    'philosophy.time',
+    'identity.memory',
+    [
+      'Память связывает события прошлого с настоящим, но не сохраняет их полностью.',
+      'Memory connects past events with the present without preserving them completely.',
+    ],
+    [
+      'Порядок воспоминаний и порядок произошедших событий могут различаться.',
+      'The order of recollections and the order of events can differ.',
+    ],
+    [
+      'Пробел в воспоминаниях не устанавливает отсутствия прошедшего промежутка.',
+      'A gap in recollection does not establish the absence of an elapsed interval.',
+    ],
+  ),
+  relation(
     'consciousness-memory',
     'philosophy.consciousness',
     'identity.memory',

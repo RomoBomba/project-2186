@@ -1,3 +1,4 @@
+import { discourseLens } from '../presence/discourse.ts';
 import { reasoningIntent } from '../reasoning/intent.ts';
 import type { ReasoningIntent } from '../reasoning/model.ts';
 import {
@@ -167,6 +168,14 @@ function perceiveBase(
 
 export function perceive(...args: Parameters<typeof perceiveBase>): Perception {
   const result = perceiveBase(...args);
-  const intent = reasoningIntent(args[0], args[1]);
+  const direct = reasoningIntent(args[0], args[1]);
+  const lens = discourseLens(args[0]);
+  const prefixed = lens.markers.length
+    ? reasoningIntent(lens.body, args[1])
+    : undefined;
+  // Only a complete explicit definition is recognized through the lens; discourse
+  // and conditionals still reach the original context/proposition resolvers intact.
+  const intent =
+    direct ?? (prefixed?.frame === 'define' ? prefixed : undefined);
   return intent ? { ...result, reasoningIntent: intent } : result;
 }

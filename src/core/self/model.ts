@@ -1,3 +1,8 @@
+import {
+  temporalPresence,
+  type SessionObservation,
+  type TemporalPresence,
+} from './temporal.ts';
 import type { CharacterProfile } from '../character/profile.ts';
 import type { SemanticMemory } from '../memory/long-term.ts';
 import { safeMemoryValue } from '../memory/long-term.ts';
@@ -21,6 +26,7 @@ export type SelfFact =
   | 'unknown_limit';
 // Shared factual architecture, not responses or ConceptCards.
 export type SystemSelfModel = {
+  temporalPresence: TemporalPresence;
   artificialIdentity: 'personal_intelligence_configuration';
   reasoning: readonly [
     'compare_context',
@@ -45,8 +51,11 @@ export type SystemSelfModel = {
 export function createSystemSelfModel(
   profile: CharacterProfile,
   memories: readonly SemanticMemory[] = [],
+  session?: SessionObservation,
+  turn = 0,
 ): SystemSelfModel {
   return {
+    temporalPresence: temporalPresence(session, turn),
     artificialIdentity: 'personal_intelligence_configuration',
     reasoning: ['compare_context', 'connect_alternatives', 'select_response'],
     memory: {

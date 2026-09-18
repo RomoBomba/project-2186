@@ -1,3 +1,4 @@
+import { LocalPresenceRealizer } from '../infrastructure/ollama/presence.ts';
 import { GroundedIntelligenceProvider } from './grounded-provider.ts';
 import {
   LocalLLMProvider,
@@ -16,11 +17,18 @@ export function providerSelection(value?: string): ProviderSelection {
 export function createIntelligenceProvider(
   selection: ProviderSelection = 'basic',
   options: {
+    presence?: 'local' | undefined;
     endpoint?: string | undefined;
     fetcher?: typeof fetch;
     inspect?: (trace: LocalInspection) => void;
   } = {},
 ) {
+  const presence =
+    options.presence === 'local'
+      ? new LocalPresenceRealizer(
+          new OllamaTransport(options.endpoint, options.fetcher),
+        )
+      : undefined;
   return selection === 'local'
     ? new GroundedIntelligenceProvider(
         new LocalLLMProvider(
@@ -28,6 +36,7 @@ export function createIntelligenceProvider(
           options.inspect,
         ),
         localTimeoutMs,
+        presence,
       )
-    : new GroundedIntelligenceProvider();
+    : new GroundedIntelligenceProvider(undefined, 5000, presence);
 }

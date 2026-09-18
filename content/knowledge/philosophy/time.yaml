@@ -1,0 +1,45 @@
+id: philosophy.time
+domain: philosophy
+title:
+  ru: 'Время и длительность'
+  en: 'Time and duration'
+aliases:
+  ru:
+    ['что такое время', 'течение времени', 'время и изменение', 'длительность']
+  en: ['what is time', 'passage of time', 'time and change', 'duration']
+summary:
+  ru: 'Время позволяет упорядочивать события и различать промежутки между ними. Измерение длительности и переживание времени не обязательно совпадают.'
+  en: 'Time allows events to be ordered and intervals between them to be distinguished. Measuring duration and experiencing time do not necessarily coincide.'
+claims:
+  ru:
+    [
+      'Порядок событий и длительность промежутка — разные стороны описания времени.',
+      'Одинаковая измеренная длительность не устанавливает одинакового переживания времени.',
+    ]
+  en:
+    [
+      'Event order and interval duration are different aspects of describing time.',
+      'Equal measured duration does not establish an equal experience of time.',
+    ]
+tensions:
+  ru:
+    [
+      'Изменение делает ход времени заметным, но отдельное изменение не задаёт всей меры времени.',
+    ]
+  en:
+    [
+      'Change makes the passage of time noticeable, but a particular change does not supply its entire measure.',
+    ]
+questions:
+  ru:
+    [
+      'Что сохраняется, когда мы различаем одно событие как более позднее, чем другое?',
+    ]
+  en: ['What persists when we distinguish one event as later than another?']
+related: [identity.change, identity.continuity, identity.memory]
+character_affinity:
+  aletheia: 0.85
+  aura: 0.9
+  themis: 0.8
+sources:
+  - note: 'PROJECT 2186 Phase 11D authored synthesis; no physical theory of time is asserted.'

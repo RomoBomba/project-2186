@@ -1,4 +1,8 @@
 import {
+  advanceConversationMove,
+  type ConversationMoveFocus,
+} from '../presence/move-focus.ts';
+import {
   advanceProposition,
   type PropositionFocus,
 } from '../discourse/proposition.ts';
@@ -25,6 +29,12 @@ export type RecentTurn = {
   strategy?: ResponseStrategy;
 };
 export type WorkingMemory = {
+  conversationMoveFocus?: ConversationMoveFocus;
+  presenceHistory?: {
+    move: import('../presence/model.ts').PresenceMove;
+    style: number;
+    topics: ConceptId[];
+  }[];
   propositionFocus?: PropositionFocus;
   reasoningFocus?: ReasoningFocus;
   history: ResponseHistory;
@@ -106,7 +116,28 @@ export function completeExchange(
     locale,
     reasoningFocus,
   );
+  const conversationMoveFocus = advanceConversationMove(
+    previous.conversationMoveFocus,
+    plan,
+    turn,
+    locale,
+  );
   return {
+    ...(conversationMoveFocus ? { conversationMoveFocus } : {}),
+    ...(plan.presence
+      ? {
+          presenceHistory: [
+            ...(previous.presenceHistory ?? []),
+            {
+              move: plan.presence.move,
+              style: plan.presence.style,
+              topics: plan.presence.selectedTopicIds,
+            },
+          ].slice(-4),
+        }
+      : previous.presenceHistory
+        ? { presenceHistory: previous.presenceHistory }
+        : {}),
     ...(propositionFocus ? { propositionFocus } : {}),
     ...(reasoningFocus ? { reasoningFocus } : {}),
     history,

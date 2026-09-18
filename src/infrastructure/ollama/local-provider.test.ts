@@ -355,7 +355,7 @@ it('a rejected Local slot completes one engine exchange using Basic, without com
     canonicalKnowledge,
     provider,
   ).respond(
-    'Незнакомая тема.',
+    'Что такое память?',
     profile,
     disposition,
     'ru',

@@ -410,7 +410,12 @@ it.each(['aletheia', 'aura', 'themis'] as const)(
           });
         const { providerInspection, ...response } = after.response;
         expect(response, c.id + ': ' + input).toEqual(before.response);
-        expect(providerInspection?.validation.valid, c.id).toBe(true);
+        if (after.plan.presence)
+          expect(after.response.presenceInspection, c.id).toEqual({
+            provider: 'deterministic',
+            validation: 'authored',
+          });
+        else expect(providerInspection?.validation.valid, c.id).toBe(true);
         expect(after.nextMemory, c.id).toEqual(before.nextMemory);
         oldMemory = before.nextMemory;
         newMemory = after.nextMemory;

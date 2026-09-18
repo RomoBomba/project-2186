@@ -433,8 +433,9 @@ describe('Basic Intelligence realization', () => {
       'ru',
       history,
     );
-    expect(weather.response.text).toBe(
-      characterVoices.aletheia.ru.uncertainty[0],
+    expect(weather.plan.presence?.boundary?.kind).toBe('current_external_fact');
+    expect(weather.response.text).toContain(
+      'нет доступа к текущим внешним данным',
     );
     const ordinary = await engine.respond(
       'я сегодня купил хлеб и пошел домой',
@@ -445,8 +446,7 @@ describe('Basic Intelligence realization', () => {
     );
     expect(ordinary.perception.matches).toEqual([]);
     expect(ordinary.plan.selectedMaterial).toEqual([]);
-    expect(ordinary.response.text).toBe(
-      characterVoices.aletheia.ru.clarification[0],
-    );
+    expect(ordinary.plan.presence?.boundary?.kind).toBe('ambiguous_question');
+    expect(ordinary.response.usedMaterialKeys).toEqual([]);
   });
 });

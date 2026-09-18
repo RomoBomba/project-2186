@@ -5,7 +5,7 @@ import {
   type CommunicationSession,
 } from './session';
 import { conversationEngine } from '../../application/intelligence';
-import { characterVoices } from '../../characters/voices';
+import { boundaryWords } from '../../characters/presence';
 afterEach(() => vi.useRealTimers());
 it('rejects empty/oversize input, trims only edges, blocks duplicates and preserves record order', async () => {
   vi.useFakeTimers();
@@ -29,9 +29,9 @@ it('rejects empty/oversize input, trims only edges, blocks duplicates and preser
   expect(state.state).toBe('transmitting');
   expect(session.submit('duplicate during transmission')).toBe(false);
   await vi.runAllTimersAsync();
-  expect(state.records[1]?.text).toBe(
-    characterVoices.aletheia.ru.uncertainty[0],
-  );
+  expect(
+    state.records[1]?.text.startsWith(boundaryWords.ru.missing_knowledge[0]!),
+  ).toBe(true);
   expect(state.state).toBe('ready');
   expect(completed).toHaveBeenCalledTimes(1);
   expect(session.submit('Другой вопрос')).toBe(true);
@@ -42,9 +42,9 @@ it('rejects empty/oversize input, trims only edges, blocks duplicates and preser
     [3, 'user'],
     [4, 'aletheia'],
   ]);
-  expect(state.records[3]?.text).toBe(
-    characterVoices.aletheia.ru.clarification[1],
-  );
+  expect(
+    state.records[3]?.text.startsWith(boundaryWords.ru.ambiguous_question[1]!),
+  ).toBe(true);
 });
 it('cancels session timers and forbids submissions after disposal', async () => {
   vi.useFakeTimers();
@@ -80,9 +80,11 @@ it('supports reduced-motion sessions and exact-limit commands', async () => {
   expect(session.submit('x'.repeat(maximumCommandLength))).toBe(true);
   session.reduceMotion();
   await vi.runAllTimersAsync();
-  expect(complete.mock.calls[0]?.[0].text).toBe(
-    characterVoices.themis.en.clarification[0],
-  );
+  expect(
+    complete.mock.calls[0]?.[0].text.startsWith(
+      boundaryWords.en.ambiguous_question[0]!,
+    ),
+  ).toBe(true);
 });
 
 it.each(['aletheia', 'aura', 'themis'] as const)(
@@ -108,7 +110,10 @@ it.each(['aletheia', 'aura', 'themis'] as const)(
     );
     expect(received.relationshipState).toEqual(initial.relationshipState);
     await vi.advanceTimersToNextTimerAsync();
-    expect(session.inspectCharacter().characterState.activity).toBe('thinking');
+    // A one-chunk boundary may complete on the first transmission tick.
+    expect(session.inspectCharacter().characterState.activity).toBe(
+      visible.state === 'ready' ? 'idle' : 'thinking',
+    );
     await vi.runAllTimersAsync();
     const completed = session.inspectCharacter();
     expect(completed.characterState.activity).toBe('idle');
@@ -118,18 +123,22 @@ it.each(['aletheia', 'aura', 'themis'] as const)(
     expect(completed.relationshipState.trust).toBe(
       initial.relationshipState.trust,
     );
-    expect(visible.records[1]?.text).toBe(
-      characterVoices[id].ru.uncertainty[0],
-    );
+    expect(
+      visible.records[1]?.text.startsWith(
+        boundaryWords.ru.missing_knowledge[0]!,
+      ),
+    ).toBe(true);
     expect(visible.state).toBe('ready');
     expect(Object.keys(visible)).toEqual(['state', 'records']);
     completed.characterState.energy = 0;
     expect(session.inspectCharacter().characterState.energy).toBeGreaterThan(0);
     session.submit('Ещё один вопрос.');
     await vi.runAllTimersAsync();
-    expect(visible.records[3]?.text).toBe(
-      characterVoices[id].ru.clarification[1],
-    );
+    expect(
+      visible.records[3]?.text.startsWith(
+        boundaryWords.ru.ambiguous_question[1]!,
+      ),
+    ).toBe(true);
     const beforeInvalid = session.inspectCharacter();
     session.submit('  ');
     expect(session.inspectCharacter()).toEqual(beforeInvalid);
@@ -283,4 +292,34 @@ it('commits working memory after transmission, carries a follow-up, and resets i
   session.cancel();
   await vi.runAllTimersAsync();
   expect(session.inspectWorkingMemory().history.turn).toBe(3);
+});
+it('uses the active connection clock and resets duration only on a new session', async () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(1000000);
+  let current: CommunicationSession = { state: 'ready', records: [] };
+  const session = createCommunicationSession(
+    'aura',
+    'ru',
+    (s) => (current = s),
+    () => {},
+    conversationEngine,
+  );
+  vi.setSystemTime(1420000);
+  session.submit('Сколько длится наш разговор?');
+  await vi.runAllTimersAsync();
+  expect(current.records[1]?.text).toBe('Этот разговор длится примерно 7 мин.');
+  expect(session.inspectWorkingMemory().recentTurns).toHaveLength(2);
+  session.cancel();
+  const next = createCommunicationSession(
+    'aura',
+    'ru',
+    (s) => (current = s),
+    () => {},
+    conversationEngine,
+  );
+  expect(next.inspectWorkingMemory().recentTurns).toEqual([]);
+  next.submit('Сколько длится наш разговор?');
+  await vi.runAllTimersAsync();
+  expect(current.records[1]?.text).toBe('Этот разговор длится меньше минуты.');
+  next.cancel();
 });

@@ -1,3 +1,4 @@
+import { realizePresence } from '../presence/surface.ts';
 import { composeResponse } from './composition.ts';
 import { partialBoundary } from '../../characters/reasoning.ts';
 import { relationKey } from '../reasoning/model.ts';
@@ -20,6 +21,7 @@ export class BasicIntelligenceProvider implements IntelligenceProvider {
     context: IntelligenceContext,
     plan: ResponsePlan,
   ): Promise<IntelligenceResponse> {
+    if (plan.presence) return realizePresence(plan, context);
     return composeResponse(context, plan, await this.realize(context, plan));
   }
   private async realize(

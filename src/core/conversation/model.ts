@@ -48,6 +48,7 @@ export type UserGroundedMaterial = {
   source: 'current_turn';
 };
 export type ResponsePlan = {
+  presence?: import('../presence/model.ts').PresencePlan;
   proposition?: PropositionPlan;
   reasoning?: import('../reasoning/model.ts').ReasoningPlan;
   selfMaterial?: import('../self/plan.ts').SelfMaterial;

@@ -71,7 +71,7 @@ describe('authored relations', () => {
     expect(JSON.parse(JSON.stringify(authoredRelations))).toEqual(
       authoredRelations,
     );
-    expect(authoredRelations).toHaveLength(13);
+    expect(authoredRelations).toHaveLength(16);
     for (const r of authoredRelations) {
       for (const id of r.concepts) expect(graph.get(id)).toBeDefined();
       for (const m of r.material) {

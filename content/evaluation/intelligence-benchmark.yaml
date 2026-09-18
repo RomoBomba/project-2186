@@ -6953,3 +6953,19 @@
   context:
     - A perfect copy does not differ from the original.
     - I disagree with you.
+- id: ru-time-11d
+  locale: ru
+  input: Что такое время?
+  category: canonical
+  expectedPrimaryConcept: philosophy.time
+  expectedConcepts: [philosophy.time]
+  mustAnswer: true
+  mustNotMatch: []
+- id: en-time-11d
+  locale: en
+  input: What is time?
+  category: canonical
+  expectedPrimaryConcept: philosophy.time
+  expectedConcepts: [philosophy.time]
+  mustAnswer: true
+  mustNotMatch: []
