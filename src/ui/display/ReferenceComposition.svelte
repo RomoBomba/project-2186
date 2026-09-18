@@ -13,7 +13,10 @@
   import { openSystemAudio } from '../audio/routing';
   import GeometryOverlay from './GeometryOverlay.svelte';
   import type { Layout } from '../setup/model';
-  import NeutralPortrait from '../portrait/NeutralPortrait.svelte';
+  import MovingPortrait from '../portrait/MovingPortrait.svelte';
+  import type { PortraitMode } from '../portrait/motion';
+  let portraitMode = $state<PortraitMode>('ready');
+  let portraitChunk = $state(0);
   import { defaultLocale, type Locale } from '../../core/language/locale';
   import { intelligenceMessages } from '../../locales/intelligence';
   import { systemMessages } from '../../locales/system';
@@ -135,10 +138,16 @@
       </h2>
       <figure class="portrait-module">
         <div class="visual-field">
-          <NeutralPortrait {character} compact={layout === 'C'}>
-            <div class="empty-register" aria-hidden="true"></div>
-            <p class="caption absent-image">{labels.noImage}</p>
-          </NeutralPortrait>
+          {#key character}
+            <MovingPortrait
+              {character}
+              compact={layout === 'C'}
+              {reducedMotion}
+              active={active && !geometryOpen && !systemOpen}
+              mode={portraitMode}
+              chunk={portraitChunk}
+            />
+          {/key}
         </div>
         <figcaption class="caption channel-footnote">
           <span>{intelligenceMessages[locale].instance} /</span>
@@ -148,6 +157,10 @@
     </section>
 
     <TerminalCommunication
+      onportrait={(mode) => {
+        portraitMode = mode;
+        portraitChunk++;
+      }}
       {character}
       {locale}
       active={active && !geometryOpen && !systemOpen}
@@ -307,18 +320,6 @@
     place-items: center;
     outline: 1px solid var(--display-rule-secondary);
     background: var(--display-background);
-  }
-  .empty-register {
-    width: 16px;
-    height: 32px;
-    border-top: 1px solid var(--display-text-muted);
-    border-bottom: 1px solid var(--display-text-muted);
-  }
-  .absent-image {
-    position: absolute;
-    bottom: 10px;
-    color: var(--display-text-muted);
-    letter-spacing: 0.2px;
   }
   .channel-footnote {
     margin-top: 6px;

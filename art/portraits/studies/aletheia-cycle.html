@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+  <meta charset="utf-8" />
+  <title>ALETHEIA — проверка состояний</title>
+  <style>
+    body {
+      background: #17212b;
+      color: #c2d5df;
+      font: 14px monospace;
+      padding: 24px;
+    }
+    img {
+      width: 144px;
+      height: 180px;
+      image-rendering: pixelated;
+    }
+    section {
+      display: flex;
+      gap: 32px;
+    }
+    figure {
+      margin: 0;
+    }
+    figcaption {
+      margin: 8px 0;
+    }
+    button {
+      margin: 16px 8px 16px 0;
+    }
+  </style>
+  <h1>ALETHEIA / STATE REVIEW</h1>
+  <section>
+    <figure>
+      <img id="reference" alt="Neutral" />
+      <figcaption>NEUTRAL</figcaption>
+    </figure>
+    <figure>
+      <img id="cycle" alt="Проверяемое состояние" />
+      <figcaption id="label"></figcaption>
+    </figure>
+  </section>
+  <button id="play">Пауза</button
+  ><button id="next">Следующий кадр</button>
+  <p>
+    neutral → thinking → transmit-a → transmit-b → transmit-a → transmit-b →
+    neutral
+  </p>
+  <div id="motion-review"></div>
+  <script type="module">
+    import { mount } from 'svelte';
+    import MotionReview from '/src/ui/portrait/MotionReview.svelte';
+    if (import.meta.env.DEV)
+      mount(MotionReview, { target: document.querySelector('#motion-review') });
+    import { portraitSource } from '/src/ui/portrait/states.ts';
+    const states = [
+      'neutral',
+      'thinking',
+      'transmit-a',
+      'transmit-b',
+      'transmit-a',
+      'transmit-b',
+      'neutral',
+    ];
+    for (const state of new Set(states)) {
+      const img = new Image();
+      img.src = portraitSource('aletheia', state);
+    }
+    const target = document.querySelector('#cycle');
+    document.querySelector('#reference').src = portraitSource('aletheia');
+    let index = 0,
+      playing = true;
+    function render() {
+      target.src = portraitSource('aletheia', states[index]);
+      document.querySelector('#label').textContent = states[index];
+    }
+    function step() {
+      index = (index + 1) % states.length;
+      render();
+    }
+    document.querySelector('#next').onclick = step;
+    document.querySelector('#play').onclick = (event) => {
+      playing = !playing;
+      event.target.textContent = playing ? 'Пауза' : 'Продолжить';
+    };
+    setInterval(() => {
+      if (playing) step();
+    }, 900);
+    render();
+  </script>
+</html>

@@ -2125,3 +2125,49 @@ load exceeding the existing 10-second limit yields the deterministic fallback.
 specified in the [Ollama FAQ](https://docs.ollama.com/faq#how-can-i-preload-a-model-into-ollama-to-get-faster-response-times).
 The HTTP contract is tested with a fake transport; it does not prove a real local
 service loaded the model. Phase 11D.1's live-model comparison remains optional.
+
+## Phase 12A.1 — sparse ALETHEIA portrait motion
+
+`ui/portrait/motion.ts` is the single presentation controller. It observes terminal
+`ready/forming/transmitting` publications through a UI callback; repeated transmitting
+publications are semantic-chunk opportunities. No domain event, cognition, persistence,
+SemanticTransmission timing or response availability waits for portrait movement.
+Selection still uses NeutralPortrait. The active terminal uses MovingPortrait, keyed
+by CharacterId and destroyed with the working terminal. AURA/THEMIS remain neutral.
+
+All five ALETHEIA sources are decoded through browser Image.decode before enabling
+motion. Startup displays neutral independently. A failure leaves neutral usable;
+a later mount may retry. The shared promise deduplicates loads. Two co-registered
+image layers keep the current image opaque while the decoded incoming layer fades
+in; only then is it committed. Width/height, fill positioning, clipping and pixelated
+rendering are identical across frames, including compact Layout C.
+
+Aletheia's UI-only profile starts forming after 190ms, fades in over 140ms and holds
+thinking for at least 300ms after its nominal fade completion before transmission.
+An 80ms forming interval skips thinking. Thinking has no loop. Transmission starts
+on A, with the first optional change eligible after 700–1000ms. Later opportunities
+are spaced 800–1400ms apart and accepted with probability .45, only when a semantic
+chunk arrives. A short reply can have no alternation. Ready settles after 220–400ms
+and fades to neutral over 160ms. This affects the portrait only.
+
+Idle blinks are scheduled at 5.5–11 seconds, with .15 probability of 12–16 seconds.
+Entry/closed/exit are 50/100/65ms, plus a 20ms layer preparation tick per fade.
+A .04 chance permits one double blink after 300–480ms; never a recursive burst.
+Blink occurs only in idle; a new lifecycle invalidates it. Idle micro settle points
+occur 14–24 seconds apart, with bounds ±.5px / ±.35px / ±.15deg and a 2200ms container
+transition. No scaling, breathing, continuous CSS animation, image filtering or audio
+coupling. Transmission returns the container to its stable origin.
+
+All scheduled callbacks share a generation guard and timer registry. Mode changes,
+visibility/reduced-motion changes and destruction invalidate obsolete callbacks.
+Unmount removes document/media listeners; late decode completion cannot update a dead
+component. Hidden/inactive surfaces cancel motion and resume a stable current mode,
+without catch-up. Reduced motion disables blink, drift, alternation and opacity fades;
+semantic state changes remain, with the same anti-flash forming/settling guards.
+
+The existing `art/portraits/studies/aletheia-cycle.html` now mounts a DEV-only
+MotionReview using the real component/controller, with lifecycle, reduced-motion and
+active controls. Its 350ms simulated chunk opportunity is inspection-only. A bounded
+16-entry `data-portrait-history` exists only in DEV for observing short transitions;
+it is neither visible artwork nor persisted state. Production has no debug controls.
+Tests use fake timers, injected randomness/clock and a fake Image decoder.

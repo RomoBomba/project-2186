@@ -1,27 +1,22 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { CharacterId } from '../../core/character/id';
-  import aletheiaNeutral from '../../assets/portraits/aletheia/neutral.png';
-  import auraNeutral from '../../assets/portraits/aura/neutral.png';
-  import themisNeutral from '../../assets/portraits/themis/neutral.png';
+  import { portraitSource, type PortraitState } from './states';
 
-  const portraits: Partial<Record<CharacterId, string>> = {
-    aletheia: aletheiaNeutral,
-    aura: auraNeutral,
-    themis: themisNeutral,
-  };
   let {
     character,
+    state = 'neutral',
     decorative = false,
     compact = false,
     children,
   }: {
     character: CharacterId | undefined;
+    state?: PortraitState;
     decorative?: boolean;
     compact?: boolean;
     children: Snippet;
   } = $props();
-  const source = $derived(character ? portraits[character] : undefined);
+  const source = $derived(portraitSource(character, state));
 </script>
 
 {#if source}

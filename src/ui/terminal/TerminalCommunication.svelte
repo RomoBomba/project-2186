@@ -28,11 +28,13 @@
     locale,
     active,
     reducedMotion,
+    onportrait,
   }: {
     character: CharacterId;
     locale: Locale;
     active: boolean;
     reducedMotion: boolean;
+    onportrait?: (mode: CommunicationSession['state']) => void;
   } = $props();
   const persistence = getContext<Persistence | undefined>(persistenceContext);
   let session = $state<CommunicationSession>({ state: 'ready', records: [] });
@@ -48,6 +50,7 @@
 
   $effect(() => {
     session = { state: 'ready', records: [] };
+    untrack(() => onportrait?.('ready'));
     command = '';
     announcement = '';
     const current = createCommunicationSession(
@@ -55,6 +58,7 @@
       untrack(() => locale),
       (next) => {
         session = next;
+        onportrait?.(next.state);
         sound.observe(next.state);
       },
       (record) => {

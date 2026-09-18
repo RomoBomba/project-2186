@@ -546,3 +546,14 @@ enabling permits future cues only. Conversation state remains untouched.
 
 Phase 10 implements no ambient bed. A possible future optional AMBIENT layer
 would be separate from these event/system cues; silence remains part of the interface.
+
+### ALETHEIA sparse presence — Phase 12A.1
+
+The approved five still assets remain unchanged. Only the active ALETHEIA terminal
+uses sparse motion: delayed steady thinking, restrained event-gated transmit changes,
+short idle blinks and occasional tiny container settle points. Selection and other
+characters remain still. Two aligned opaque/incoming layers prevent a fade through
+the background. A/B remain 144×180; C remains 72×90. No label or terminal geometry moves.
+Reduced motion uses simple semantic state changes with no decorative blink, drift or
+transmit alternation. Background tabs do not accumulate or replay movement. No mouth
+animation, video, CRT effects or audio coupling is introduced.
