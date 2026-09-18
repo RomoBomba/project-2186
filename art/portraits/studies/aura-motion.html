@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+  <meta charset="utf-8" />
+  <title>AURA / MOTION REVIEW</title>
+  <style>
+    body {
+      background: #07131b;
+      color: #d8d6b8;
+      font: 14px monospace;
+      padding: 24px;
+    }
+    button {
+      margin: 12px 8px 12px 0;
+    }
+  </style>
+  <div id="review"></div>
+  <script type="module">
+    import { mount } from 'svelte';
+    import MotionReview from '../../../src/ui/portrait/MotionReview.svelte';
+    if (import.meta.env.DEV)
+      mount(MotionReview, {
+        target: document.getElementById('review'),
+        props: { character: 'aura' },
+      });
+  </script>
+</html>

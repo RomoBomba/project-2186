@@ -1,3 +1,5 @@
+import type { CharacterId } from '../../core/character/id';
+import { motionProfiles } from './profiles';
 import { portraitSource, type PortraitState } from './states';
 const states: PortraitState[] = [
   'neutral',
@@ -6,20 +8,26 @@ const states: PortraitState[] = [
   'transmit-a',
   'transmit-b',
 ];
-let decoded: Promise<boolean> | undefined;
-export function preloadAletheia(): Promise<boolean> {
-  return (decoded ??= Promise.all(
+const decoded = new Map<CharacterId, Promise<boolean>>();
+export function preloadPortrait(character: CharacterId): Promise<boolean> {
+  if (!motionProfiles[character]) return Promise.resolve(false);
+  const existing = decoded.get(character);
+  if (existing) return existing;
+  const pending = Promise.all(
     states.map(async (state) => {
       const image = new Image();
-      image.src = portraitSource('aletheia', state)!;
+      image.src = portraitSource(character, state)!;
       await image.decode();
       return image;
     }),
   ).then(
     () => true,
     () => {
-      decoded = undefined;
+      decoded.delete(character);
       return false;
     },
-  ));
+  );
+  decoded.set(character, pending);
+  return pending;
 }
+export const preloadAletheia = () => preloadPortrait('aletheia');

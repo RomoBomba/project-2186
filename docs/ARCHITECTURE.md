@@ -1944,3 +1944,26 @@ removed. There is no model service or network dependency. Deterministic inspecti
 and benchmarks remain. FORMING, authored SemanticTransmission rhythm, portrait
 activity, character state, conversation continuity and IndexedDB persistence remain.
 The model-specific adaptive first-fragment delay was removed.
+
+## AURA portrait motion profile
+
+`ui/portrait/profiles.ts` holds presentation-only calibration for ALETHEIA and
+AURA. The shared timer/cancellation/two-layer controller is unchanged in ownership;
+ALETHEIA's previous numeric values are retained. THEMIS has no motion profile.
+`preloadPortrait` caches decoding per character; any failed decode leaves neutral
+available and permits retry on a later mount. Character-keyed portrait mounts
+cancel old timers and load the selected profile independently.
+
+AURA uses 4.5–9s idle blink intervals, with 15% longer 10–14s gaps and a 5% chance
+of one double blink. Blink entry/hold/exit remain 50/100/65ms. Thinking starts after
+200ms with a 180ms fade and 300ms minimum hold; its fixed .15px/.3px offset does
+not oscillate. Transmission enters A with a 150ms fade. Chunk-driven B opportunities
+start after 500–850ms and later 650–1200ms, with .5 acceptance probability.
+B fades in/out over 130ms and holds only 350–550ms before returning to A even
+without another chunk. A fresh opportunity interval starts after that return,
+so A dominates. All B-return timers use the existing lifecycle generation guard.
+Ready settles after 260–420ms with a 190ms fade. Idle settle points are 10–18s
+apart, bounded by ±.65px/±.45px/±.2°, with a 2400ms container transition.
+Reduced motion disables blinking, offsets/drift, alternation and fades uniformly;
+semantic state transitions remain. No cognition, audio or text timing depends on
+portrait motion.

@@ -2,7 +2,8 @@
   import { onMount, untrack } from 'svelte';
   import type { CharacterId } from '../../core/character/id';
   import { portraitSource } from './states';
-  import { preloadAletheia } from './preload';
+  import { preloadPortrait } from './preload';
+  import { motionProfiles } from './profiles';
   import {
     createPortraitMotion,
     stillFrame,
@@ -39,8 +40,8 @@
       });
     });
     controller = motion;
-    if (character === 'aletheia')
-      void preloadAletheia().then((ready) => {
+    if (motionProfiles[character])
+      void preloadPortrait(character).then((ready) => {
         if (alive) loaded = ready;
       });
     const media = matchMedia('(prefers-reduced-motion: reduce)');
@@ -60,7 +61,8 @@
   });
   $effect(() => {
     controller?.configure({
-      enabled: loaded && character === 'aletheia',
+      profile: motionProfiles[character],
+      enabled: loaded && !!motionProfiles[character],
       reduced: reducedMotion || mediaReduced,
       visible: visible && active,
     });
@@ -82,7 +84,7 @@
     style:transform="translate({frame.x}px, {frame.y}px) rotate({frame.rotation}deg)"
     style:transition={reducedMotion || mediaReduced
       ? 'none'
-      : 'transform 2200ms ease-in-out'}
+      : `transform ${motionProfiles[character]?.settleDuration ?? 2200}ms ease-in-out`}
   >
     <img
       src={portraitSource(character, frame.current)}

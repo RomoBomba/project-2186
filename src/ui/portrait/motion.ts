@@ -1,3 +1,4 @@
+import { aletheiaMotion, type MotionProfile } from './profiles';
 import type { PortraitState } from './states';
 export type PortraitMode = 'ready' | 'forming' | 'transmitting';
 export type MotionFrame = {
@@ -17,22 +18,13 @@ export const stillFrame = (): MotionFrame => ({
   y: 0,
   rotation: 0,
 });
-// Presentation-only calibration. Other characters deliberately have no motion profile yet.
-export const aletheiaMotion = {
-  formingDelay: 190,
-  thinkingHold: 300,
-  thinkingFade: 140,
-  transmitFade: 120,
-  neutralFade: 160,
-  blinkIn: 50,
-  blinkHold: 100,
-  blinkOut: 65,
-};
+export { aletheiaMotion } from './profiles';
 export function createPortraitMotion(
   publish: (frame: MotionFrame) => void,
   random = Math.random,
   now = Date.now,
 ) {
+  let profile = aletheiaMotion;
   let frame = stillFrame();
   let mode: PortraitMode = 'ready';
   let enabled = false,
@@ -99,32 +91,35 @@ export function createPortraitMotion(
   }
   function blink(double = false) {
     if (mode !== 'ready') return;
-    show('blink', aletheiaMotion.blinkIn, () =>
-      later(aletheiaMotion.blinkHold, () =>
-        show('neutral', aletheiaMotion.blinkOut, () => {
-          if (!double && random() < 0.04)
-            later(between(300, 480), () => blink(true));
+    show('blink', profile.blinkIn, () =>
+      later(profile.blinkHold, () =>
+        show('neutral', profile.blinkOut, () => {
+          if (!double && random() < profile.doubleBlinkChance)
+            later(between(...profile.doubleBlinkGap), () => blink(true));
           else scheduleBlink();
         }),
       ),
     );
   }
   function scheduleBlink() {
-    later(random() < 0.15 ? between(12000, 16000) : between(5500, 11000), () =>
-      blink(),
+    later(
+      random() < profile.longBlinkChance
+        ? between(...profile.longBlinkInterval)
+        : between(...profile.blinkInterval),
+      () => blink(),
     );
   }
   function drift() {
-    later(between(14000, 24000), () => {
+    later(between(...profile.driftInterval), () => {
       if (frame.next || frame.current === 'blink') {
         drift();
         return;
       }
       frame = {
         ...frame,
-        x: between(-0.5, 0.5),
-        y: between(-0.35, 0.35),
-        rotation: between(-0.15, 0.15),
+        x: between(-profile.driftX, profile.driftX),
+        y: between(-profile.driftY, profile.driftY),
+        rotation: between(-profile.driftRotation, profile.driftRotation),
       };
       draw();
       drift();
@@ -137,25 +132,27 @@ export function createPortraitMotion(
       return;
     }
     if (mode === 'forming') {
-      later(aletheiaMotion.formingDelay, () => {
-        thinkingAt = now() + (reduced ? 0 : aletheiaMotion.thinkingFade + 20);
-        show('thinking', aletheiaMotion.thinkingFade);
+      later(profile.formingDelay, () => {
+        thinkingAt = now() + (reduced ? 0 : profile.thinkingFade + 20);
+        if (!reduced && profile.thinkingOffset.some(Boolean)) {
+          const [x, y, rotation] = profile.thinkingOffset;
+          frame = { ...frame, x, y, rotation };
+        }
+        show('thinking', profile.thinkingFade);
       });
     } else if (mode === 'transmitting') {
-      const delay = Math.max(
-        0,
-        thinkingAt + aletheiaMotion.thinkingHold - now(),
-      );
+      const delay = Math.max(0, thinkingAt + profile.thinkingHold - now());
       later(delay, () => {
         frame = { ...frame, x: 0, y: 0, rotation: 0 };
-        show('transmit-a', aletheiaMotion.transmitFade);
-        nextTransmitAt = now() + between(700, 1000);
+        show('transmit-a', profile.transmitFade);
+        nextTransmitAt = now() + between(...profile.firstTransmit);
       });
     } else {
-      const settle = frame.current === 'neutral' ? 0 : between(220, 400);
+      const settle =
+        frame.current === 'neutral' ? 0 : between(...profile.settle);
       later(settle, () => {
         frame = { ...frame, x: 0, y: 0, rotation: 0 };
-        show('neutral', aletheiaMotion.neutralFade, () => {
+        show('neutral', profile.neutralFade, () => {
           if (!reduced) {
             scheduleBlink();
             drift();
@@ -167,18 +164,21 @@ export function createPortraitMotion(
   draw();
   return {
     configure(options: {
+      profile?: MotionProfile | undefined;
       enabled: boolean;
       reduced: boolean;
       visible: boolean;
     }) {
       if (
         disposed ||
-        (enabled === options.enabled &&
+        (profile === (options.profile ?? aletheiaMotion) &&
+          enabled === options.enabled &&
           reduced === options.reduced &&
           visible === options.visible)
       )
         return;
       cancel();
+      profile = options.profile ?? aletheiaMotion;
       enabled = options.enabled;
       reduced = options.reduced;
       visible = options.visible;
@@ -208,13 +208,25 @@ export function createPortraitMotion(
         !reduced &&
         !frame.next &&
         now() >= nextTransmitAt &&
-        frame.current.startsWith('transmit-')
+        frame.current.startsWith('transmit-') &&
+        !(profile.alternateHold && frame.current === 'transmit-b')
       ) {
-        nextTransmitAt = now() + between(800, 1400);
-        if (random() < 0.45)
+        nextTransmitAt = now() + between(...profile.laterTransmit);
+        if (random() < profile.alternateChance)
           show(
             frame.current === 'transmit-a' ? 'transmit-b' : 'transmit-a',
-            100,
+            profile.alternateFade,
+            profile.alternateHold
+              ? () => {
+                  if (frame.current !== 'transmit-b') return;
+                  later(between(...profile.alternateHold!), () => {
+                    show('transmit-a', profile.alternateFade, () => {
+                      nextTransmitAt =
+                        now() + between(...profile.laterTransmit);
+                    });
+                  });
+                }
+              : undefined,
           );
       }
     },

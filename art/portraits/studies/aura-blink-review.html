@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+  <meta charset="utf-8" />
+  <title>AURA — neutral / blink review</title>
+  <style>
+    body {
+      background: #07131b;
+      color: #d8d6b8;
+      font: 14px monospace;
+      padding: 32px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: start;
+    }
+    figure {
+      flex: 0 0 auto;
+      margin: 0;
+    }
+    figcaption {
+      margin-top: 12px;
+    }
+    img {
+      width: 144px;
+      height: 180px;
+      image-rendering: pixelated;
+    }
+    .cycle {
+      position: relative;
+      width: 144px;
+      height: 180px;
+    }
+    .cycle img {
+      position: absolute;
+      inset: 0;
+    }
+    .cycle .blink {
+      animation: blink 3s infinite;
+    }
+    @keyframes blink {
+      0%,
+      40%,
+      55%,
+      100% {
+        opacity: 0;
+      }
+      43%,
+      51% {
+        opacity: 1;
+      }
+    }
+  </style>
+  <h1>AURA / BLINK — проверка состояния</h1>
+  <div class="row">
+    <figure>
+      <img
+        src="../../../src/assets/portraits/aura/neutral.png"
+        alt="AURA neutral"
+      />
+      <figcaption>NEUTRAL</figcaption>
+    </figure>
+    <figure>
+      <img
+        src="../../../src/assets/portraits/aura/blink.png"
+        alt="AURA blink"
+      />
+      <figcaption>BLINK</figcaption>
+    </figure>
+    <figure>
+      <div class="cycle">
+        <img
+          src="../../../src/assets/portraits/aura/neutral.png"
+          alt="AURA neutral"
+        /><img
+          class="blink"
+          src="../../../src/assets/portraits/aura/blink.png"
+          alt="AURA blink"
+        />
+      </div>
+      <figcaption>NEUTRAL → BLINK → NEUTRAL</figcaption>
+    </figure>
+  </div>
+  <p>
+    144 × 180. Цикл только для авторского просмотра; runtime-контроллер не
+    изменён.
+  </p>
+</html>

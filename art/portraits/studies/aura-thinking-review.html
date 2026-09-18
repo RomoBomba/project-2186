@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+  <meta charset="utf-8" />
+  <title>AURA / THINKING — review</title>
+  <style>
+    body {
+      background: #07131b;
+      color: #d8d6b8;
+      font: 14px monospace;
+      padding: 32px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+    figure {
+      flex: 0 0 auto;
+      margin: 0;
+    }
+    figcaption {
+      margin-top: 12px;
+    }
+    img {
+      width: 144px;
+      height: 180px;
+      image-rendering: pixelated;
+    }
+    button {
+      font: inherit;
+      margin: 16px 8px 0 0;
+    }
+  </style>
+  <h1>AURA / THINKING</h1>
+  <div class="row">
+    <figure>
+      <img src="../../../src/assets/portraits/aura/neutral.png" alt="Neutral" />
+      <figcaption>NEUTRAL</figcaption>
+    </figure>
+    <figure>
+      <img src="../../../src/assets/portraits/aura/blink.png" alt="Blink" />
+      <figcaption>BLINK</figcaption>
+    </figure>
+    <figure>
+      <img
+        src="../../../src/assets/portraits/aura/thinking.png"
+        alt="Thinking"
+      />
+      <figcaption>THINKING</figcaption>
+    </figure>
+    <figure>
+      <img
+        id="preview"
+        src="../../../src/assets/portraits/aura/neutral.png"
+        alt="Проверка перехода"
+      />
+      <figcaption id="state">neutral</figcaption>
+    </figure>
+  </div>
+  <button data-state="neutral">NEUTRAL</button
+  ><button data-state="blink">BLINK</button
+  ><button data-state="thinking">THINKING</button>
+  <p>144 × 180. Только авторский просмотр; runtime-контроллер не изменён.</p>
+  <script>
+    document.querySelectorAll('button').forEach((button) =>
+      button.addEventListener('click', () => {
+        document.getElementById('preview').src =
+          '../../../src/assets/portraits/aura/' + button.dataset.state + '.png';
+        document.getElementById('state').textContent = button.dataset.state;
+      }),
+    );
+  </script>
+</html>

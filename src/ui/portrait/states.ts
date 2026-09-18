@@ -5,6 +5,10 @@ import thinking from '../../assets/portraits/aletheia/thinking.png';
 import transmitA from '../../assets/portraits/aletheia/transmit-a.png';
 import transmitB from '../../assets/portraits/aletheia/transmit-b.png';
 import aura from '../../assets/portraits/aura/neutral.png';
+import auraBlink from '../../assets/portraits/aura/blink.png';
+import auraThinking from '../../assets/portraits/aura/thinking.png';
+import auraTransmitA from '../../assets/portraits/aura/transmit-a.png';
+import auraTransmitB from '../../assets/portraits/aura/transmit-b.png';
 import themis from '../../assets/portraits/themis/neutral.png';
 
 export type PortraitState =
@@ -21,7 +25,13 @@ const portraits: Record<
     'transmit-a': transmitA,
     'transmit-b': transmitB,
   },
-  aura: { neutral: aura },
+  aura: {
+    neutral: aura,
+    blink: auraBlink,
+    thinking: auraThinking,
+    'transmit-a': auraTransmitA,
+    'transmit-b': auraTransmitB,
+  },
   themis: { neutral: themis },
 };
 
