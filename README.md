@@ -19,6 +19,9 @@ motion review, open `/?boot-motion=reduce`.
 
 ## Development
 
+The runtime uses authored deterministic intelligence and browser-local persistence.
+No model service, model download, API key or network inference is required.
+
 Use Node.js 24.x and npm (verified with Node 24.20.0 / npm 11.19.0).
 The npm package identifier is `project-2186`; the product name is **PROJECT 2186**.
 

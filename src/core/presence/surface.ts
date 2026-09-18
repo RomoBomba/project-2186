@@ -14,7 +14,6 @@ import {
   presenceVoice,
   temporalWords,
 } from '../../characters/presence.ts';
-import type { PresenceRealization, PresenceRequest } from './model.ts';
 export function realizePresence(
   plan: ResponsePlan,
   context: IntelligenceContext,
@@ -110,47 +109,5 @@ export function realizePresence(
   return {
     text,
     usedMaterialKeys,
-    presenceInspection: { provider: 'deterministic', validation: 'authored' },
   };
-}
-/** A bounded authored language lattice: different wording is permitted, new assertions are not. */
-export function presenceRequest(
-  plan: ResponsePlan,
-  context: IntelligenceContext,
-): PresenceRequest {
-  const p = plan.presence!;
-  const alternatives = Array.from({ length: 9 }, (_, i) => i).map((offset) => ({
-    move: p.move,
-    text: realizePresence(plan, context, (p.style + offset) % 9).text,
-    topicIds: [...p.selectedTopicIds],
-    worldFrameIds: [...p.allowedWorldFrames],
-  }));
-  return {
-    plan: structuredClone(p),
-    alternatives: [
-      ...new Map(alternatives.map((a) => [a.text, a])).values(),
-    ].slice(0, 3),
-  };
-}
-export function validatePresence(
-  raw: unknown,
-  request: PresenceRequest,
-): raw is PresenceRealization {
-  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return false;
-  const r = raw as Record<string, unknown>;
-  if (
-    Object.keys(r).sort().join() !== 'move,text,topicIds,worldFrameIds' ||
-    r.move !== request.plan.move ||
-    typeof r.text !== 'string' ||
-    r.text.length > 600 ||
-    !Array.isArray(r.topicIds) ||
-    !Array.isArray(r.worldFrameIds)
-  )
-    return false;
-  return request.alternatives.some(
-    (a) =>
-      a.text === r.text &&
-      JSON.stringify(a.topicIds) === JSON.stringify(r.topicIds) &&
-      JSON.stringify(a.worldFrameIds) === JSON.stringify(r.worldFrameIds),
-  );
 }

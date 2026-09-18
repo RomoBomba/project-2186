@@ -300,8 +300,4 @@ WebAudio-тестами mute/unmute. Git diff/status просмотрены; gen
 о событиях 2026. Self-ограничение может повторяться при повторе вопроса. Простые
 числовые/self-факты звучат одинаково у персонажей, что сохраняет общую истину.
 
-В `.env.local` обнаружено `VITE_PRESENCE_REALIZER=local`. Оно не изменено. Для
-следующего deterministic-review нужно убрать/отключить этот override и заново
-запустить Vite. LocalPresenceRealizer остаётся experimental/dev-only; эти результаты
-получены без него. Портреты/их движение, UI, persistent-memory schema, aliases,
-канонические знания и transmission timing не менялись.
+Исторический отчёт детерминированной фазы сохранён. Экспериментальная модельная ветка позднее удалена; отдельные настройки для deterministic-review больше не нужны.

@@ -32,8 +32,7 @@ export type ConceptEvidence = {
     | 'relation_term'
     | 'inflection'
     | 'working_focus'
-    | 'proposition_pattern'
-    | 'semantic_hint';
+    | 'proposition_pattern';
   term?: string;
 };
 export type ReasoningPlan = {

@@ -57,21 +57,3 @@ export type ConversationScopeModel = {
   recent: ConceptId[];
   unused: ConceptId[];
 };
-export type PresenceInspection = {
-  provider: 'deterministic' | 'local';
-  validation: string;
-};
-export type PresenceRealization = {
-  move: PresenceMove;
-  text: string;
-  topicIds: ConceptId[];
-  worldFrameIds: WorldFrame[];
-};
-/** Only already-authorized wording alternatives, no user prompt or transcript. */
-export type PresenceRequest = {
-  plan: PresencePlan;
-  alternatives: PresenceRealization[];
-};
-export interface PresenceRealizer {
-  realize(request: PresenceRequest, signal: AbortSignal): Promise<unknown>;
-}

@@ -63,9 +63,6 @@ describe('direct authored surface composition', () => {
                     result.plan.presence.boundary.kind
                   ].some((phrase) => text.startsWith(phrase)),
                 ).toBe(true);
-                expect(result.response.presenceInspection?.validation).toBe(
-                  'authored',
-                );
               } else
                 expect([
                   ...voice.uncertainty,

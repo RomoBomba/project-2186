@@ -1,5 +1,4 @@
-import { createIntelligenceProvider } from '../../application/provider-selection.ts';
-import { expect, it, vi } from 'vitest';
+import { expect, it } from 'vitest';
 import { ConversationEngine } from '../conversation/engine.ts';
 import { BasicIntelligenceProvider } from '../intelligence/basic.ts';
 import { canonicalKnowledge } from '../../generated/knowledge.ts';
@@ -229,59 +228,4 @@ it('bounds rejection to four topics/six exchanges without modifying character id
     ).toBeLessThanOrEqual(4);
   }
   expect(JSON.stringify(profile)).toBe(original);
-});
-it('first presence HTTP request supplies the model without a CLI pre-load and cannot alter move ownership', async () => {
-  const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
-    const body = JSON.parse(init!.body as string) as {
-      model: string;
-      keep_alive: string;
-      messages: { content: string }[];
-    };
-    expect(body.model).toBe('qwen3:4b-instruct');
-    expect(body.keep_alive).toBe('2m');
-    const request = JSON.parse(body.messages[1]!.content) as {
-      alternatives: unknown[];
-    };
-    return new Response(
-      JSON.stringify({
-        done: true,
-        message: {
-          role: 'assistant',
-          content: JSON.stringify(request.alternatives.at(-1)),
-        },
-      }),
-      { status: 200 },
-    );
-  });
-  const local = new ConversationEngine(
-    canonicalKnowledge,
-    createIntelligenceProvider('basic', { presence: 'local', fetcher }),
-  );
-  let a = initialWorkingMemory(),
-    b = initialWorkingMemory();
-  for (const input of [
-    'Предложи тему.',
-    'Почему именно её?',
-    'Неинтересно.',
-    'Тогда предложи другое.',
-  ]) {
-    const deterministic = await ask(input, a);
-    const optional = await local.respond(
-      input,
-      profile,
-      d,
-      'ru',
-      b,
-      undefined,
-      { startedAt: 0, now: 420000 },
-    );
-    expect(optional.plan).toEqual(deterministic.plan);
-    expect(optional.nextMemory.conversationMoveFocus).toEqual(
-      deterministic.nextMemory.conversationMoveFocus,
-    );
-    expect(optional.response.presenceInspection?.provider).toBe('local');
-    a = deterministic.nextMemory;
-    b = optional.nextMemory;
-  }
-  expect(fetcher).toHaveBeenCalledTimes(4);
 });

@@ -32,7 +32,6 @@ export function planReasoning(
   locale: Locale,
   resolution: FollowUpResolution = { resolved: false },
   propositionEvidence: readonly ConceptEvidence[] = [],
-  semanticEvidence: readonly ConceptEvidence[] = [],
 ): ResponsePlan {
   const intent = perception.reasoningIntent;
   if (base.selfMaterial)
@@ -61,7 +60,7 @@ export function planReasoning(
   for (const item of operandEvidence(text, locale, vocabulary, graph))
     if (!evidence.some((e) => e.conceptId === item.conceptId))
       evidence.push(item);
-  for (const item of [...propositionEvidence, ...semanticEvidence])
+  for (const item of propositionEvidence)
     if (
       graph.get(item.conceptId) &&
       !evidence.some((e) => e.conceptId === item.conceptId)
@@ -205,13 +204,8 @@ export function planReasoning(
   );
   const primary = follows
     ? (target ?? focus!.concepts[0])
-    : ((semanticEvidence.length
-        ? (perception.matches.find((m) => m.score >= 85)?.conceptId ??
-          semanticEvidence[0]?.conceptId)
-        : undefined) ??
-      perception.matches[0]?.conceptId ??
-      (nounOperands.length === 1 ? nounOperands[0]?.conceptId : undefined) ??
-      semanticEvidence[0]?.conceptId);
+    : (perception.matches[0]?.conceptId ??
+      (nounOperands.length === 1 ? nounOperands[0]?.conceptId : undefined));
   if (!primary) return base;
   const kinds =
     (target && resolution.cue === 'conditional') ||

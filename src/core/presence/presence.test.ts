@@ -1,4 +1,4 @@
-import { expect, it, vi } from 'vitest';
+import { expect, it } from 'vitest';
 import { canonicalKnowledge } from '../../generated/knowledge.ts';
 import { characterProfiles } from '../character/profile.ts';
 import { characterIds } from '../character/id.ts';
@@ -6,12 +6,9 @@ import { createCharacterRuntime } from '../character/runtime.ts';
 import { ConversationEngine } from '../conversation/engine.ts';
 import { initialWorkingMemory } from '../memory/working.ts';
 import { BasicIntelligenceProvider } from '../intelligence/basic.ts';
-import { GroundedIntelligenceProvider } from '../../application/grounded-provider.ts';
 import { temporalPresence } from '../self/temporal.ts';
 import { conversationScope } from './plan.ts';
 import { presenceIntent } from './intent.ts';
-import { validatePresence } from './surface.ts';
-import { serializePresence } from '../../infrastructure/ollama/presence.ts';
 import { runPresenceBenchmark } from '../../infrastructure/evaluation/presence.ts';
 const profile = characterProfiles.aletheia;
 const disposition = createCharacterRuntime('aletheia', 0).disposition;
@@ -101,77 +98,4 @@ it('never invents a timestamp and distinguishes origin from measurable duration'
     completedExchanges: 4,
     subjectiveTime: 'unestablished',
   });
-});
-it('uses a separate optional presence boundary, permits authored variations and rejects invented facts', async () => {
-  let calls = 0;
-  const factual = { realize: vi.fn() };
-  const provider = new GroundedIntelligenceProvider(factual, 5000, {
-    realize: async (request) => {
-      calls++;
-      expect(JSON.stringify(request)).not.toContain('France');
-      const body = serializePresence(request);
-      expect(body).toMatchObject({
-        model: 'qwen3:4b-instruct',
-        think: false,
-        stream: false,
-        options: { temperature: 0.35, num_ctx: 2048, num_predict: 96 },
-        keep_alive: '2m',
-      });
-      const alternative = request.alternatives[1]!;
-      expect(validatePresence(alternative, request)).toBe(true);
-      expect(
-        validatePresence(
-          { ...alternative, text: 'Paris is the capital.' },
-          request,
-        ),
-      ).toBe(false);
-      expect(
-        validatePresence(
-          { ...alternative, topicIds: ['world.invented'] },
-          request,
-        ),
-      ).toBe(false);
-      return calls === 1
-        ? alternative
-        : { ...alternative, text: 'France no longer exists.' };
-    },
-  });
-  const e = new ConversationEngine(canonicalKnowledge, provider);
-  const args = [
-    'What is the capital of France?',
-    profile,
-    disposition,
-    'en',
-    initialWorkingMemory(),
-  ] as const;
-  const basic = await engine.respond(...args);
-  const accepted = await e.respond(...args);
-  expect(accepted.response.presenceInspection?.provider).toBe('local');
-  expect(accepted.response.text).not.toBe(basic.response.text);
-  const rejected = await e.respond(...args);
-  expect(rejected.response.text).toBe(basic.response.text);
-  expect(rejected.response.presenceInspection?.validation).toBe('rejected');
-  expect(factual.realize).not.toHaveBeenCalled();
-  expect(rejected.nextMemory.recentTurns).toHaveLength(2);
-});
-it('presence failure and timeout fall back without a second exchange', async () => {
-  vi.useFakeTimers();
-  try {
-    const p = new GroundedIntelligenceProvider(undefined, 5000, {
-      realize: () => new Promise(() => {}),
-    });
-    const pending = new ConversationEngine(canonicalKnowledge, p).respond(
-      'Какая сегодня погода?',
-      profile,
-      disposition,
-      'ru',
-      initialWorkingMemory(),
-    );
-    await vi.advanceTimersByTimeAsync(10001);
-    const r = await pending;
-    expect(r.response.presenceInspection?.validation).toBe('timeout');
-    expect(r.nextMemory.recentTurns).toHaveLength(2);
-  } finally {
-    vi.useRealTimers();
-  }
 });

@@ -61,9 +61,8 @@ rare, contextual and useful, never random obstacles.
 limited coherent reasoning/language through authored knowledge and rules, especially
 philosophy, art, science, identity and world. It can connect, reflect, remember,
 challenge and admit uncertainty. Incomplete archives are preferable to invented
-facts. A future RemoteLLMProvider or LocalLLMProvider receives identity, state,
-relationship, selected memories, knowledge and ResponsePlan. It may reason or
-formulate language; it never owns personality, persistent state or memory.
+facts. The current runtime has one implementation, BasicIntelligenceProvider, behind a small
+plain TypeScript interface. It owns no storage or UI.
 
 ## Memory and local storage (Phase 8 and later)
 
@@ -677,9 +676,8 @@ Verbosity < .35 allows at most 300 characters/2 sentences; < .65 allows 420/3;
 otherwise 480/3. Realization counts the complete composed material against those
 limits. It drops whole units rather than slicing words/sentences. If nothing fits,
 it uses the character's uncertainty language. KnowledgeConfidence/certainty and
-all internal scores remain invisible. A future LLM will receive structured context
-and ResponsePlan; it will not own character, state, relationship, memory or the
-knowledge source of truth.
+all internal scores remain invisible. Character, state, relationship, memory and
+knowledge remain owned by their deterministic domains.
 
 ### Session ownership and asynchronous terminal boundary
 
@@ -1725,262 +1723,6 @@ Adapter tests use a fake AudioContext; real boot and communication scheduler tes
 verify cue counts, cancellation, hidden routes, failure fallback and complete responses.
 Physical listening in headphones and on laptop speakers remains author review.
 
-## Phase 11A — provider containment and one-response grounding
-
-This phase supersedes the broad future-provider description above. PROJECT 2186
-still decides **what may be said**; a future model may assist with **language
-realization only**. The provider is NOT the owner of character, memory, state,
-focus, knowledge or system-self truth. No remote implementation, HTTP endpoint,
-API key, SDK, prompt template or model selection UI is introduced.
-
-### Snapshot and contracts
-
-`core/intelligence/grounding.ts` defines `GroundingPacket`,
-`IntelligenceRequest`, `GroundedIntelligenceResponse` and `RealizationProvider`.
-The distinct response name preserves the existing internal IntelligenceResponse
-(text, composition and cognitive usage metadata) without forcing Basic to consume
-a network-oriented request.
-
-A packet holds locale, character ID/name and small existing voice numbers;
-strategy/certainty, optional reasoning frame/relation, partial/exhausted flags and
-a compact stance description; approved concept IDs and keyed selected material.
-Concept material is intersected with selectedMaterial, relation material with
-reasoning.required. Optional graph/relation material is not automatically exported.
-Self clauses come only from plan.selfMaterial.facts, with its selected question
-and selected character-comparison interests where applicable. Required subjective-
-experience/art-status qualifications remain explicit citation constraints.
-
-Persistent memory is limited to the first **three already retrieved records**,
-projected to key/kind/value. No retrieval scores, reinforcement counts, timestamps,
-episodes, store identifiers or other memories are copied. Retrieval alone does not
-authorize a spoken recollection: only acknowledgeMemoryId permits a memory citation.
-Current-turn personal disclosures remain labelled user testimony, not world truth.
-
-Input lives in a separate `untrustedInput` section. The current message is bounded
-to 512 UTF-16 units. Only contextual plans receive recent text: at most two turns,
-each bounded to 512 units; standalone turns receive none. These excerpts have no
-grounding keys and grant no instruction authority. They are not a chat-history
-prompt. The application adapter freezes a newly projected snapshot recursively;
-no mutable profile, focus, WorkingMemory, transcript array or persistence object
-is given to the injected provider. Provider-specific prompt serialization belongs
-behind a later implementation, not in core or UI.
-
-The request also contains the existing sentence/character budgets, desired
-verbosity, follow-up permission and required/permitted citation keys. A provider
-returns locale, a nonempty sentences array of {text, groundingKeys}, and an optional
-grounded followUp. No arbitrary metadata, memory IDs, state updates or reasoning
-trace are accepted. All text, including social/limitation language, needs a key.
-
-### Grounding identity and validation
-
-Existing concept keys (`conceptId:kind:index`) and relation keys
-(`relation:relationId:index`) are reused unchanged. Self keys remain `self:fact`
-and `self-question:question`. Selected character interests use
-`character:id:interests`; selected memories use `memory:` plus an escaped existing
-record ID, not a new memory identity. Current testimony uses
-`user:current:kind`. Explicit `policy:` keys authorize only the planned speech act,
-stance acknowledgment or limited-support boundary, never additional world facts.
-All keys are scoped to this request.
-
-`validateProviderResponse` accepts an exact plain-data schema, matching RU/EN locale
-metadata, nonempty one-sentence units and only supplied keys. It checks the complete
-sentence count/character budget (including followUp), question permission, required
-self qualifications and policy permission for memory citations. Unknown keys, hidden
-extra fields, missing grounds and oversize/malformed output fail closed.
-
-This is structural containment, **not a semantic truth or language detector**.
-Citing a valid key does not prove entailment; a correct locale tag does not prove
-the language of the text. The future provider must still obey the selected grounds,
-epistemic limits and data/instruction separation. No NLP hallucination checker is
-claimed. Basic's legacy prose receives conservative union-of-used-ground citations
-per sentence; this documents provenance without claiming exact clause attribution.
-
-### Orchestration and deterministic compatibility
-
-`application/grounded-provider.ts` implements the existing IntelligenceProvider
-interface as a thin adapter. The application's default is still the unchanged
-BasicIntelligenceProvider, through this adapter. Its final text (including line
-breaks), composition and material-key ordering are preserved exactly. ConversationEngine
-only supplies the bounded input projection at the provider call; planning and
-WorkingMemory updates are unchanged.
-
-For a future/test-injected RealizationProvider, the path is:
-frozen request → complete response → validation → legacy text/usage projection.
-Error, invalid output or timeout invokes Basic **once** and validates its adapted
-response. The default timeout is 5 seconds; constructor overrides must be finite,
-positive and no more than 30 seconds. Application-owned AbortController cancels
-the attempt, the deadline is cleaned up on every path, and late completion is ignored.
-The complete accepted text reaches SemanticTransmission once; no streamed tokens,
-lost user turn, duplicate response or remote-owned history update is introduced.
-A violated canonical Basic contract is an internal programming error, not accepted
-as unchecked external text.
-
-### Inspection and verification
-
-`npm run intelligence:inspect -- --locale ru --character aletheia --text "Ты мыслишь?"`
-now prints plan plus providerBoundary: the request/packet, accepted structured
-response, validation and, when injected, fallback reason/attempt validation.
-Inspection is returned per call, not held in a shared singleton or persisted;
-normal UI displays none of it. Invalid provider text is not logged wholesale.
-The existing benchmark fixtures/metrics remain unchanged. Additional tests run
-every benchmark input and prefix through both original Basic and the adapter for
-all three characters, comparing complete legacy outputs and next WorkingMemory.
-
-## Phase 11B — local language realization
-
-The application provider factory selects `basic` (default) or `local` from
-development configuration. Vite environment access stays in the application
-composition root; provider selection never enters user configuration or IndexedDB.
-Tests use Basic regardless of a local Vite environment override.
-
-`infrastructure/ollama/LocalLLMProvider` implements Phase 11A's RealizationProvider.
-It receives only IntelligenceRequest, not repositories, character runtime or full
-history. An Ollama-specific serializer maps compact voice hints, selected grounds
-and constraints into system authority, with current/recent input in a separate
-untrusted-data message. Memory grounds not permitted for reference are omitted.
-No new cognition, memory decisions or canonical material are delegated to Qwen.
-
-`OllamaTransport` uses native fetch and a loopback-only `/api/chat` endpoint.
-Redirects are rejected. No SDK, backend, cloud endpoint or new runtime dependency
-is introduced. Request settings are fixed to `qwen3:4b-instruct`, `stream:false`,
-`think:false`, temperature 0.25, context 4096, prediction budget 160, keep_alive 10m.
-Replacing transport/serializer later does not change core request/response types.
-
-Request-specific JSON Schema constrains locale, object shape, allowed key enum,
-sentence-array size and optional follow-up availability. Cross-field total length,
-mandatory self qualifications and semantic permission remain subject to Phase 11A
-validation. The path is complete HTTP envelope → verified assistant message.content
-→ JSON.parse → unknown candidate → existing validator → complete accepted response.
-There is no fence repair, regex extraction, token streaming or automatic retry.
-
-The existing application adapter gives Local a 20-second deadline and AbortSignal.
-Connection, model/HTTP, envelope, JSON, validation and timeout failures select Basic
-exactly once. A late model result cannot complete the turn again. Basic's text,
-working-history ownership and SemanticTransmission remain unchanged.
-
-Development inspection captures only the current minimized packet and a whitelisted
-envelope (no thinking/tool/context payload). Browser dev logging is status-only;
-explicit CLI inspection includes the selected text. No telemetry is added.
-`intelligence:compare` runs both realizers on one plan and identical packet contents,
-then advances only the Basic history. `intelligence:local-evaluate` is an opt-in
-live review, separate from deterministic benchmarks/tests. A valid citation remains
-provenance, not proof of semantic entailment: live semantic violations are recorded
-in the review report and do not justify changing cognition or weakening validation.
-
-See [local development](LOCAL_LLM.md) and the [Phase 11B review](../content/evaluation/11b-report.md).
-
-## Phase 11B.1 — bounded grounded realization
-
-Local declares `requiresRealizationSlots`. The application obtains Basic's approved
-ResponseComposition once and memoizes that Basic result for fallback. This is a
-presentation projection, not a second cognition pass; no state transition happens
-inside either realization. Ordinary Basic and Phase 11A injected providers retain
-their original path. Basic wording and cognitive usage remain unchanged.
-
-`RealizationSlot` is plain transient data: stable per-response id, semantic role,
-allowedGroundingKeys, sourceTexts, mayFuse, required, mode and optional memorySource.
-`application/realization-slots.ts` preserves the actual composition order and nucleus.
-Source texts are the already-reviewed composition wording. Multi-sentence units are
-split into sentence slots with the same provenance. Only composition.fusion=parallel
-licenses one two-ground slot; Local cannot decide to fuse other units. Required units
-cannot disappear, move behind a qualification or be replaced by a different ground.
-Questions come only from the approved composition/reply; they are optional copy slots.
-
-Truth/knowledge grounds, policy-only replies, identity/disclosure paths, limitations,
-stance acknowledgements and semantic-memory acknowledgements use copy-only slots.
-For undecomposed replies, Basic's authored sentences are the allowed realization of
-the existing speech-act or memory permission; enum labels are never sentence sources.
-This deliberately trades variation for containment. Current packets carry semantic
-memories only; memorySource=semantic never implies an episode or shared experience.
-No episodic lookup, persistence schema or memory ownership changes are introduced.
-
-The Local wire schema adds required `slotId` to each sentence. Infrastructure strips
-only that field before the unchanged Phase 11A structural validator. After that check,
-the Local guard verifies known/unique/ordered slots, exact per-slot key sets, required
-slots and pre-approved question/fusion boundaries. It returns the neutral response
-only after guard acceptance; otherwise the application reuses the memoized Basic
-answer exactly once. Slot metadata never reaches dialogue or WorkingMemory.
-
-The semantic-risk guard is a small explicit lexical check, **not entailment**:
-
-- new RU/EN strengthening markers absent from the cited slot source are rejected;
-- selected recurring negation/modal/epistemic families must remain present;
-- unsupplied experience patterns and first-person listening/watching experiences
-  are rejected; semantic memories additionally require the authored acknowledgement;
-- internal implementation terms are rejected even if they appear in input;
-- copy-only slots must retain the approved sentence (case/Unicode/spacing normalized).
-
-Marker checks are slot-local. A strong word elsewhere in the packet cannot license
-it here. Explicitly supplied experience wording is not globally banned, but current
-semantic records cannot authorize an episode. The guard can reject safe paraphrases
-and miss inversions or new claims without known markers. It does not solve arbitrary
-negation scope, Russian morphology, world truth or general language understanding.
-
-Inspection separates structural validation, riskValidation and final provider.
-Comparison still checks identical base GroundingPacket/constraints; Local's added
-slots project the same approved Basic composition. The live reviewer now runs 60
-fixed-setting generations. Previous 11B violations are preserved in a test-only
-corpus with A–F failure classes; original outputs are not erased. See the
-[11B.1 report](../content/evaluation/11b1-report.md) for acceptance results and limits.
-
-### Phase 11C: optional semantic resolver fallback
-
-`core/semantic/resolver.ts` defines a separate `SemanticResolver` boundary. It
-classifies language; it does not implement `IntelligenceProvider`. The engine first
-builds its unchanged deterministic perception and plan. A closed eligibility gate
-rejects known system/self/stance/context handling, already grounded material,
-oversized or empty input, explicit unavailable factual requests and ordinary
-file/device/archive uses. It does not call a model merely because a match is
-moderate. These guards are conservative examples, not a general content-gap detector.
-Existing deterministic false positives remain visible in the evaluation.
-
-An eligible request contains current text (maximum 600 characters), locale, the
-sorted localized catalog (ID, title, first 72 authored summary characters), and
-only a live same-locale general focus: concepts, frame and optional relation ID.
-The wire catalog uses compact [id, title, descriptor] tuples and places untrusted
-current text last.
-No transcript, user memories, claims, questions, character data or response text is
-sent. Catalog locale fallback is disabled. The current 21-card catalog is bounded
-at 100 records; growing the corpus requires reviewing the 2048-token budget.
-
-The strict candidate has exactly `locale`, at most two unique known `concepts`,
-existing `frame` or null, `continuation` (true/false/uncertain), and
-`confidenceClass` (high/low). Extra fields, prose, unknown IDs, low confidence and
-unusable continuation are rejected. Without focus the wire schema permits only
-continuation=false. Confidence concerns topic mapping, not philosophical truth.
-Continuation must refer exclusively to a live
-focus (under three turns old). Strong deterministic concepts (score >=85) must all
-remain present; an existing frame wins. Hints enter planning as `semantic_hint`,
-never as fabricated matcher scores, aliases or proposition evidence. The planner
-alone looks up authored relations/material. Every hinted ID must remain in the
-resulting reasoning concepts: an unsupported pair cannot silently become an answer
-about just its first operand. No usable material means the original
-plan. No speculative stance, self facts or relations are introduced.
-
-The provider is called once, after this decision; `completeExchange` is called
-once. Failed resolution leaves the original deterministic response and memory
-update intact. Interpretation diagnostics are returned for dev inspection, not
-stored in WorkingMemory or persistence.
-
-`infrastructure/ollama/semantic-resolver.ts` uses the shared loopback HTTP transport
-but separate serializer/settings: qwen3:4b-instruct, think=false, stream=false,
-temperature=0, num_ctx=2048, num_predict=64, keep_alive=2m, 10-second abort, no
-retries. LocalLLMProvider and its realizer settings remain separate and unchanged.
-Vite development may opt in with `VITE_SEMANTIC_RESOLVER=local-fallback`; absent or
-`deterministic` selects the original path. Production/test application builds do
-not activate it. Realizer selection remains independent; Phase 11C evaluation
-always uses Basic. Nothing is added to IndexedDB configuration or the artwork.
-
-`intelligence:inspect -- --resolver local-fallback --provider basic --locale ru
---text "…"` exposes deterministic plan/perception, eligibility, compact request,
-candidate, validation/merge result and timing alongside the final plan/Basic text.
-`intelligence:semantic-evaluate` runs the frozen test-only YAML cohort;
-`-- --live --all-characters --output=/tmp/semantic-results.json` enables actual
-Ollama calls. The same inputs and deterministic prefix exchanges are compared
-within each run. This is a development evaluation in the existing evaluation
-area, not application content. Metrics are exact fixture comparisons, not proof of
-semantic truth; an accepted topic hint still requires author review.
-
 ## Phase 11D — conversational presence and temporal self
 
 `ConversationScopeModel` (`core/presence`) derives available localized canonical
@@ -2002,7 +1744,7 @@ current_external_fact or unsupported_self_claim. Explicit guidance/time intents
 and grounded external-boundary classification precede generic UNKNOWN realization.
 Existing self, disclosure and permitted personal-memory acknowledgments retain
 precedence over a coincidental boundary word. Ordinary grounded reasoning remains
-on its existing path. Known presence intents do not invoke LocalSemanticResolver.
+on its existing path. Known presence intents remain in deterministic planning.
 
 The world constraints live in `world/temporal.ts`, independently of localized
 surface wording. Archive incompleteness does not establish historical nonexistence.
@@ -2031,21 +1773,6 @@ is introduced. Nine bounded combinations of three boundary clauses and three que
 forms permit variation, with topic rotation and character-specific redirect language.
 Exhaustion may repeat rather than invent. Temporal factual sentences deliberately
 remain stable. The entire response is complete before SemanticTransmission.
-
-Optional development flag `VITE_PRESENCE_REALIZER=local` enables a separate
-`LocalPresenceRealizer`, independently of factual realization and semantic resolution.
-Production never enables it through this flag. It receives only a PresencePlan,
-selected world constraints and a bounded authored wording lattice, never raw user
-text, transcript or the unknown question. Qwen3 4B Instruct uses think=false,
-stream=false, temperature 0.35, num_ctx=2048, num_predict=96, keep_alive=2m, with
-an application deadline of 10 seconds. The local role can select another permitted
-wording combination; this implementation deliberately does not accept unrestricted
-paraphrases. Exact move, topic IDs, world-frame IDs and membership of the authored
-lattice are validated. Invented facts or identifiers, malformed output, connection
-errors and timeout fall back to deterministic presence. A late result cannot create
-a second exchange. `presenceInspection` reports the path/rejection without UI output.
-This stricter bounded variation is a safety tradeoff, not a claim to validate the
-truth of arbitrary generated language.
 
 The existing `intelligence:benchmark` now also runs the development-only bilingual
 presence cohort (`content/evaluation/presence-cases.ts`); `--details` includes exact
@@ -2081,7 +1808,7 @@ Declining a topic, or asking for another, excludes that primary ID for six compl
 exchanges. At most four rejected IDs are kept; all expire and reset on a new session
 or intelligence switch. Explicit questions about such a concept still use normal
 knowledge retrieval. This is not a dislike, user trait, character change, extraction
-signal or persistent memory. The optional local model cannot select/update these IDs.
+signal or persistent memory. Only deterministic conversation planning selects/updates these IDs.
 
 `discourseLens` exposes a bounded recognition body and the original discourse markers
 (up to four). Markers are not globally removed: raw text, matcher evidence, proposition
@@ -2111,20 +1838,6 @@ controls. The ordinary benchmark also reports its compact metrics without adding
 these rows to historical cognition denominators. Success requires actual referents,
 selected/rejected IDs, grounded card material and temporal observations, not just
 matching a move label. See `content/evaluation/phase-11d1-report.md` for full outputs.
-
-### Optional local presence startup
-
-For author testing, `.env.local` may contain `VITE_PRESENCE_REALIZER=local`; a full
-Vite restart is needed after changing environment settings. The app sends its first
-HTTP `/api/chat` request with `model: qwen3:4b-instruct`. With the Ollama service
-running and that model already installed, loading is the service's responsibility;
-there is no need to run `ollama run` before each PROJECT 2186 session. No shell
-process management or server auto-launch was added. Missing service/model or a cold
-load exceeding the existing 10-second limit yields the deterministic fallback.
-`keep_alive: 2m` retains the model briefly after use. API loading and retention are
-specified in the [Ollama FAQ](https://docs.ollama.com/faq#how-can-i-preload-a-model-into-ollama-to-get-faster-response-times).
-The HTTP contract is tested with a fake transport; it does not prove a real local
-service loaded the model. Phase 11D.1's live-model comparison remains optional.
 
 ## Phase 12A.1 — sparse ALETHEIA portrait motion
 
@@ -2214,6 +1927,20 @@ persistent linguistic memory or random variation.
 `intelligence:benchmark -- --polish` inspects the new RU/EN nine-turn sequence for all
 characters and additional scope, interest and year cases. Its diagnostic denominators
 are separate from all historical cohorts. Nucleus/question/brief/opening measures are
-structural proxies, not literary-quality judgments. No Ollama is required. For author
-review, disable `VITE_PRESENCE_REALIZER=local` in the local environment and restart
+structural proxies, not literary-quality judgments. For author review, start
 Vite; this phase does not edit that private setting or expand the experimental role.
+
+## Local-AI cleanup decision
+
+PROJECT 2186 uses authored deterministic local intelligence. Runtime LLM/Ollama
+experiments were evaluated and removed: semantic reliability was insufficient,
+constrained realization added little useful variation, and latency/GPU cost was
+not justified. Future model integration is not part of the current runtime architecture.
+
+ConversationEngine calls BasicIntelligenceProvider directly through IntelligenceProvider.
+Model request packets, response validators, optional semantic resolver, provider
+selection flags, local HTTP adapters, evaluation tools and model-only evidence are
+removed. There is no model service or network dependency. Deterministic inspection
+and benchmarks remain. FORMING, authored SemanticTransmission rhythm, portrait
+activity, character state, conversation continuity and IndexedDB persistence remain.
+The model-specific adaptive first-fragment delay was removed.
