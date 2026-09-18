@@ -34,6 +34,8 @@ export type PresenceMove =
 export type KnowledgeBoundaryPlan = { kind: BoundaryKind };
 export type PresencePlan = {
   move: PresenceMove;
+  yearReference?: { userYear: number; systemYear: number; interval?: number };
+  missingYear?: boolean;
   discourseMarkers?: string[];
   referenceTurn?: number;
   rejectedTopicId?: ConceptId;

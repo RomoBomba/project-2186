@@ -557,3 +557,15 @@ the background. A/B remain 144×180; C remains 72×90. No label or terminal geom
 Reduced motion uses simple semantic state changes with no decorative blink, drift or
 transmit alternation. Background tabs do not accumulate or replay movement. No mouth
 animation, video, CRT effects or audio coupling is introduced.
+
+### Phase 12A.2 audio level calibration
+
+Only COMMAND_SUBMIT, INTELLIGENCE_FORMING, TRANSMISSION_START and CHARACTER_CONNECT
+receive +3 dB at their existing tone gains (×10^(3/20), approximately 1.413).
+Frequencies, envelopes, timing, bus/master levels and motif proportions stay intact.
+COMMAND_KEY, SYSTEM_CONFIRM, SYSTEM_OPEN and boot cues are unchanged. The six-voice
+worst-case amplitude sum remains comfortably below full scale even at the maximum
+allowed master gain. This is an electrical headroom check, not perceived-loudness
+measurement; normal-volume speaker/headphone listening remains author review.
+Mute still cancels active/scheduled voices; unmute permits future events only.
+There is no ambient bed, repeated forming loop, or audio-driven dialogue delay.

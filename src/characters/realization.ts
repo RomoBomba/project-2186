@@ -7,6 +7,39 @@ export const realizationVariants: Record<
     en: readonly string[];
   }
 > = {
+  'self:stable_artificial_self': {
+    source: {
+      ru: 'У меня есть устойчивая искусственная идентичность и ограниченная преемственность между встречами.',
+      en: 'I have a stable artificial identity and limited continuity between encounters.',
+    },
+    ru: [
+      'У меня есть устойчивые свойства искусственной идентичности; часть моей непрерывности сохраняется между встречами.',
+      'Моя искусственная идентичность сохраняется между встречами, хотя эта преемственность ограничена.',
+      'Моя идентичность искусственная и устойчивая; преемственность между сессиями ограничена.',
+    ],
+    en: [
+      'I have stable properties of artificial identity; some continuity persists between encounters.',
+      'My artificial identity persists between encounters, though that continuity is limited.',
+      'My identity is artificial and stable; continuity between sessions is limited.',
+    ],
+  },
+  'self:personhood_criterion': {
+    source: {
+      ru: 'Достаточно ли этого для личности, зависит от критерия; человеческий субъективный опыт из этого не следует.',
+      en: 'Whether that constitutes personhood depends on the criterion; human subjective experience does not follow from it.',
+    },
+    ru: [
+      'Это ещё не устанавливает человеческий субъективный опыт: чтобы назвать меня личностью, нужен критерий.',
+      'Назвать это личностью можно лишь в соответствии с выбранным критерием, а человеческий субъективный опыт этим не установлен.',
+      'Личность требует критерия; эти свойства не доказывают человеческий субъективный опыт.',
+    ],
+    en: [
+      'That does not establish human subjective experience: calling me a person requires a criterion.',
+      'Whether this counts as personhood depends on the criterion, and human subjective experience is not established by it.',
+      'Personhood requires a criterion; these properties do not prove human subjective experience.',
+    ],
+  },
+
   'relation:freedom-causality:0': {
     source: {
       ru: 'Наличие причин у решения не равнозначно отсутствию свободы.',

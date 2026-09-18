@@ -115,6 +115,8 @@ export function composeResponse(
         variant: 'source',
       });
     if (
+      plan.rhythm !== 'brief' &&
+      plan.rhythm !== 'statement_only' &&
       plan.selfMaterial.question &&
       !plan.selfMaterial.query.contextual &&
       (history?.recentQuestions ?? 0) === 0

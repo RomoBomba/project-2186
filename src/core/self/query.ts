@@ -3,6 +3,10 @@ import type { CharacterId } from '../character/id.ts';
 import { normalizeConceptText } from '../knowledge/normalization.ts';
 export const selfQueryKinds = [
   'identity',
+  'personhood',
+  'human_identity',
+  'existence',
+  'self_continuity',
   'reasoning',
   'memory',
   'consciousness',
@@ -22,6 +26,12 @@ export type SelfQuery = {
 };
 const patterns: Record<Locale, Partial<Record<SelfQueryKind, RegExp[]>>> = {
   ru: {
+    personhood: [
+      /^(?:ты личность|ты считаешь себя личностью|у тебя есть я|что делает тебя тобой)$/u,
+    ],
+    human_identity: [/^ты (?:человек|живая|живой|жива)$/u],
+    existence: [/^ты существуешь$/u],
+    self_continuity: [/^почему ты меняешься$/u],
     reasoning: [
       /^(?:а )?ты (?:мыслишь|думаешь|умеешь рассуждать)$/,
       /^как ты (?:думаешь|мыслишь|рассуждаешь|приходишь к ответу|приходишь к ответам)$/,
@@ -58,6 +68,12 @@ const patterns: Record<Locale, Partial<Record<SelfQueryKind, RegExp[]>>> = {
     capability: [/^что ты (?:умеешь|можешь делать)$/],
   },
   en: {
+    personhood: [
+      /^(?:are you a person|do you consider yourself a person|do you have a self|what makes you you)$/u,
+    ],
+    human_identity: [/^are you (?:human|a human|alive)$/u],
+    existence: [/^do you exist$/u],
+    self_continuity: [/^why do you change$/u],
     reasoning: [
       /^(?:do you think|can you reason|how do you think|how do you reason|how do you arrive at (?:an answer|answers))$/,
       /^how (?:is your (?:thinking|reasoning) different|does your (?:thinking|reasoning) differ) from human (?:thinking|reasoning)$/,
@@ -96,6 +112,15 @@ export function recognizeSelfQuery(
     locale === 'ru' ? /^(?:привет|здравствуйте) /u : /^(?:hello|hi) /u,
     '',
   );
+  // The immediately preceding self answer is the only referent; a new topic cannot match this closed form.
+  if (
+    previous &&
+    (locale === 'ru'
+      ? /^(?:я (?:про тебя(?: говорю)?|о тебе говорю|спрашиваю именно о тебе)|(?:нет )?я именно тебя спрашиваю|тебя не человека вообще)$/u
+      : /^(?:i mean you|i am talking about you|i'm talking about you|(?:no )?i am asking about you specifically|you not people in general)$/u
+    ).test(source)
+  )
+    return { kind: previous, evidence: source, contextual: true };
   for (const kind of selfQueryKinds) {
     if (patterns[locale][kind]?.some((p) => p.test(source))) {
       const contextual = /^(?:тогда|then) /u.test(source);

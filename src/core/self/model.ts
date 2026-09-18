@@ -8,6 +8,11 @@ import type { SemanticMemory } from '../memory/long-term.ts';
 import { safeMemoryValue } from '../memory/long-term.ts';
 export type SelfFact =
   | 'artificial_identity'
+  | 'not_human'
+  | 'stable_artificial_self'
+  | 'personhood_criterion'
+  | 'operational_existence'
+  | 'state_changes'
   | 'compare_context'
   | 'connect_alternatives'
   | 'select_response'
@@ -79,6 +84,11 @@ export function createSystemSelfModel(
 export function availableSelfFacts(model: SystemSelfModel): SelfFact[] {
   return [
     'artificial_identity',
+    'not_human',
+    'stable_artificial_self',
+    'personhood_criterion',
+    'operational_existence',
+    'state_changes',
     ...model.reasoning,
     'experience_unestablished',
     'bounded_context',

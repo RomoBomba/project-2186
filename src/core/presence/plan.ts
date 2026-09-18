@@ -1,3 +1,5 @@
+import { temporalWorld } from '../../world/temporal.ts';
+import { ConceptMatcher } from '../knowledge/matcher.ts';
 import { discourseLens } from './discourse.ts';
 import {
   resolveConversationMove,
@@ -61,8 +63,14 @@ export function conversationScope(
 const overviewForms: Partial<Record<ConceptId, readonly string[]>> = {
   'philosophy.knowledge': ['знания', 'знании', 'знаниях'],
   'identity.memory': ['памяти'],
+  'identity.self': [
+    'личности',
+    'природа личности',
+    'nature of identity',
+    'nature of self',
+  ],
   'philosophy.consciousness': ['сознании'],
-  'philosophy.freedom': ['свободе'],
+  'philosophy.freedom': ['свободе', 'свободу'],
   'philosophy.time': ['времени', 'время', 'time'],
 };
 export function planPresence(
@@ -155,7 +163,35 @@ export function planPresence(
       return 'profile_interest';
     return card.characterAffinity[profile.id] >= 0.7 ? 'affinity' : 'available';
   };
-  if (reaction) {
+  if (intent && ('year' in intent || 'interval' in intent)) {
+    const anchor = memory.temporalAnchor;
+    const userYear =
+      'year' in intent
+        ? intent.year
+        : anchor && memory.history.turn - anchor.lastReferencedTurn < 3
+          ? anchor.userReferencedYear
+          : undefined;
+    presence = {
+      ...presence,
+      move: 'temporal_distance',
+      ...(userYear !== undefined
+        ? {
+            yearReference: {
+              userYear,
+              systemYear: temporalWorld.temporal_distance.systemEra,
+              ...('interval' in intent
+                ? {
+                    interval: Math.abs(
+                      temporalWorld.temporal_distance.systemEra - userYear,
+                    ),
+                  }
+                : {}),
+            },
+          }
+        : { missingYear: true }),
+      allowedWorldFrames: ['archive_incomplete', 'temporal_distance'],
+    };
+  } else if (reaction) {
     const f = reaction.focus;
     presence.referenceTurn = f.lastReferencedTurn;
     if (reaction.kind === 'reject_topic')
@@ -212,7 +248,15 @@ export function planPresence(
     };
   else if (intent && 'guide' in intent) {
     if (intent.guide === 'topic_overview') {
+      // Same exact/overlap matcher, applied to the explicit topic operand, not a global alias expansion.
+      const topic = intent.topic ?? '';
+      const operand =
+        cards.find((c) => overviewForms[c.id]?.includes(topic))?.content[locale]
+          ?.title ?? topic;
       const id =
+        new ConceptMatcher(cards).match(operand, locale, {
+          allowFallback: false,
+        })[0]?.conceptId ??
         perception.matches[0]?.conceptId ??
         cards.find(
           (c) =>
@@ -225,16 +269,18 @@ export function planPresence(
           ...presence,
           move: 'topic_overview',
           selectedTopicIds: [card.id],
-          questionAllowed: true,
+          questionAllowed: !intent.statement,
         };
-        selectedMaterial = [
-          {
-            conceptId: card.id,
-            kind: card.content[locale]!.claims.length ? 'claim' : 'summary',
-            index: 0,
-          },
-        ];
-        if (card.content[locale]!.questions[0])
+        selectedMaterial = intent.statement
+          ? coreMaterial(card.id, true)
+          : [
+              {
+                conceptId: card.id,
+                kind: card.content[locale]!.claims.length ? 'claim' : 'summary',
+                index: 0,
+              },
+            ];
+        if (!intent.statement && card.content[locale]!.questions[0])
           selectedMaterial.push({
             conceptId: card.id,
             kind: 'question',
@@ -324,6 +370,15 @@ export function planPresence(
   return {
     ...(base.selfMaterial ? { selfMaterial: base.selfMaterial } : {}),
     ...(base.longTermContext ? { longTermContext: base.longTermContext } : {}),
+    rhythm:
+      presence.yearReference?.interval !== undefined ||
+      presence.missingYear ||
+      presence.move === 'reject_topic' ||
+      presence.temporal?.intent === 'session_duration'
+        ? 'brief'
+        : intent && 'guide' in intent && intent.statement
+          ? 'statement_only'
+          : 'standard',
     strategy: base.strategy,
     disposition: base.disposition,
     knowledgeConfidence: selectedMaterial.length ? 1 : 0,

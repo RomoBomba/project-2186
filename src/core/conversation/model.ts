@@ -47,7 +47,10 @@ export type UserGroundedMaterial = {
   confidence: number;
   source: 'current_turn';
 };
+export type ResponseRhythm =
+  'brief' | 'standard' | 'reflective' | 'statement_only';
 export type ResponsePlan = {
+  rhythm?: ResponseRhythm;
   presence?: import('../presence/model.ts').PresencePlan;
   proposition?: PropositionPlan;
   reasoning?: import('../reasoning/model.ts').ReasoningPlan;

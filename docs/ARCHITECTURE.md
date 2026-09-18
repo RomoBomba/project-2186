@@ -2171,3 +2171,49 @@ active controls. Its 350ms simulated chunk opportunity is inspection-only. A bou
 16-entry `data-portrait-history` exists only in DEV for observing short transitions;
 it is neither visible artwork nor persisted state. Production has no debug controls.
 Tests use fake timers, injected randomness/clock and a fake Image decoder.
+
+## Phase 12A.2 — bounded presence/dialogue polish
+
+The deterministic path remains authoritative. Scope recognition now covers explicit
+we/us discussion requests; merely saying “we” does not invoke a topic menu. Explicit
+interest/topic statements route to an overview without requiring a question. The
+existing restricted overview operand forms cover inflected nouns and “nature of
+self”; their localized card title is sent through the unchanged ConceptMatcher.
+No alias, global morphology, knowledge card, or stable-preference extraction changes.
+The overview establishes the normal active concept, prefers an unused claim, and
+can finish with a statement instead of adding a question.
+
+SystemSelfModel's existing artificial identity, character identity and continuity
+support new personhood, human-identity, existence and self-continuity queries.
+Personhood selects a functional identity fact plus a mandatory criterion/subjective
+experience boundary. Human identity gives a direct negative nucleus. These are
+structured self facts, separate from general self/consciousness cards. A closed
+RU/EN deictic family (“I mean you”) reuses only the immediately previous same-locale
+self query. An intervening general answer removes that referent; explicit topics
+cannot match the closed family. This adds no general pronoun resolution.
+
+`WorkingMemory.temporalAnchor` holds only `userReferencedYear`, `systemReferenceYear`,
+`originTurn`, and `lastReferencedTurn`. An anchored knowledge-about-year request
+accepts one four-digit year, never a birth/age inference. The canonical system year
+comes from `world/temporal`. A new explicit year replaces the anchor; three completed
+exchanges without reference expire it. An interval query refreshes its last-reference
+turn, but preserves origin. Reload resets it with WorkingMemory; storage never owns
+it. `PresencePlan.yearReference` distinguishes a mentioned year from computed absolute
+year distance. No historical events are inferred. Missing anchors prompt for a year.
+
+`ResponseRhythm` is brief/standard/reflective/statement_only surface guidance on the
+plan. Direct human/existence facts get one sentence; interval/duration/rejection can
+be brief. Interest overviews are statement-only. Existing relation plans receive
+standard/reflective metadata according to existing disposition without changing
+material, reasoning or transmission timing. Mandatory self qualifications remain.
+The surface composer suppresses optional self questions in brief/statement-only
+mode. Topic offers have three grammatical openings per character/locale, with
+bounded existing recent-response history avoiding a just-used opening. This is not
+persistent linguistic memory or random variation.
+
+`intelligence:benchmark -- --polish` inspects the new RU/EN nine-turn sequence for all
+characters and additional scope, interest and year cases. Its diagnostic denominators
+are separate from all historical cohorts. Nucleus/question/brief/opening measures are
+structural proxies, not literary-quality judgments. No Ollama is required. For author
+review, disable `VITE_PRESENCE_REALIZER=local` in the local environment and restart
+Vite; this phase does not edit that private setting or expand the experimental role.

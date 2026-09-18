@@ -40,6 +40,21 @@ export const mix = {
   maxVoices: 6,
 } as const;
 export function designCue(cue: AudioCue): CueDesign {
+  const design = baseCue(cue);
+  const gain = [
+    audioCues.commandSubmit,
+    audioCues.intelligenceForming,
+    audioCues.transmissionStart,
+    audioCues.characterConnect,
+  ].some((type) => type === cue.type)
+    ? 10 ** (3 / 20)
+    : 1;
+  return {
+    ...design,
+    tones: design.tones.map((tone) => ({ ...tone, gain: tone.gain * gain })),
+  };
+}
+function baseCue(cue: AudioCue): CueDesign {
   switch (cue.type) {
     case audioCues.bootWake:
       return {

@@ -1,3 +1,4 @@
+import { responseRhythm } from '../intelligence/rhythm.ts';
 import { discourseLens } from '../presence/discourse.ts';
 import { resolveConversationMove } from '../presence/move-focus.ts';
 import { planPresence } from '../presence/plan.ts';
@@ -434,6 +435,7 @@ export class ConversationEngine {
         history.turn,
       ).temporalPresence,
     );
+    plan.rhythm = responseRhythm(plan);
     const candidates =
       plan.selfMaterial || plan.reasoning || context.kind
         ? [{ strategy: plan.strategy, weight: 1 }]

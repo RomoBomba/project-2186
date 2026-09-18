@@ -29,6 +29,12 @@ export type RecentTurn = {
   strategy?: ResponseStrategy;
 };
 export type WorkingMemory = {
+  temporalAnchor?: {
+    userReferencedYear: number;
+    systemReferenceYear: number;
+    originTurn: number;
+    lastReferencedTurn: number;
+  };
   conversationMoveFocus?: ConversationMoveFocus;
   presenceHistory?: {
     move: import('../presence/model.ts').PresenceMove;
@@ -122,7 +128,23 @@ export function completeExchange(
     turn,
     locale,
   );
+  const year = plan.presence?.yearReference;
+  const oldAnchor = previous.temporalAnchor;
+  const temporalAnchor = year
+    ? {
+        userReferencedYear: year.userYear,
+        systemReferenceYear: year.systemYear,
+        originTurn:
+          year.interval !== undefined && oldAnchor
+            ? oldAnchor.originTurn
+            : turn,
+        lastReferencedTurn: turn,
+      }
+    : oldAnchor && turn - oldAnchor.lastReferencedTurn < 3
+      ? oldAnchor
+      : undefined;
   return {
+    ...(temporalAnchor ? { temporalAnchor } : {}),
     ...(conversationMoveFocus ? { conversationMoveFocus } : {}),
     ...(plan.presence
       ? {

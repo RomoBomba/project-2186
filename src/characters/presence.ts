@@ -278,3 +278,42 @@ export const boundaryExplanations: Record<
       'What I can establish about my processes does not confirm that property, so I cannot attribute it to myself.',
   },
 };
+
+/** Every prefix takes the same grammatical “about …” topic mention; no new assertions. */
+export const offerOpenings = {
+  ru: {
+    aletheia: ['Можно начать с вопроса', 'Давай поговорим'],
+    aura: ['Можно поговорить', 'Начнём с разговора'],
+    themis: ['Можно поставить вопрос', 'Начнём с вопроса'],
+  },
+  en: {
+    aletheia: ['We could begin with a question', 'We could talk'],
+    aura: ['We could talk', 'We could begin a conversation'],
+    themis: ['We could consider a question', 'We could start with a question'],
+  },
+} as const;
+
+const ruYears = (value: number) =>
+  value % 100 >= 11 && value % 100 <= 14
+    ? 'лет'
+    : value % 10 === 1
+      ? 'год'
+      : value % 10 >= 2 && value % 10 <= 4
+        ? 'года'
+        : 'лет';
+export const yearWords = {
+  ru: {
+    interval: (distance: number, user: number, system: number) =>
+      `${distance} ${ruYears(distance)} — если сравнивать названный тобой ${user} год с ${system}.`,
+    reference: (user: number, system: number) =>
+      `Ты называешь ${user} год; моя временная точка — ${system}. Записи неполны, и надёжно восстановить подробности того года я не могу.`,
+    missing: 'Какой год твоего времени взять для сравнения?',
+  },
+  en: {
+    interval: (distance: number, user: number, system: number) =>
+      `${distance} ${distance === 1 ? 'year' : 'years'}, comparing the ${user} you mentioned with ${system}.`,
+    reference: (user: number, system: number) =>
+      `You refer to ${user}; my reference year is ${system}. The records are incomplete, and I cannot reliably reconstruct that year's details.`,
+    missing: 'Which year of your time should I use for comparison?',
+  },
+};

@@ -5,6 +5,8 @@ import type {
 import type { ResponsePlan } from '../conversation/model.ts';
 import { materialKey } from '../conversation/model.ts';
 import {
+  offerOpenings,
+  yearWords,
   boundaryWords,
   topicAboutRu,
   moveWords,
@@ -34,9 +36,25 @@ export function realizePresence(
       (r) => materialKey(r) === materialKey(m.reference),
     ),
   );
+  const openings = [voice.offer, ...offerOpenings[p.locale][p.characterVoice]];
+  const availableOpening = openings.filter(
+    (opening) =>
+      !context.recentPresenceTexts?.some((t) => t.startsWith(opening)),
+  );
+  const pool = availableOpening.length ? availableOpening : openings;
+  const offer = pool[style % pool.length]!;
   let text: string;
   let usedMaterialKeys: string[] = [];
-  if (p.temporal) {
+  if (p.yearReference) {
+    const { userYear, systemYear, interval } = p.yearReference;
+    const words = yearWords[p.locale];
+    text =
+      interval !== undefined
+        ? words.interval(interval, userYear, systemYear)
+        : words.reference(userYear, systemYear);
+  } else if (p.missingYear) {
+    text = yearWords[p.locale].missing;
+  } else if (p.temporal) {
     const w = temporalWords[p.locale],
       minutes = p.temporal.facts.elapsedMinutes;
     const duration =
@@ -72,7 +90,7 @@ export function realizePresence(
     usedMaterialKeys = material.map((m) => materialKey(m.reference));
   } else if (p.move === 'offer_topic') {
     text = titles.length
-      ? `${voice.offer} ${about}.${material[0] ? ` ${material[0].text}` : ''}`
+      ? `${offer} ${about}.${material[0] ? ` ${material[0].text}` : ''}`
       : boundaryWords[p.locale].missing_knowledge[style % 3]!;
     usedMaterialKeys = material.map((m) => materialKey(m.reference));
   } else if (p.move === 'topic_overview') {
@@ -83,7 +101,7 @@ export function realizePresence(
     const follow = p.questionAllowed
       ? words.questions[Math.floor(style / 3) % 3]
       : titles[0]
-        ? `${voice.offer} ${about}.`
+        ? `${offer} ${about}.`
         : undefined;
     text = boundary + (follow ? ` ${follow}` : '');
   }

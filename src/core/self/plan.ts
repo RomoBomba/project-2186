@@ -28,6 +28,10 @@ export function planSelfResponse(
     : 'no_retained_user';
   const table: Record<SelfQuery['kind'], SelfFact[]> = {
     identity: ['artificial_identity', 'configuration_difference'],
+    personhood: ['stable_artificial_self', 'personhood_criterion'],
+    human_identity: ['not_human'],
+    existence: ['operational_existence'],
+    self_continuity: ['state_changes', 'selective_retention'],
     reasoning: [
       d.structureBias > 0.75
         ? 'select_response'
@@ -89,12 +93,17 @@ export function planSelfResponse(
           ? 'admit_uncertainty'
           : 'reflect',
     selectedMaterial: [],
+    rhythm: ['human_identity', 'existence'].includes(query.kind)
+      ? 'brief'
+      : 'standard',
     knowledgeConfidence: 1,
     disposition: d,
     desiredLength: {
       maxCharacters:
         d.desiredVerbosity < 0.35 ? 300 : d.desiredVerbosity < 0.65 ? 420 : 480,
-      maxSentences: 3,
+      maxSentences: ['human_identity', 'existence'].includes(query.kind)
+        ? 1
+        : 3,
     },
     certainty: query.kind === 'unknown_self' ? 'limited' : 'system_identity',
     selfMaterial: {
