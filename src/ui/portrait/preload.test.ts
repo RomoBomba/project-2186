@@ -45,7 +45,7 @@ it('decode failure keeps the neutral fallback and allows a later retry', async (
   decode.mockResolvedValue(undefined);
   expect(await preloadAletheia()).toBe(true);
 });
-it('decodes Aura independently and missing assets leave neutral available with retry', async () => {
+it('decodes complete character sets independently and preserves successful caches', async () => {
   const sources: string[] = [];
   const decode = vi.fn().mockResolvedValue(undefined);
   vi.stubGlobal(
@@ -64,5 +64,11 @@ it('decodes Aura independently and missing assets leave neutral available with r
   decode.mockRejectedValue(new Error('missing'));
   expect(await preloadPortrait('aletheia')).toBe(false);
   expect(await preloadPortrait('aura')).toBe(true);
-  expect(await preloadPortrait('themis')).toBe(false);
+  decode.mockResolvedValue(undefined);
+  const beforeThemis = sources.length;
+  expect(await preloadPortrait('themis')).toBe(true);
+  expect(sources.slice(beforeThemis)).toHaveLength(5);
+  expect(
+    sources.slice(beforeThemis).every((src) => src.includes('/themis/')),
+  ).toBe(true);
 });

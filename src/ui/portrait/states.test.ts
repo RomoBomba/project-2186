@@ -24,8 +24,10 @@ it('maps five distinct Aura PNG assets with one canonical canvas size', () => {
   });
   expect(new Set(hashes).size).toBe(5);
 });
-it('keeps genuine missing-state fallback and the Aletheia mapping', () => {
-  expect(portraitSource('themis', 'thinking')).toBe(portraitSource('themis'));
+it('keeps undefined handling and the Aletheia mapping', () => {
+  expect(portraitSource('themis', 'blink')).toBe(
+    '/src/assets/portraits/themis/blink.png',
+  );
   expect(portraitSource(undefined)).toBeUndefined();
   for (const state of [
     'neutral',
@@ -37,4 +39,26 @@ it('keeps genuine missing-state fallback and the Aletheia mapping', () => {
     expect(portraitSource('aletheia', state)).toBe(
       `/src/assets/portraits/aletheia/${state}.png`,
     );
+});
+
+it('maps five distinct Themis PNG assets on the canonical portrait canvas', () => {
+  const states: PortraitState[] = [
+    'neutral',
+    'blink',
+    'thinking',
+    'transmit-a',
+    'transmit-b',
+  ];
+  const hashes = states.map((state) => {
+    const png = readFileSync(
+      new URL(`../../assets/portraits/themis/${state}.png`, import.meta.url),
+    );
+    expect(png.subarray(1, 4).toString()).toBe('PNG');
+    expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([144, 180]);
+    expect(portraitSource('themis', state)).toBe(
+      `/src/assets/portraits/themis/${state}.png`,
+    );
+    return createHash('sha256').update(png).digest('hex');
+  });
+  expect(new Set(hashes).size).toBe(5);
 });

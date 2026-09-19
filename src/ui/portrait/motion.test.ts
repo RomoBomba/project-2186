@@ -102,7 +102,7 @@ it('hidden tabs cancel timers and resume without catch-up', () => {
   expect(s.frame().current).toBe('neutral');
   s.motion.destroy();
 });
-it('destroy and character changes clear pending callbacks; unsupported assets fall back', () => {
+it('destroy and character changes clear pending callbacks and keep mapped assets', () => {
   const s = setup();
   s.motion.observe('forming');
   s.motion.destroy();
@@ -119,7 +119,18 @@ it('destroy and character changes clear pending callbacks; unsupported assets fa
   expect(portraitSource('aura', 'transmit-b')).toBe(
     '/src/assets/portraits/aura/transmit-b.png',
   );
-  expect(portraitSource('themis', 'blink')).toBe(portraitSource('themis'));
+  expect(portraitSource('themis', 'blink')).toBe(
+    '/src/assets/portraits/themis/blink.png',
+  );
+  expect(portraitSource('themis', 'thinking')).toBe(
+    '/src/assets/portraits/themis/thinking.png',
+  );
+  expect(portraitSource('themis', 'transmit-a')).toBe(
+    '/src/assets/portraits/themis/transmit-a.png',
+  );
+  expect(portraitSource('themis', 'transmit-b')).toBe(
+    '/src/assets/portraits/themis/transmit-b.png',
+  );
   next.motion.destroy();
 });
 it('preload gate prevents any animation until assets are ready', () => {
@@ -135,8 +146,8 @@ it('preload gate prevents any animation until assets are ready', () => {
   motion.destroy();
 });
 
-it('keeps Aletheia calibration and selects a separate Aura profile without a Themis default', async () => {
-  const { aletheiaMotion, auraMotion, motionProfiles } =
+it('keeps Aletheia calibration and selects isolated character profiles', async () => {
+  const { aletheiaMotion, auraMotion, themisMotion, motionProfiles } =
     await import('./profiles');
   expect(aletheiaMotion).toEqual({
     formingDelay: 190,
@@ -165,7 +176,7 @@ it('keeps Aletheia calibration and selects a separate Aura profile without a The
     settleDuration: 2200,
   });
   expect(motionProfiles.aura).toBe(auraMotion);
-  expect(motionProfiles.themis).toBeUndefined();
+  expect(motionProfiles.themis).toBe(themisMotion);
 });
 it('Aura holds thinking stably and returns fleeting B to A even without another chunk', async () => {
   const { auraMotion } = await import('./profiles');
@@ -297,6 +308,140 @@ it('keeps the approved Aura cadence and fade data explicit', async () => {
     thinkingOffset: [0, 0, 0],
     settleDuration: 2400,
   });
+});
+it('keeps the sparse Themis cadence and precise fade data explicit', async () => {
+  const { themisMotion } = await import('./profiles');
+  expect(themisMotion).toEqual({
+    formingDelay: 150,
+    finishFastAttention: true,
+    poseDuration: 130,
+    serializeIdleMotion: true,
+    thinkingHold: 180,
+    thinkingFade: 140,
+    transmitFade: 100,
+    alternateFade: 90,
+    neutralFade: 130,
+    blinkIn: 50,
+    blinkHold: 90,
+    blinkOut: 60,
+    blinkInterval: [6500, 12000],
+    longBlinkInterval: [13000, 18000],
+    longBlinkChance: 0.12,
+    doubleBlinkChance: 0.025,
+    doubleBlinkGap: [320, 480],
+    firstTransmit: [800, 1100],
+    laterTransmit: [1100, 1700],
+    alternateChance: 0.25,
+    alternateHold: [280, 360],
+    settle: [180, 260],
+    driftInterval: [16000, 28000],
+    driftX: 0.45,
+    driftY: 0.3,
+    driftRotation: 0.12,
+    thinkingOffset: [0, 0, 0],
+    settleDuration: 1800,
+  });
+});
+it('Themis schedules sparse blink and idle correction inside its own bounds', async () => {
+  const { themisMotion } = await import('./profiles');
+  const s = setup(() => 0.2);
+  s.motion.configure({
+    profile: themisMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  vi.advanceTimersByTime(7599);
+  expect(s.frames).not.toContain('blink');
+  vi.advanceTimersByTime(1);
+  expect(s.frames).toContain('blink');
+  vi.advanceTimersByTime(250);
+  expect(s.frame().current).toBe('neutral');
+  vi.advanceTimersByTime(10800);
+  expect(Math.abs(s.frame().x)).toBeLessThanOrEqual(0.45);
+  expect(Math.abs(s.frame().y)).toBeLessThanOrEqual(0.3);
+  expect(Math.abs(s.frame().rotation)).toBeLessThanOrEqual(0.12);
+  s.motion.destroy();
+});
+it('Themis completes analytical attention and uses a sparse stable B excursion', async () => {
+  const { themisMotion } = await import('./profiles');
+  const s = setup(() => 0.2);
+  s.motion.configure({
+    profile: themisMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  s.motion.observe('forming');
+  vi.advanceTimersByTime(20);
+  s.motion.observe('transmitting');
+  vi.advanceTimersByTime(129);
+  expect(s.frames).not.toContain('thinking');
+  vi.advanceTimersByTime(161);
+  expect(s.frame().current).toBe('thinking');
+  expect(s.frame().x).toBe(0);
+  vi.advanceTimersByTime(300);
+  expect(s.frame().current).toBe('transmit-a');
+  s.motion.observe('transmitting', true);
+  expect(s.frames).not.toContain('transmit-b');
+  vi.advanceTimersByTime(800);
+  s.motion.observe('transmitting', true);
+  vi.advanceTimersByTime(110);
+  expect(s.frame().current).toBe('transmit-b');
+  vi.advanceTimersByTime(430);
+  expect(s.frame().current).toBe('transmit-a');
+  s.motion.destroy();
+});
+it('Themis profile switches cancel B return timers and reduced motion stays semantic', async () => {
+  const { themisMotion, auraMotion, aletheiaMotion } =
+    await import('./profiles');
+  const s = setup(() => 0.2);
+  s.motion.configure({
+    profile: themisMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  s.motion.observe('transmitting');
+  vi.advanceTimersByTime(900);
+  s.motion.observe('transmitting', true);
+  vi.advanceTimersByTime(110);
+  expect(s.frame().current).toBe('transmit-b');
+  s.motion.configure({
+    profile: auraMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  s.motion.observe('ready');
+  const afterAuraSwitch = s.frames.length;
+  vi.advanceTimersByTime(1000);
+  expect(s.frame().current).toBe('neutral');
+  expect(s.frames.slice(afterAuraSwitch)).not.toContain('transmit-b');
+  s.motion.configure({
+    profile: aletheiaMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  s.motion.configure({
+    profile: themisMotion,
+    enabled: true,
+    reduced: true,
+    visible: true,
+  });
+  vi.advanceTimersByTime(60000);
+  expect(s.frame()).toEqual(stillFrame());
+  s.motion.observe('forming');
+  vi.advanceTimersByTime(500);
+  expect(s.frame().current).toBe('thinking');
+  s.motion.observe('transmitting');
+  vi.advanceTimersByTime(5000);
+  s.motion.observe('transmitting', true);
+  expect(s.frame().current).toBe('transmit-a');
+  expect(s.frames.slice(afterAuraSwitch)).not.toContain('transmit-b');
+  s.motion.destroy();
+  expect(vi.getTimerCount()).toBe(0);
 });
 it('switching from Aura B cancels its return timer before Aletheia starts', async () => {
   const { auraMotion, aletheiaMotion } = await import('./profiles');

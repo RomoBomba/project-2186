@@ -10,6 +10,10 @@ import auraThinking from '../../assets/portraits/aura/thinking.png';
 import auraTransmitA from '../../assets/portraits/aura/transmit-a.png';
 import auraTransmitB from '../../assets/portraits/aura/transmit-b.png';
 import themis from '../../assets/portraits/themis/neutral.png';
+import themisBlink from '../../assets/portraits/themis/blink.png';
+import themisThinking from '../../assets/portraits/themis/thinking.png';
+import themisTransmitA from '../../assets/portraits/themis/transmit-a.png';
+import themisTransmitB from '../../assets/portraits/themis/transmit-b.png';
 
 export type PortraitState =
   'neutral' | 'blink' | 'thinking' | 'transmit-a' | 'transmit-b';
@@ -32,7 +36,13 @@ const portraits: Record<
     'transmit-a': auraTransmitA,
     'transmit-b': auraTransmitB,
   },
-  themis: { neutral: themis },
+  themis: {
+    neutral: themis,
+    blink: themisBlink,
+    thinking: themisThinking,
+    'transmit-a': themisTransmitA,
+    'transmit-b': themisTransmitB,
+  },
 };
 
 export function portraitSource(
