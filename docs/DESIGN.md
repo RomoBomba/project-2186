@@ -569,3 +569,30 @@ allowed master gain. This is an electrical headroom check, not perceived-loudnes
 measurement; normal-volume speaker/headphone listening remains author review.
 Mute still cancels active/scheduled voices; unmute permits future events only.
 There is no ambient bed, repeated forming loop, or audio-driven dialogue delay.
+
+### Pre-THEMIS calibration
+
+The shared default audio master is 0.264 (previously 0.22 × 1.20, +1.58 dB).
+Cue envelopes, frequencies, relative bus levels and the 0.35 safety cap are
+unchanged. This remains event audio without an ambient bed.
+
+AURA's selection origin line uses the author-selected Greek form `αὔρα`
+in the existing system-font stack. Latin AURA and internal `aura` are
+unchanged. The origin line retains the same typography as the other intelligences.
+
+AURA blink/thinking eye corrections are reproducible with
+`art/portraits/studies/polish-aura-eyes.py` (authoring-only Pillow).
+Neutral is the registration master; only the eye patches are changed. Blink uses
+relaxed generated eyelids; thinking uses a shared 1.2px/.55px right/down interior
+sampling displacement tapering to zero at the eyelid boundaries. Transmission
+assets and all motion timings remain unchanged. This supersedes the thinking
+output of the earlier `register-aura.py` study.
+
+The subsequent AURA visibility pass uses a one-source-pixel lateral thinking
+gaze shift without interpolation and a .8px opposite transmit-a displacement, leaving the eyelid
+boundaries and face registered. Transmit-b and the relaxed blink are unchanged.
+See the architecture visibility calibration for the attention/pose timing.
+
+Thinking-only author correction: AURA adds no container translation/rotation,
+uses a 140ms thinking fade like ALETHEIA, and preserves crisp source pixels inside
+the eye apertures. Blink and transmit images are unaffected by this correction.

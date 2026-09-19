@@ -1,6 +1,11 @@
 import { expect, it } from 'vitest';
-import { designCue, mix } from './presets';
+import { designCue, mix, globalAudioCalibration } from './presets';
 import { audioCues } from './model';
+it('raises the shared default master by 20 percent within the existing headroom cap', () => {
+  expect(globalAudioCalibration).toBe(1.2);
+  expect(mix.master).toBeCloseTo(0.264);
+  expect(mix.master).toBeLessThan(mix.maximumMaster);
+});
 it('raises only the four presence cue groups by 3dB, preserving motif proportions and a conservative peak budget', () => {
   const gain = 10 ** (3 / 20);
   for (const [type, original] of [

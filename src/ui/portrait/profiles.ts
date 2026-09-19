@@ -3,6 +3,9 @@ import type { CharacterId } from '../../core/character/id';
 type Range = readonly [number, number];
 export type MotionProfile = {
   formingDelay: number;
+  finishFastAttention?: boolean;
+  poseDuration?: number;
+  serializeIdleMotion?: boolean;
   thinkingHold: number;
   thinkingFade: number;
   transmitFade: number;
@@ -55,11 +58,14 @@ export const aletheiaMotion: MotionProfile = {
   settleDuration: 2200,
 };
 export const auraMotion: MotionProfile = {
-  formingDelay: 200,
-  thinkingHold: 300,
-  thinkingFade: 180,
-  transmitFade: 150,
-  alternateFade: 130,
+  formingDelay: 100,
+  finishFastAttention: true,
+  poseDuration: 150,
+  serializeIdleMotion: true,
+  thinkingHold: 50,
+  thinkingFade: 140,
+  transmitFade: 120,
+  alternateFade: 120,
   neutralFade: 190,
   blinkIn: 50,
   blinkHold: 100,
@@ -69,16 +75,16 @@ export const auraMotion: MotionProfile = {
   longBlinkChance: 0.15,
   doubleBlinkChance: 0.05,
   doubleBlinkGap: [300, 480],
-  firstTransmit: [500, 850],
+  firstTransmit: [350, 550],
   laterTransmit: [650, 1200],
   alternateChance: 0.5,
   alternateHold: [350, 550],
   settle: [260, 420],
   driftInterval: [10000, 18000],
-  driftX: 0.65,
-  driftY: 0.45,
+  driftX: 0.85,
+  driftY: 0.65,
   driftRotation: 0.2,
-  thinkingOffset: [0.15, 0.3, 0],
+  thinkingOffset: [0, 0, 0],
   settleDuration: 2400,
 };
 export const motionProfiles: Partial<Record<CharacterId, MotionProfile>> = {

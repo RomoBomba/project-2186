@@ -23,7 +23,7 @@ export const intelligenceMessages: Record<Locale, IntelligenceCopy> = {
         description: 'Questions assumptions.\nTruth, identity, uncertainty.',
       },
       aura: {
-        origin: 'aura / presence',
+        origin: 'αὔρα / presence',
         description: 'Attends to meaning.\nArt, memory, experience.',
       },
       themis: {
@@ -45,7 +45,7 @@ export const intelligenceMessages: Record<Locale, IntelligenceCopy> = {
         description: 'Выявляет предпосылки.\nИстина и идентичность.',
       },
       aura: {
-        origin: 'aura / присутствие',
+        origin: 'αὔρα / присутствие',
         description: 'Замечает личный смысл.\nИскусство, память, опыт.',
       },
       themis: {

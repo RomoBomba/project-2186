@@ -10,6 +10,14 @@ export type MotionFrame = {
   y: number;
   rotation: number;
 };
+export type MotionTrace = {
+  at: number;
+  event: string;
+  source: PortraitMode;
+  asset: PortraitState;
+  fade: number;
+  delay?: number;
+};
 export const stillFrame = (): MotionFrame => ({
   current: 'neutral',
   revealed: false,
@@ -23,6 +31,7 @@ export function createPortraitMotion(
   publish: (frame: MotionFrame) => void,
   random = Math.random,
   now = Date.now,
+  inspect?: (event: MotionTrace) => void,
 ) {
   let profile = aletheiaMotion;
   let frame = stillFrame();
@@ -31,10 +40,30 @@ export function createPortraitMotion(
     reduced = false,
     visible = true,
     disposed = false;
+  let attentionPending = false,
+    idleMovingUntil = 0;
   let generation = 0,
     thinkingAt = -Infinity,
     nextTransmitAt = Infinity;
   const timers = new Set<ReturnType<typeof setTimeout>>();
+  const trace = (event: string, delay?: number) =>
+    inspect?.({
+      at: now(),
+      event,
+      source: mode,
+      asset: frame.next ?? frame.current,
+      fade: frame.fade,
+      ...(delay === undefined ? {} : { delay }),
+    });
+  const entered = (previous: PortraitState) => {
+    if (previous === 'blink') trace('blink exited');
+    if (previous === 'transmit-b') trace('transmit-b exited');
+    trace(
+      frame.current === 'neutral' && previous !== 'neutral'
+        ? 'neutral restored'
+        : `${frame.current} entered`,
+    );
+  };
   const draw = () => {
     if (!disposed) publish({ ...frame });
   };
@@ -50,21 +79,35 @@ export function createPortraitMotion(
   }
   function cancel() {
     generation++;
+    attentionPending = false;
     timers.forEach(clearTimeout);
     timers.clear();
-    if (frame.next)
+    if (frame.next) {
+      const previous = frame.current;
       frame = {
         ...frame,
         current: frame.next,
         next: undefined,
         revealed: false,
       };
+      if (previous === 'blink') trace('blink exited');
+      if (previous === 'transmit-b') trace('transmit-b exited');
+      trace('transition interrupted');
+    }
   }
   function show(state: PortraitState, duration: number, done?: () => void) {
     if (frame.current === state && !frame.next) {
       done?.();
       return;
     }
+    const previous = frame.current;
+    inspect?.({
+      at: now(),
+      event: `${state} transition`,
+      source: mode,
+      asset: state,
+      fade: reduced ? 0 : duration,
+    });
     if (reduced || !visible) {
       frame = {
         ...frame,
@@ -74,6 +117,7 @@ export function createPortraitMotion(
         fade: 0,
       };
       draw();
+      entered(previous);
       done?.();
       return;
     }
@@ -85,12 +129,20 @@ export function createPortraitMotion(
       later(duration, () => {
         frame = { ...frame, current: state, next: undefined, revealed: false };
         draw();
+        entered(previous);
         done?.();
       });
     });
   }
   function blink(double = false) {
     if (mode !== 'ready') return;
+    if (
+      profile.serializeIdleMotion &&
+      (frame.next || now() < idleMovingUntil)
+    ) {
+      later(Math.max(100, idleMovingUntil - now()), () => blink(double));
+      return;
+    }
     show('blink', profile.blinkIn, () =>
       later(profile.blinkHold, () =>
         show('neutral', profile.blinkOut, () => {
@@ -102,12 +154,12 @@ export function createPortraitMotion(
     );
   }
   function scheduleBlink() {
-    later(
+    const delay =
       random() < profile.longBlinkChance
         ? between(...profile.longBlinkInterval)
-        : between(...profile.blinkInterval),
-      () => blink(),
-    );
+        : between(...profile.blinkInterval);
+    trace('blink scheduled', delay);
+    later(delay, () => blink());
   }
   function drift() {
     later(between(...profile.driftInterval), () => {
@@ -121,6 +173,8 @@ export function createPortraitMotion(
         y: between(-profile.driftY, profile.driftY),
         rotation: between(-profile.driftRotation, profile.driftRotation),
       };
+      idleMovingUntil = now() + profile.settleDuration;
+      trace('micro-motion applied');
       draw();
       drift();
     });
@@ -132,15 +186,21 @@ export function createPortraitMotion(
       return;
     }
     if (mode === 'forming') {
+      attentionPending = true;
+      trace('thinking scheduled', profile.formingDelay);
       later(profile.formingDelay, () => {
         thinkingAt = now() + (reduced ? 0 : profile.thinkingFade + 20);
         if (!reduced && profile.thinkingOffset.some(Boolean)) {
           const [x, y, rotation] = profile.thinkingOffset;
           frame = { ...frame, x, y, rotation };
         }
-        show('thinking', profile.thinkingFade);
+        show('thinking', profile.thinkingFade, () => {
+          attentionPending = false;
+          if (profile.finishFastAttention && mode === 'transmitting') enter();
+        });
       });
     } else if (mode === 'transmitting') {
+      if (profile.finishFastAttention && attentionPending && !reduced) return;
       const delay = Math.max(0, thinkingAt + profile.thinkingHold - now());
       later(delay, () => {
         frame = { ...frame, x: 0, y: 0, rotation: 0 };
@@ -152,6 +212,8 @@ export function createPortraitMotion(
         frame.current === 'neutral' ? 0 : between(...profile.settle);
       later(settle, () => {
         frame = { ...frame, x: 0, y: 0, rotation: 0 };
+        if (profile.serializeIdleMotion)
+          idleMovingUntil = now() + profile.settleDuration;
         show('neutral', profile.neutralFade, () => {
           if (!reduced) {
             scheduleBlink();
@@ -184,19 +246,37 @@ export function createPortraitMotion(
       visible = options.visible;
       frame = stillFrame();
       thinkingAt = -Infinity;
+      idleMovingUntil = 0;
       nextTransmitAt = Infinity;
       draw();
+      trace('neutral entered');
       enter();
     },
     observe(next: PortraitMode, chunk = false) {
       if (disposed) return;
       if (next !== mode) {
-        cancel();
+        const finishAttention =
+          profile.finishFastAttention &&
+          !reduced &&
+          enabled &&
+          visible &&
+          mode === 'forming' &&
+          next === 'transmitting' &&
+          attentionPending;
+        if (
+          mode === 'forming' &&
+          !finishAttention &&
+          frame.current !== 'thinking' &&
+          frame.next !== 'thinking'
+        )
+          trace('thinking skipped');
+        if (!finishAttention) cancel();
         if (frame.current === 'blink') {
           frame = { ...frame, current: 'neutral' };
           draw();
         }
         mode = next;
+        trace('lifecycle');
         enter();
         return;
       }

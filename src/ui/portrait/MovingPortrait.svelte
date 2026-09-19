@@ -7,6 +7,7 @@
   import {
     createPortraitMotion,
     stillFrame,
+    type MotionTrace,
     type PortraitMode,
   } from './motion';
   let {
@@ -25,6 +26,7 @@
     chunk: number;
   } = $props();
   let frame = $state(stillFrame());
+  let trace = $state<MotionTrace[]>([]);
   let history = $state<string[]>([]);
   let loaded = $state(false);
   let visible = $state(true);
@@ -32,13 +34,24 @@
   let controller = $state<ReturnType<typeof createPortraitMotion>>();
   onMount(() => {
     let alive = true;
-    const motion = createPortraitMotion((value) => {
-      untrack(() => {
-        if (import.meta.env.DEV && frame.current !== value.current)
-          history = [...history, `${value.current}@${Date.now()}`].slice(-16);
-        frame = value;
-      });
-    });
+    const motion = createPortraitMotion(
+      (value) => {
+        untrack(() => {
+          if (import.meta.env.DEV && frame.current !== value.current)
+            history = [...history, `${value.current}@${Date.now()}`].slice(-16);
+          frame = value;
+        });
+      },
+      Math.random,
+      Date.now,
+      import.meta.env.DEV && character === 'aura'
+        ? (entry) => {
+            untrack(() => {
+              trace = [...trace, entry].slice(-96);
+            });
+          }
+        : undefined,
+    );
     controller = motion;
     if (motionProfiles[character])
       void preloadPortrait(character).then((ready) => {
@@ -76,6 +89,9 @@
 <div
   class="viewport"
   class:compact
+  data-portrait-trace={import.meta.env.DEV && character === 'aura'
+    ? JSON.stringify(trace)
+    : undefined}
   data-portrait-state={frame.next ?? frame.current}
   data-portrait-history={import.meta.env.DEV ? history.join(',') : undefined}
 >
@@ -84,7 +100,7 @@
     style:transform="translate({frame.x}px, {frame.y}px) rotate({frame.rotation}deg)"
     style:transition={reducedMotion || mediaReduced
       ? 'none'
-      : `transform ${motionProfiles[character]?.settleDuration ?? 2200}ms ease-in-out`}
+      : `transform ${(frame.current === 'thinking' || frame.next === 'thinking' || mode !== 'ready' ? motionProfiles[character]?.poseDuration : undefined) ?? motionProfiles[character]?.settleDuration ?? 2200}ms ease-in-out`}
   >
     <img
       src={portraitSource(character, frame.current)}

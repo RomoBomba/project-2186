@@ -1967,3 +1967,26 @@ apart, bounded by ±.65px/±.45px/±.2°, with a 2400ms container transition.
 Reduced motion disables blinking, offsets/drift, alternation and fades uniformly;
 semantic state transitions remain. No cognition, audio or text timing depends on
 portrait motion.
+
+### AURA visibility calibration
+
+AURA now starts attention after 100ms, fades thinking over 140ms, and requires only
+50ms stable thinking after its fade when transmission arrives early. The shared
+controller's optional `finishFastAttention` preserves an already scheduled/fading
+attention transition across forming→transmitting, without gating any text or
+response callback. Ready/hidden/reduced/profile-switch/destroy still invalidate it.
+ALETHEIA does not opt into this behaviour and retains every approved value.
+
+AURA's thinking pose has no added translation or rotation, matching ALETHEIA's
+registration rule. The attempted .5px/.5px/.1° offset was rejected in author review.
+Transmit fades are 120ms; first chunk opportunity 350–550ms, later 650–1200ms with
+unchanged .5 probability and 350–550ms stable B hold. Idle remains 10–18s, now bounded
+by ±.85px/±.65px/±.2°. AURA defers blink while an idle settle/crossfade is in progress.
+Typing does not reset the controller's ready mode or reschedule its blink.
+
+DEV AURA mounts expose the bounded last 96 structured events in
+`data-portrait-trace`: timestamp, lifecycle source, asset, fade and optional delay.
+This includes scheduling/skipping, completed states, interrupted transitions and
+micro-motion. There is no production trace attribute or visible debug UI.
+`?boot-motion=reduce` propagates reduced motion to the entire experience, including
+portrait and text transmission; use the plain URL to evaluate ordinary motion.

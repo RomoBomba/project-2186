@@ -1,7 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import { characterIds } from '../../core/character/id';
 import { createSelection, updateSelection } from './model';
+import { intelligenceMessages } from '../../locales/intelligence';
 describe('intelligence selection', () => {
+  it('uses Greek Aura origin copy without changing the selection identity', () => {
+    for (const locale of ['ru', 'en'] as const) {
+      expect(intelligenceMessages[locale].characters.aura.origin).toMatch(
+        /^αὔρα \/ /,
+      );
+    }
+    expect(
+      updateSelection(createSelection(), {
+        type: 'confirm',
+        character: 'aura',
+      }),
+    ).toEqual({ stage: 'confirmation', selected: 'aura' });
+  });
   it('starts at ALETHEIA and wraps in both directions', () => {
     let model = createSelection();
     expect(model).toEqual({ stage: 'selection', focused: 'aletheia' });

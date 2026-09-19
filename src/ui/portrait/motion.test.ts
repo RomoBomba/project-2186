@@ -181,7 +181,7 @@ it('Aura holds thinking stably and returns fleeting B to A even without another 
   expect(s.frame().current).toBe('neutral');
   vi.advanceTimersByTime(210);
   expect(s.frame().current).toBe('thinking');
-  expect(s.frame().y).toBe(0.3);
+  expect(s.frame().y).toBe(0);
   vi.advanceTimersByTime(10000);
   expect(s.frame().current).toBe('thinking');
   s.motion.observe('transmitting');
@@ -246,8 +246,8 @@ it('Aura idle uses bounded sparse blink/drift and hides pending B returns safely
   expect(s.frames).toContain('blink');
   expect(s.frame().current).toBe('neutral');
   vi.advanceTimersByTime(60000);
-  expect(Math.abs(s.frame().x)).toBeLessThanOrEqual(0.65);
-  expect(Math.abs(s.frame().y)).toBeLessThanOrEqual(0.45);
+  expect(Math.abs(s.frame().x)).toBeLessThanOrEqual(0.85);
+  expect(Math.abs(s.frame().y)).toBeLessThanOrEqual(0.65);
   expect(Math.abs(s.frame().rotation)).toBeLessThanOrEqual(0.2);
   s.motion.observe('transmitting');
   vi.advanceTimersByTime(600);
@@ -268,11 +268,14 @@ it('Aura idle uses bounded sparse blink/drift and hides pending B returns safely
 it('keeps the approved Aura cadence and fade data explicit', async () => {
   const { auraMotion } = await import('./profiles');
   expect(auraMotion).toEqual({
-    formingDelay: 200,
-    thinkingHold: 300,
-    thinkingFade: 180,
-    transmitFade: 150,
-    alternateFade: 130,
+    formingDelay: 100,
+    finishFastAttention: true,
+    poseDuration: 150,
+    serializeIdleMotion: true,
+    thinkingHold: 50,
+    thinkingFade: 140,
+    transmitFade: 120,
+    alternateFade: 120,
     neutralFade: 190,
     blinkIn: 50,
     blinkHold: 100,
@@ -282,16 +285,16 @@ it('keeps the approved Aura cadence and fade data explicit', async () => {
     longBlinkChance: 0.15,
     doubleBlinkChance: 0.05,
     doubleBlinkGap: [300, 480],
-    firstTransmit: [500, 850],
+    firstTransmit: [350, 550],
     laterTransmit: [650, 1200],
     alternateChance: 0.5,
     alternateHold: [350, 550],
     settle: [260, 420],
     driftInterval: [10000, 18000],
-    driftX: 0.65,
-    driftY: 0.45,
+    driftX: 0.85,
+    driftY: 0.65,
     driftRotation: 0.2,
-    thinkingOffset: [0.15, 0.3, 0],
+    thinkingOffset: [0, 0, 0],
     settleDuration: 2400,
   });
 });
@@ -329,4 +332,80 @@ it('switching from Aura B cancels its return timer before Aletheia starts', asyn
   expect(s.frame().fade).toBe(140);
   s.motion.destroy();
   expect(vi.getTimerCount()).toBe(0);
+});
+
+it('Aura completes fast attention independently of transmitting lifecycle and cancels it on hide', async () => {
+  const { auraMotion } = await import('./profiles');
+  const events: import('./motion').MotionTrace[] = [];
+  const motion = createPortraitMotion(
+    () => {},
+    () => 0.2,
+    Date.now,
+    (e) => events.push(e),
+  );
+  motion.configure({
+    profile: auraMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  motion.observe('forming');
+  vi.advanceTimersByTime(15);
+  // The caller advances transmission immediately; no promise or callback gates text.
+  expect(motion.observe('transmitting')).toBeUndefined();
+  vi.advanceTimersByTime(255);
+  expect(events.find((e) => e.event === 'thinking entered')?.source).toBe(
+    'transmitting',
+  );
+  vi.advanceTimersByTime(190);
+  expect(events.some((e) => e.event === 'transmit-a entered')).toBe(true);
+  motion.observe('forming');
+  vi.advanceTimersByTime(20);
+  motion.observe('transmitting');
+  motion.configure({
+    profile: auraMotion,
+    enabled: true,
+    reduced: false,
+    visible: false,
+  });
+  const count = events.length;
+  vi.advanceTimersByTime(2000);
+  expect(events).toHaveLength(count);
+  motion.destroy();
+  expect(vi.getTimerCount()).toBe(0);
+});
+it('repeated ready observations do not reset Aura idle blink scheduling', async () => {
+  const { auraMotion } = await import('./profiles');
+  const s = setup(() => 0.2);
+  s.motion.configure({
+    profile: auraMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  for (let key = 0; key < 56; key++) {
+    s.motion.observe('ready');
+    vi.advanceTimersByTime(100);
+  }
+  expect(s.frames).toContain('blink');
+  s.motion.destroy();
+});
+it('ending fast Aura transmission cancels pending attention without a stale transmit frame', async () => {
+  const { auraMotion } = await import('./profiles');
+  const s = setup();
+  s.motion.configure({
+    profile: auraMotion,
+    enabled: true,
+    reduced: false,
+    visible: true,
+  });
+  s.motion.observe('forming');
+  vi.advanceTimersByTime(15);
+  s.motion.observe('transmitting');
+  vi.advanceTimersByTime(10);
+  s.motion.observe('ready');
+  vi.advanceTimersByTime(1000);
+  expect(s.frame().current).toBe('neutral');
+  expect(s.frames).not.toContain('transmit-a');
+  s.motion.destroy();
 });

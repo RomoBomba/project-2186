@@ -31,8 +31,9 @@ const tone = (
   attack,
   waveform: 'sine',
 });
+export const globalAudioCalibration = 1.2;
 export const mix = {
-  master: 0.22,
+  master: 0.22 * globalAudioCalibration,
   maximumMaster: 0.35,
   ui: 0.32,
   terminal: 0.24,
